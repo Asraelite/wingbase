@@ -1,10 +1,11 @@
 'use strict';
 
+const Physics = require('./physics.js');
 const Ship = require('./ship.js');
 
 class World {
 	constructor() {
-		this.box2d = false;
+		this.physics = new Physics();
 		this.bodies = new Set();
 		this.structures = new Set();
 		this.asteroids = new Set();
@@ -14,7 +15,9 @@ class World {
 
 	addPlayer(player) {
 		this.players.add(player);
-		this.ships.set(player, new Ship(player));
+		let ship = new Ship(player);
+		this.ships.set(player, ship);
+		this.physics.createBody(ship);
 	}
 
 	removePlayer(player) {
