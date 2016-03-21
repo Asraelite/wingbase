@@ -1,16 +1,19 @@
 'use strict';
 
 const express = require('express');
+const http = require('http');
 
 const minify = require('./minify.js');
 
 class WebServer {
 	constructor() {
-
+		this.app = express();
+		this.appServer = http.Server(this.app);
 	}
 
 	start() {
-		this.app = express();
+		this.appServer.listen(8080);
+
 		let app = this.app;
 
 		app.get('/starbugs.min.js', (req, res) => {
@@ -21,8 +24,6 @@ class WebServer {
 		});
 
 		app.use(express.static('public'));
-
-		app.listen(8080);
 	}
 }
 

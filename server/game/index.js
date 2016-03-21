@@ -1,14 +1,14 @@
 'use strict';
 
-const socketio = require('socket.io');
+const GameNet = require('./net');
 
 class GameServer {
-	constructor() {
-
+	constructor(webServer) {
+		this.net = new GameNet();
 	}
 
 	start() {
-
+		this.net.listen();
 	}
 }
 

@@ -2,6 +2,8 @@
 
 window.addEventListener('load', init);
 
-function init() {
+var socket;
 
+function init() {
+	socket = io.connect('http://localhost:8080');
 }
