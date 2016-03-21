@@ -3,9 +3,20 @@
   "version": "0.0.1",
   "description": "Game or something",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "bitbucket:Asraelite/starbugs"
+  },
+  "private": true,
   "scripts": {
-    "test": "test.js"
+    "test": "node test.js"
   },
   "author": "Markus Scully <markusscully@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "box2dweb": "^2.1.0-b",
+    "colors": "^1.1.2",
+    "express": "^4.13.4",
+    "socket.io": "^1.4.5"
+  }
 }
