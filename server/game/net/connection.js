@@ -1,15 +1,17 @@
 'use strict';
 
+const Player = require('../player.js');
+
 class Connection {
 	constructor(net, socket) {
 		this.net = net;
+		this.server = net.server;
 		this.connections = net.connections;
 		this.io = net.io;
 		this.socket = socket;
 
-		this.player = false;
+		this.player = new Player(this);
 		this._room = false;
-		this.name = '';
 		this.chatCooldown = 0;
 
 		socket.on('chat', data => {
@@ -17,10 +19,10 @@ class Connection {
 		});
 
 		socket.on('setName', data => {
-			this.player.name = data.name;
+			this.player.name = data.name.slice(0, 20) || 'Fish';
 		});
 
-		this.room = 'egg';
+		this.server.assignRoom(this.player);
 	}
 
 	chat(data) {
@@ -46,6 +48,10 @@ class Connection {
 		this.socket.leave(this._room);
 		this.socket.join(str);
 		this._room = str;
+	}
+
+	get name() {
+		return this.player.name;
 	}
 }
 
