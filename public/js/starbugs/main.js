@@ -2,8 +2,28 @@
 
 window.addEventListener('load', init);
 
-var socket;
+var game;
 
 function init() {
-	socket = io.connect('http://localhost:8080');
+	game = new Game();
+
+	game.tick();
+
+	game.net.connect();
+}
+
+function Game() {
+	var self = this;
+
+	this.connected = false;
+	this.state = 'connecting';
+
+	this.net = new Net();
+	this.renderer = new Renderer();
+
+	this.tick = function() {
+		self.renderer.render(self.state);
+
+		requestAnimationFrame(self.tick);
+	}
 }

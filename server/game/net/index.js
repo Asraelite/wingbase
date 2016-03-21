@@ -7,16 +7,20 @@ const Connection = require('./connection.js');
 class GameNet {
 	constructor() {
 		this.io = socketio(starbugs.webServer.appServer);
+
+		this.connections = new Map();
 	}
 
 	listen() {
 		let io = this.io;
+		let cons = this.connections;
 
 		this.io.on('connection', socket => {
-			console.log('connection');
+			let id = socket.id;
+			cons.set(id, new Connection(this, socket));
 
-			socket.on('other event', data => {
-				console.log(data);
+			socket.on('disconnect', _ => {
+				cons.delete(id);
 			});
 		});
 	}
