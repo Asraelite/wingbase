@@ -1,0 +1,11 @@
+{
+  "name": "starbugs",
+  "version": "0.0.1",
+  "description": "Game or something",
+  "main": "index.js",
+  "scripts": {
+    "test": "test.js"
+  },
+  "author": "Markus Scully <markusscully@gmail.com>",
+  "license": "ISC"
+}
