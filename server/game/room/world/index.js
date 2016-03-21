@@ -15,23 +15,45 @@ class World {
 
 	addPlayer(player) {
 		this.players.add(player);
-		let ship = new Ship(player);
+		let ship = new Ship(this, player);
+		player.ship = ship;
 		this.ships.set(player, ship);
+		this.bodies.add(ship);
 		this.physics.createBody(ship);
 	}
 
+	applyDelta(body, data) {
+		this.players.forEach(player => player.delta[body] = data);
+	}
+
 	removePlayer(player) {
-		removeBody(player.ship);
+		this.removeBody(player.ship);
 		this.ships.delete(player);
 		this.players.delete(player);
 	}
 
 	removeBody(body) {
-		// Remove from Box2d.
+		this.physics.toRemove.push(body);
+		this.bodies.delete(body);
+		this.ships.delete(body);
+		this.structures.delete(body);
+		this.asteroids.delete(body);
 	}
 
-	tick() {
+	start() {
+		this.interval = setInterval(_ => this.tick(this), 1 / 60);
+	}
 
+	stop() {
+		clearInterval(this.interval);
+	}
+
+	tick(self) {
+		self.physics.step();
+
+		if (Math.random() < 0.001) {
+			self.bodies.forEach(body => body.applyDelta());
+		}
 	}
 }
 

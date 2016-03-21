@@ -9,9 +9,12 @@ class Room {
 		this.teamB = new Set();
 		this.world = new World();
 		this.name = (Math.random() * 100000 | 0).toString(36);
+
+		this.start();
 	}
 
 	add(player) {
+		console.log(`${player.name} joined ${this.name}.`);
 		player.room = this;
 		player.connection.room = this.name;
 		this.players.add(player);
@@ -19,11 +22,33 @@ class Room {
 		this.world.addPlayer(player);
 	}
 
+	remove(player) {
+		console.log(`${player.name} left ${this.name}.`);
+		this.players.delete(player);
+		this.teamA.delete(player);
+		this.teamB.delete(player);
+		this.world.removePlayer(player);
+	}
+
 	setTeam(player, team) {
 		this.teamA.delete(player);
 		this.teamB.delete(player);
 		(team == 'a' ? this.teamA : this.teamB).add(player);
 		player.team = team;
+	}
+
+	update(self) {
+		self.players.forEach(player => player.sendUpdate());
+	}
+
+	start() {
+		this.world.start();
+		this.interval = setInterval(_ => this.update(this), 1 / 60);
+	}
+
+	stop() {
+		this.world.stop();
+		clearInterval(this.interval);
 	}
 
 	get playerCount() {

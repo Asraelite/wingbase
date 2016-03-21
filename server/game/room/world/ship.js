@@ -6,8 +6,8 @@ const hulls = require('./traits/hulls.json');
 const Body = require('./body.js');
 
 class Ship extends Body {
-	constructor(player, build) {
-		super();
+	constructor(world, player, build) {
+		super(world);
 
 		this.build = build || defaults.spawnShip.build;
 		this.player = player;

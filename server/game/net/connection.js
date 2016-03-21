@@ -36,6 +36,14 @@ class Connection {
 		});
 	}
 
+	disconnect() {
+		this.player.disconnect();
+	}
+
+	send(msg, data) {
+		this.io.to(this.socket.id).emit(msg, data);
+	}
+
 	tick() {
 		this.chatCooldown -= 1;
 	}

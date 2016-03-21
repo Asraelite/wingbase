@@ -12,10 +12,13 @@ class GameServer {
 
 	assignRoom(player) {
 		let room = Array.from(this.rooms.values()).sort((a, b) => {
-			return a.players - b.players;
+			return a.playerCount - b.playerCount;
 		})[0];
 
-		if (!room || room.full) room = new Room();
+		if (!room || room.full) {
+			room = new Room();
+			this.rooms.set(room.name, room);
+		}
 
 		room.add(player);
 	}

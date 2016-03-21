@@ -21,6 +21,7 @@ class GameNet {
 			cons.set(id, new Connection(this, socket));
 
 			socket.on('disconnect', _ => {
+				cons.get(id).disconnect();
 				cons.delete(id);
 			});
 		});

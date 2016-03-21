@@ -19,6 +19,7 @@ function Game() {
 	this.state = 'connecting';
 
 	this.net = new Net();
+	this.world = new World();
 	this.renderer = new Renderer();
 
 	this.tick = function() {

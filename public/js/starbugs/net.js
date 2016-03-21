@@ -13,5 +13,9 @@ function Net() {
 			game.connected = false;
 			game.state = 'disconnected';
 		});
+
+		this.socket.on('update', function(data) {
+			game.world.update(data);
+		});
 	};
 }
