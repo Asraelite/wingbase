@@ -13,6 +13,13 @@ class World {
 		this.ships = new Map();
 		this.players = new Set();
 		this.room = room;
+
+		this.bounds = {
+			left: -5,
+			right: 50,
+			top: -15,
+			bottom: 15
+		}
 	}
 
 	addPlayer(player) {
@@ -83,7 +90,10 @@ class World {
 		self.physics.step();
 
 		if (Math.random() < 0.1) {
-			self.bodies.forEach(body => body.applyDelta());
+			self.bodies.forEach(body => {
+				body.applyDelta(),
+				body.tick();
+			});
 		}
 	}
 }

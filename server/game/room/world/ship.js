@@ -1,7 +1,7 @@
 'use strict';
 
 const defaults = require('./traits/defaults.json');
-const hulls = require('./traits/hulls.json');
+const shipTraits = require('./traits/ships.json');
 
 const Body = require('./body.js');
 
@@ -9,9 +9,15 @@ class Ship extends Body {
 	constructor(world, pos, player, build) {
 		super(world);
 
-		this.build = build || defaults.spawnShip.build;
+		build = build || {};
+		this.class = build.ship || defaults.spawnShip.ship;
+		this.turrets = build.turrets || defaults.spawnShip.turrets;
+		let traits = shipTraits[this.class];
+		this.frame = traits.hull;
+		this.power = traits.power;
+		this.mounts = traits.mounts;
+		this.size = traits.size;
 		this.player = player;
-		this.frame = hulls[this.build.hull];
 		this.type = 'ship';
 
 		this.thrust = {
@@ -19,8 +25,6 @@ class Ship extends Body {
 			left: 0,
 			right: 0
 		}
-
-		this.power = this.build.power;
 	}
 
 	move(data) {
@@ -66,7 +70,10 @@ class Ship extends Body {
 			type: 'ship',
 			id: this.id,
 			team: this.player.team,
-			build: this.build,
+			frame: this.frame,
+			mounts: this.mounts,
+			turrets: this.turrets,
+			size: this.size,
 			delta: this.packDelta()
 		};
 	}

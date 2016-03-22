@@ -10,6 +10,11 @@ function loadAssets() {
 					thrust5: 'img/ships/01/thrust5.png',
 					thrust8: 'img/ships/01/thrust8.png'
 				}
+			},
+			turrets: {
+				'01': {
+					small: 'img/turrets/01/small.png'
+				}
 			}
 		}
 	}
@@ -19,7 +24,6 @@ function loadAssets() {
 	// Magical recursive magic.
 	(function r(o, t) {
 		for (var i in o) {
-			console.log(i);
 			if (typeof o[i] == 'string') {
 				t[i] = new Image();
 				t[i].src = o[i];

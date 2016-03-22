@@ -29,6 +29,16 @@ class Body {
 		this.b2body.ApplyTorque(f);
 	}
 
+	tick() {
+		let pos = this.b2body.GetPosition();
+		let bounds = this.world.bounds;
+
+		if(pos.x < bounds.left) this.applyForce(0.003, 0);
+		if(pos.x > bounds.right) this.applyForce(-0.003, 0);
+		if(pos.y < bounds.top) this.applyForce(0, 0.003);
+		if(pos.y > bounds.bottom) this.applyForce(-0, -0.003);
+	}
+
 	packDelta() {
 		let pos = this.b2body.GetPosition();
 		let vel = this.b2body.GetLinearVelocity();

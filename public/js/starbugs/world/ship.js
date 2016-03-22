@@ -9,6 +9,14 @@ function Ship(data) {
 	this.rvel = data.delta[5];
 	this.hull = '01';
 	this.move = [];
+	this.mounts = data.mounts;
+	this.turrets = data.turrets;
+	this.frame = data.frame;
+	this.size = {
+		'small': 8,
+		'medium': 16,
+		'large': 24
+	}[data.size];
 	this.lastMove = [];
 	this.bodyType = 'ship';
 	this.com = {
