@@ -20,7 +20,7 @@ class Room {
 		this.players.add(player);
 		this.setTeam(player, this.teamA.size > this.teamB.size ? 'b' : 'a');
 		this.world.addPlayer(player);
-		player.sendWorld();
+		this.sendWorld(player);
 	}
 
 	remove(player) {
@@ -42,7 +42,17 @@ class Room {
 		self.players.forEach(player => player.sendUpdate());
 	}
 
+	sendWorld(player) {
+		let data = {
+			playerShipId: player.ship.id,
+			bodies: Array.from(this.world.bodies).map(b => b.packFull())
+		};
+
+		player.sendWorld(data);
+	}
+
 	start() {
+		this.world.populate();
 		this.world.start();
 		this.interval = setInterval(_ => this.update(this), 1 / 60);
 	}

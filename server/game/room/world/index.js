@@ -1,5 +1,6 @@
 'use strict';
 
+const Asteroid = require('./asteroid.js');
 const Physics = require('./physics.js');
 const Ship = require('./ship.js');
 
@@ -15,15 +16,40 @@ class World {
 
 	addPlayer(player) {
 		this.players.add(player);
-		let ship = new Ship(this, player);
+		let pos = {
+			x: player.team == 'b' ? 200 : 0,
+			y: 0
+		};
+		let ship = new Ship(this, pos, player);
 		player.ship = ship;
-		this.ships.set(player, ship);
+		this.addShip(ship);
+	}
+
+	addShip(ship) {
+		this.ships.set(ship.player, ship);
 		this.bodies.add(ship);
 		this.physics.createBody(ship);
 	}
 
+	addAsteroid(asteroid) {
+		this.asteroids.add(asteroid);
+		this.bodies.add(asteroid);
+		this.physics.createBody(asteroid);
+	}
+
 	applyDelta(body, data) {
 		this.players.forEach(player => player.delta[body] = data);
+	}
+
+	populate() {
+		for (var i = 0; i < 20; i++) {
+			let pos = {
+				x: Math.random() * 2000 - 200,
+				y: Math.random() * 500 - 250
+			};
+			let asteroid = new Asteroid(this, pos, Math.random() * 50 + 10);
+			this.addAsteroid(asteroid);
+		}
 	}
 
 	removePlayer(player) {

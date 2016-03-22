@@ -2,7 +2,12 @@
 	"spawnShip": {
 		"build": {
 			"hull": "01",
-			"turrets": [0]
+			"turrets": [0],
+			"power": {
+				"forward": 0.0015,
+				"back": 0,
+				"rotation": 0.0001
+			}
 		}
 	}
 }

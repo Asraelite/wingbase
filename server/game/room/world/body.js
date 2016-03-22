@@ -10,14 +10,14 @@ class Body {
 		this.y = 0;
 		this.r = 0;
 		this.b2body = false;
-		this.type = 'dynamic';
+		this.type = 'asteroid';
 		this.health = 1;
 		this.world = world;
 		this.id = uuid.v4().slice(0, 8);
 	}
 
 	applyDelta() {
-		this.world.applyDelta(this.id, this.pack());
+		this.world.applyDelta(this.id, this.packDelta());
 	}
 
 	applyForce(x, y, center) {
@@ -29,11 +29,22 @@ class Body {
 		this.b2body.ApplyTorque(f);
 	}
 
-	pack() {
+	packDelta() {
 		let pos = this.b2body.GetPosition();
+		let vel = this.b2body.GetLinearVelocity();
 		let rot = this.b2body.GetAngleRadians();
+		let rvel = this.b2body.GetAngularVelocity();
 
-		return [pos.x, pos.y, rot];
+		// Simple array to save bandwidth.
+		return [pos.x, pos.y, vel.x, vel.y, rot, rvel].concat(this.packTypeDelta());
+	}
+
+	packTypeDelta() {
+		throw new Error('Attempt to pack raw body.');
+	}
+
+	packFull() {
+		throw new Error('Attempt to pack raw body.');
 	}
 }
 

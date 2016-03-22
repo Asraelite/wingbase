@@ -22,6 +22,19 @@ function World() {
 		return { x: x, y: y };
 	}
 
+	this.add = function(data) {
+		var body;
+		if (data.type == 'asteroid') body = new Asteroid(data);
+		if (data.type == 'ship') body = new Ship(data);
+		if (data.type == 'structure') body = new Structure(data);
+		
+		this.bodies[body.id] = body;
+	}
+
+	this.remove = function(id) {
+		delete this.bodies[id];
+	}
+
 	this.clear = function() {
 		this.bodies = {};
 		this.playerShip = false;
@@ -32,15 +45,14 @@ function World() {
 
 		for (var id in data) {
 			if (!this.bodies[id]) {
-				this.bodies[id] = new Ship(id);
+				game.net.send('requestBodyData', id);
+				continue;
 			}
 
 			var body = this.bodies[id];
-			body.x = data[id][0];
-			body.y = data[id][1];
-			body.r = data[id][2];
+			body.update(data[id]);
 
-
+			if (data[id].destroy) delete this.bodies[id];
 		}
 	}
 }

@@ -10,13 +10,31 @@ const Box2D = require('box2d-html5');
 
 const b2Vec2 = Box2D.b2Vec2;
 
+Box2D.b2Settings.b2_linearSleepTolerance = 0.0002;
+
 class Physics {
 	constructor() {
 		this.world = new Box2D.b2World(new b2Vec2(0, 0), false);
 		this.toRemove = [];
+
+		let onContact = contact => {
+			let bodya = contact.GetFixtureA().GetBody().GetUserData();
+			let bodyb = contact.GetFixtureB().GetBody().GetUserData();
+
+			bodya.applyDelta();
+			bodyb.applyDelta();
+		}
+
+		let listener = new Box2D.b2ContactListener();
+		listener.BeginContact = onContact;
+		listener.EndContact = onContact;
+
+		this.world.SetContactListener(listener);
 	}
 
 	createBody(body) {
+		//console.log(Object.keys(Box2D.b2Settings).sort());
+		//console.log(Box2D.b2Settings.b2_linearSleepTolerance = 0.002);
 		let s = SCALE;
 		let bodyDef = new Box2D.b2BodyDef();
 		bodyDef.userData = body;
@@ -25,19 +43,19 @@ class Physics {
 		bodyDef.active = true;
 		bodyDef.linearVelocity = new b2Vec2(body.xvel / s || 0, body.yvel / s || 0);
 		bodyDef.angularVelocity = body.rvel || 0;
-		bodyDef.linearDamping = 0.001;
-		bodyDef.angularDamping = 0.001;
-		bodyDef.type = body.type == 'static' ?
+		bodyDef.linearDamping = body.type == 'ship' ? 0.001 : 0.0003;
+		bodyDef.angularDamping = body.type == 'ship' ? 0.001 : 0.0003;
+		bodyDef.type = body.type == 'structure' ?
 			Box2D.b2BodyType.b2_staticBody : Box2D.b2BodyType.b2_dynamicBody;
-		if (body.player) bodyDef.allowSleep = false;
+		if (body.player || true) bodyDef.allowSleep = false;
 		let b2body = this.world.CreateBody(bodyDef);
 
 		let fixtureDef = new Box2D.b2FixtureDef();
 		fixtureDef.density = 10;
 		fixtureDef.friction = 1;
-		fixtureDef.restitution = 0;
+		fixtureDef.restitution = 1;
 
-		for (var poly of body.structure) {
+		for (var poly of body.frame) {
 			poly = poly.map(vertex => new b2Vec2(vertex[0] / s, vertex[1] / s));
 			fixtureDef.shape = new Box2D.b2PolygonShape();
 			fixtureDef.shape.SetAsArray(poly, poly.length);
@@ -45,6 +63,7 @@ class Physics {
 		}
 
 		body.b2body = b2body;
+		//console.log(Object.keys(b2body).sort());
 	}
 
 	step() {

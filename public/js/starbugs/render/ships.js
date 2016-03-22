@@ -6,8 +6,8 @@ function renderShip(pallet, ship) {
 	var thr8 = game.assets.images.ships[ship.hull].thrust8;
 	//pallet.view(ship.x, ship.y, false, ship.r);
 	var pos = ship.getPos();
-	var x = pos.x + 16;
-	var y = pos.y + 16;
+	var x = pos.x;
+	var y = pos.y;
 	var vx = -game.world.getCenter().x;
 	var vy = -game.world.getCenter().y;
 

@@ -16,11 +16,16 @@ function Net() {
 
 		this.socket.on('update', function(data) {
 			game.world.update(data);
+			window.q = data;
 		});
 
 		this.socket.on('world', function(data) {
 			game.world.clear();
-			game.world.playerShipId = data;
+			console.log(data);
+			game.world.playerShipId = data.playerShipId;
+			for (var i in data.bodies) {
+				game.world.add(data.bodies[i]);
+			}
 		});
 	};
 
@@ -30,5 +35,9 @@ function Net() {
 			left: move[1],
 			right: move[2]
 		});
+	}
+
+	this.send = function(msg, data) {
+		this.socket.emit(msg, data);
 	}
 }
