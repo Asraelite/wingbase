@@ -1,16 +1,21 @@
 function Renderer() {
 	var self = this;
 
-	var canvas = document.getElementsByTagName('canvas')[0];
-	var context = canvas.getContext('2d');
-	var pallet = new Pallet();
+	var s = SCALE;
 
+	var pallet = new Pallet();
+	var canvas = pallet.canvas;
+	var context = pallet.context;
+
+	this.pallet = pallet;
 	this.canvas = canvas;
+	this.context = context;
 
 	this.render = function(state) {
-		var ship = game.world.playerShip || { x: 0, y: 0 };
-		var cx = ship.x;
-		var cy = ship.y;
+		var ship = game.world.playerShip;
+		var cpos = game.world.getCenter();
+		var cx = -cpos.x;
+		var cy = -cpos.y;
 		var cw = canvas.width;
 		var ch = canvas.height;
 
@@ -29,11 +34,12 @@ function Renderer() {
 
 		context.save();
 
-		context.translate(-cx + cw / 2, -cy + ch / 2);
+		pallet.view(cw / 2, ch / 2, 1, 0);
+		//context.translate(-cx / s, -cy / s);
 
 		// Grid
-		var gridx = ((cx / 50) | 0) * 50;
-		var gridy = ((cy / 50) | 0) * 50;
+		var gridx = cx % 50;
+		var gridy = cy % 50;
 		for (var x = gridx - cw / 2 - 50; x < cx + cw + 50; x += 50) {
 			for (var y = gridy - ch / 2 - 50; y < cy + ch + 50; y += 50) {
 				pallet.outline('#0a0a0a', x, y, 51, 51, 1);
@@ -50,7 +56,7 @@ function Renderer() {
 			}
 		}
 
-		context.restore();
+		pallet.restore();
 	}
 
 	this.renderGrid = function() {

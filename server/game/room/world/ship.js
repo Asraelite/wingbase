@@ -17,12 +17,15 @@ class Ship extends Body {
 	move(data) {
 		let b = this.b2body;
 
+
+		//console.log(b.GetLocalCenter());
+
 		for(var i in b) {
 			//if(typeof b[i] == 'function') console.log(i);
 		}
 
 		if (data.forward) {
-			let power = 0.05;
+			let power = 0.002;
 			let x = Math.cos(this.b2body.GetAngleRadians()) * power;
 			let y = Math.sin(this.b2body.GetAngleRadians()) * power;
 			this.applyForce(x, y);

@@ -7,6 +7,19 @@ function Ship(id) {
 	this.move = [];
 	this.lastMove = [];
 	this.bodyType = 'ship';
+	this.com = {
+		x: 16,
+		y: 17.6
+	};
+
+	var s = SCALE;
+
+	this.getPos = function() {
+		return {
+			x: this.x * s,
+			y: this.y * s
+		}
+	}
 
 	this.updateMove = function() {
 		if (JSON.stringify(this.move) != JSON.stringify(this.lastMove) || true) {
