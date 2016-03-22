@@ -2,6 +2,8 @@
 
 const uuid = require('uuid');
 
+const b2Vec2 = require('box2d-html5').b2Vec2;
+
 class Body {
 	constructor(world) {
 		this.x = 0;
@@ -16,6 +18,15 @@ class Body {
 
 	applyDelta() {
 		this.world.applyDelta(this.id, this.pack());
+	}
+
+	applyForce(x, y, center) {
+		let b = this.b2body;
+		b.ApplyForce(new b2Vec2(x, y), b.GetWorldCenter());
+	}
+
+	applyTorque(f) {
+		this.b2body.ApplyTorque(f);
 	}
 
 	pack() {

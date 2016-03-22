@@ -20,6 +20,7 @@ class Room {
 		this.players.add(player);
 		this.setTeam(player, this.teamA.size > this.teamB.size ? 'b' : 'a');
 		this.world.addPlayer(player);
+		player.sendWorld();
 	}
 
 	remove(player) {

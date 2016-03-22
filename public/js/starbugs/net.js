@@ -17,6 +17,10 @@ function Net() {
 		this.socket.on('update', function(data) {
 			game.world.update(data);
 		});
+
+		this.socket.on('world', function(data) {
+			game.world.playerShipId = data;
+		});
 	};
 
 	this.update = function(move) {

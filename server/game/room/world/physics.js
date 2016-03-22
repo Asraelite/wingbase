@@ -4,6 +4,8 @@
 // so most changes done to it should be mirrored there to keep consistent
 // physics between client and server.
 
+const SCALE = 32;
+
 const Box2D = require('box2d-html5');
 
 const b2Vec2 = Box2D.b2Vec2;
@@ -15,15 +17,17 @@ class Physics {
 	}
 
 	createBody(body) {
+		let s = SCALE;
 		let bodyDef = new Box2D.b2BodyDef();
 		bodyDef.userData = body;
-		bodyDef.position = new b2Vec2(body.x || 0, body.y || 0);
+		bodyDef.position = new b2Vec2(body.x / s || 0, body.y / s || 0);
 		bodyDef.fixedRotation = false;
 		bodyDef.active = true;
-		bodyDef.linearVelocity = new b2Vec2(body.xvel || 0, body.yvel || 0);
+		bodyDef.linearVelocity = new b2Vec2(body.xvel / s || 0, body.yvel / s || 0);
 		bodyDef.angularVelocity = body.rvel || 0;
 		bodyDef.type = body.type == 'static' ?
-			Box2D.b2Body.b2_staticBody : Box2D.b2Body.b2_dynamicBody;
+			Box2D.b2BodyType.b2_staticBody : Box2D.b2BodyType.b2_dynamicBody;
+		if (body.player) bodyDef.allowSleep = false;
 		let b2body = this.world.CreateBody(bodyDef);
 
 		let fixtureDef = new Box2D.b2FixtureDef();
@@ -32,7 +36,7 @@ class Physics {
 		fixtureDef.restitution = 0;
 
 		for (var poly of body.structure) {
-			poly = poly.map(vertex => new b2Vec2(vertex[0], vertex[1]));
+			poly = poly.map(vertex => new b2Vec2(vertex[0] / s, vertex[1] / s));
 			fixtureDef.shape = new Box2D.b2PolygonShape();
 			fixtureDef.shape.SetAsArray(poly, poly.length);
 			b2body.CreateFixture(fixtureDef);
@@ -46,7 +50,6 @@ class Physics {
 
 		for (var i = 0; i < this.toRemove.length; i++) {
 			this.world.DestroyBody(this.toRemove[i].b2body);
-			console.log(this.world.GetBodyList());
 		}
 
 		this.toRemove = [];

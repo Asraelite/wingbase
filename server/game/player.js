@@ -25,6 +25,10 @@ class Player {
 		});
 	}
 
+	sendWorld() {
+		this.connection.send('world', this.ship.id);
+	}
+
 	sendUpdate() {
 		if (Object.keys(this.delta).length == 0) return;
 		this.connection.send('update', this.delta);

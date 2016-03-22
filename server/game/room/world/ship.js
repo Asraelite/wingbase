@@ -5,8 +5,6 @@ const hulls = require('./traits/hulls.json');
 
 const Body = require('./body.js');
 
-const b2Vec2 = require('box2d-html5').b2Vec2;
-
 class Ship extends Body {
 	constructor(world, player, build) {
 		super(world);
@@ -24,17 +22,18 @@ class Ship extends Body {
 		}
 
 		if (data.forward) {
-			//console.log('forward');
-			b.ApplyLinearImpulse(b2Vec2(0, 500), b.GetWorldCenter());
-			b.ApplyTorque(2000);
+			let power = 0.02;
+			let x = Math.cos(this.b2body.GetAngleRadians()) * power;
+			let y = Math.sin(this.b2body.GetAngleRadians()) * power;
+			this.applyForce(x, y);
 		}
 
 		if (data.left) {
-			b.ApplyTorque(-20);
+			this.applyTorque(-0.02);
 		}
 
 		if (data.right) {
-			b.ApplyTorque(20);
+			this.applyTorque(0.02);
 		}
 	}
 }
