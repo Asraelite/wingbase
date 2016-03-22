@@ -15,6 +15,8 @@ function init() {
 function Game() {
 	var self = this;
 
+	this.assets = loadAssets();
+
 	this.connected = false;
 	this.state = 'connecting';
 

@@ -25,6 +25,8 @@ class Physics {
 		bodyDef.active = true;
 		bodyDef.linearVelocity = new b2Vec2(body.xvel / s || 0, body.yvel / s || 0);
 		bodyDef.angularVelocity = body.rvel || 0;
+		bodyDef.linearDamping = 0.001;
+		bodyDef.angularDamping = 0.001;
 		bodyDef.type = body.type == 'static' ?
 			Box2D.b2BodyType.b2_staticBody : Box2D.b2BodyType.b2_dynamicBody;
 		if (body.player) bodyDef.allowSleep = false;

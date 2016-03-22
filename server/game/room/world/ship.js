@@ -22,18 +22,18 @@ class Ship extends Body {
 		}
 
 		if (data.forward) {
-			let power = 0.02;
+			let power = 0.05;
 			let x = Math.cos(this.b2body.GetAngleRadians()) * power;
 			let y = Math.sin(this.b2body.GetAngleRadians()) * power;
 			this.applyForce(x, y);
 		}
 
 		if (data.left) {
-			this.applyTorque(-0.02);
+			this.applyTorque(-0.0001);
 		}
 
 		if (data.right) {
-			this.applyTorque(0.02);
+			this.applyTorque(0.0001);
 		}
 	}
 }

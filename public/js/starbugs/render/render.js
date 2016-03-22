@@ -43,7 +43,11 @@ function Renderer() {
 		for (var id in game.world.bodies) {
 			var body = game.world.bodies[id];
 
-			pallet.rect('#338', body.x, body.y, 10, 10);
+			if (body.bodyType == 'ship') {
+				renderShip(pallet, body);
+			} else {
+				pallet.rect('#338', body.x, body.y, 10, 10);
+			}
 		}
 
 		context.restore();

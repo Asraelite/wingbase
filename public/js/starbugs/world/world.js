@@ -3,6 +3,11 @@ function World() {
 	this.playerShip = false;
 	this.playerShipId = false;
 
+	this.clear = function() {
+		this.bodies = {};
+		this.playerShip = false;
+	}
+
 	this.update = function(data) {
 		this.playerShip = this.bodies[this.playerShipId];
 

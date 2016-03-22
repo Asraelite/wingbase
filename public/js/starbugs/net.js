@@ -19,6 +19,7 @@ function Net() {
 		});
 
 		this.socket.on('world', function(data) {
+			game.world.clear();
 			game.world.playerShipId = data;
 		});
 	};
