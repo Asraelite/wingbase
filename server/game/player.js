@@ -17,6 +17,14 @@ class Player {
 		this.room.remove(this);
 	}
 
+	move(data) {
+		this.ship.move({
+			forward: data.forward || 0,
+			left: data.left || 0,
+			right: data.right || 0
+		});
+	}
+
 	sendUpdate() {
 		if (Object.keys(this.delta).length == 0) return;
 		this.connection.send('update', this.delta);

@@ -20,7 +20,7 @@ class Physics {
 		bodyDef.position = new b2Vec2(body.x || 0, body.y || 0);
 		bodyDef.fixedRotation = false;
 		bodyDef.active = true;
-		bodyDef.linearVelocity = new b2Vec2(body.xvel || 0.05, body.yvel || 0);
+		bodyDef.linearVelocity = new b2Vec2(body.xvel || 0, body.yvel || 0);
 		bodyDef.angularVelocity = body.rvel || 0;
 		bodyDef.type = body.type == 'static' ?
 			Box2D.b2Body.b2_staticBody : Box2D.b2Body.b2_dynamicBody;

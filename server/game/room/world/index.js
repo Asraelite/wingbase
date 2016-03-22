@@ -51,7 +51,7 @@ class World {
 	tick(self) {
 		self.physics.step();
 
-		if (Math.random() < 0.001) {
+		if (Math.random() < 0.01) {
 			self.bodies.forEach(body => body.applyDelta());
 		}
 	}

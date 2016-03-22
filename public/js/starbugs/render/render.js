@@ -5,6 +5,8 @@ function Renderer() {
 	var context = canvas.getContext('2d');
 	var pallet = new Pallet();
 
+	this.canvas = canvas;
+
 	this.render = function(state) {
 		if (state == 'connecting' || state == 'disconnected') {
 			pallet.clear();

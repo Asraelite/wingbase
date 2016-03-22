@@ -18,4 +18,12 @@ function Net() {
 			game.world.update(data);
 		});
 	};
+
+	this.update = function(move) {
+		this.socket.emit('move', {
+			forward: move[0],
+			left: move[1],
+			right: move[2]
+		});
+	}
 }
