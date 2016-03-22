@@ -39,6 +39,8 @@ function Game() {
 
 		self.input.clear();
 
+		self.world.tick();
+
 		requestAnimationFrame(self.tick);
 	}
 }

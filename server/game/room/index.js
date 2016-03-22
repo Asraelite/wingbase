@@ -7,7 +7,7 @@ class Room {
 		this.players = new Set();
 		this.teamA = new Set();
 		this.teamB = new Set();
-		this.world = new World();
+		this.world = new World(this);
 		this.name = (Math.random() * 100000 | 0).toString(36);
 
 		this.start();
@@ -40,6 +40,10 @@ class Room {
 
 	update(self) {
 		self.players.forEach(player => player.sendUpdate());
+	}
+
+	broadcast(msg, data) {
+		this.players.forEach(player => player.send(msg, data));
 	}
 
 	sendWorld(player) {

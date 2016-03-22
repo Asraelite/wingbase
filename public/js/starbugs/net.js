@@ -2,7 +2,7 @@ function Net() {
 	this.socket;
 
 	this.connect = function() {
-		this.socket = io.connect('http://localhost:8080');
+		this.socket = io.connect('/');
 
 		this.socket.on('connect', function() {
 			game.connected = true;
@@ -26,6 +26,10 @@ function Net() {
 			for (var i in data.bodies) {
 				game.world.add(data.bodies[i]);
 			}
+		});
+
+		this.socket.on('create', function(data) {
+			game.world.add(data);
 		});
 	};
 

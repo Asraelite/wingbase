@@ -5,13 +5,14 @@ const Physics = require('./physics.js');
 const Ship = require('./ship.js');
 
 class World {
-	constructor() {
+	constructor(room) {
 		this.physics = new Physics();
 		this.bodies = new Set();
 		this.structures = new Set();
 		this.asteroids = new Set();
 		this.ships = new Map();
 		this.players = new Set();
+		this.room = room;
 	}
 
 	addPlayer(player) {
@@ -27,14 +28,18 @@ class World {
 
 	addShip(ship) {
 		this.ships.set(ship.player, ship);
-		this.bodies.add(ship);
-		this.physics.createBody(ship);
+		this.addBody(ship);
 	}
 
 	addAsteroid(asteroid) {
 		this.asteroids.add(asteroid);
-		this.bodies.add(asteroid);
-		this.physics.createBody(asteroid);
+		this.addBody(asteroid);
+	}
+
+	addBody(body) {
+		this.bodies.add(body);
+		this.physics.createBody(body);
+		this.room.broadcast('create', body.packFull());
 	}
 
 	applyDelta(body, data) {

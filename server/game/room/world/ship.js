@@ -47,6 +47,12 @@ class Ship extends Body {
 		if (data.right) {
 			this.applyTorque(this.power.rotation);
 		}
+
+		this.thrust = {
+			forward: data.forward,
+			left: data.left,
+			right: data.right
+		};
 	}
 
 	packTypeDelta() {

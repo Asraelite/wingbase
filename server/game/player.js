@@ -25,12 +25,16 @@ class Player {
 		});
 	}
 
+	send(msg, data) {
+		this.connection.send(msg, data);
+	}
+
 	sendWorld(data) {
 		this.connection.send('world', data);
 	}
 
 	sendUpdate() {
-		if (Object.keys(this.delta).length == 0) return;
+		if (Object.keys(this.delta).length == 0 || Math.random() < 0) return;
 		this.connection.send('update', this.delta);
 		this.delta = {};
 	}

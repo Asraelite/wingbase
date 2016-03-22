@@ -20,25 +20,25 @@ function World() {
 		y += Math.sin(a + r) * d;
 
 		return { x: x, y: y };
-	}
+	};
 
 	this.add = function(data) {
 		var body;
 		if (data.type == 'asteroid') body = new Asteroid(data);
 		if (data.type == 'ship') body = new Ship(data);
 		if (data.type == 'structure') body = new Structure(data);
-		
+
 		this.bodies[body.id] = body;
-	}
+	};
 
 	this.remove = function(id) {
 		delete this.bodies[id];
-	}
+	};
 
 	this.clear = function() {
 		this.bodies = {};
 		this.playerShip = false;
-	}
+	};
 
 	this.update = function(data) {
 		this.playerShip = this.bodies[this.playerShipId];
@@ -54,5 +54,11 @@ function World() {
 
 			if (data[id].destroy) delete this.bodies[id];
 		}
-	}
+	};
+
+	this.tick = function() {
+		for (var i in this.bodies) {
+			this.bodies[i].tick();
+		}
+	};
 }

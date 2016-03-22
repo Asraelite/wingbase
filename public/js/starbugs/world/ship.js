@@ -1,5 +1,6 @@
 function Ship(data) {
 	this.id = data.id;
+	this.team = data.team;
 	this.x = data.delta[0];
 	this.y = data.delta[1];
 	this.r = data.delta[4];
@@ -30,6 +31,8 @@ function Ship(data) {
 		this.xvel = data[2];
 		this.yvel = data[3];
 		this.r = data[4];
+		this.rvel = data[5];
+		if(this != game.world.playerShip) this.move[0] = data[6];
 	}
 
 	this.updateMove = function() {
@@ -37,5 +40,16 @@ function Ship(data) {
 			game.net.update(this.move);
 			this.lastMove = Array.apply(0, this.move); // Bloody Javascript.
 		}
+	}
+
+	this.tick = function() {
+		this.x += this.xvel * 10;
+		this.y += this.yvel * 10;
+		//this.r += this.rvel * 10;
+		this.xvel *= 0.98;
+		this.yvel *= 0.98;
+
+		if (this.move[1]) this.rvel -= 0.01;
+		if (this.move[2]) this.rvel += 0.01;
 	}
 }
