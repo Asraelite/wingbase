@@ -37,6 +37,11 @@ class Body {
 		if(pos.x > bounds.right) this.applyForce(-0.03, 0);
 		if(pos.y < bounds.top) this.applyForce(0, 0.03);
 		if(pos.y > bounds.bottom) this.applyForce(-0, -0.03);
+
+		this.tickType();
+	}
+
+	tickType() {
 	}
 
 	packDelta() {
@@ -50,11 +55,24 @@ class Body {
 	}
 
 	packTypeDelta() {
-		throw new Error('Attempt to pack raw body.');
 	}
 
 	packFull() {
-		throw new Error('Attempt to pack raw body.');
+	}
+
+	get center() {
+		return {
+			x: this.b2body.GetWorldCenter().x,
+			y: this.b2body.GetWorldCenter().y
+		};
+	}
+
+	get pos() {
+		return {
+			x: this.b2body.GetPosition().x,
+			y: this.b2body.GetPosition().y,
+			r: this.b2body.GetAngleRadians()
+		};
 	}
 }
 

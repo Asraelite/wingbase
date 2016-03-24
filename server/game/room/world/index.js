@@ -1,15 +1,17 @@
 'use strict';
 
-const Asteroid = require('./asteroid.js');
 const Physics = require('./physics.js');
 const Ship = require('./ship.js');
+const Spawner = require('./spawner.js');
 
 class World {
 	constructor(room) {
 		this.physics = new Physics();
+		this.spawner = new Spawner(this);
 		this.bodies = new Set();
 		this.structures = new Set();
 		this.asteroids = new Set();
+		this.missiles = new Set();
 		this.ships = new Map();
 		this.players = new Set();
 		this.room = room;
@@ -48,6 +50,11 @@ class World {
 		this.addBody(asteroid);
 	}
 
+	addMissile(missile) {
+		this.missiles.add(missile);
+		this.addBody(missile);
+	}
+
 	addBody(body) {
 		this.bodies.add(body);
 		this.physics.createBody(body);
@@ -64,8 +71,7 @@ class World {
 				x: Math.random() * 2000 - 200,
 				y: Math.random() * 500 - 250
 			};
-			let asteroid = new Asteroid(this, pos, Math.random() * 50 + 10);
-			this.addAsteroid(asteroid);
+			this.spawner.spawnAsteroid(pos.x, pos.y,Math.random() * 50 + 10);
 		}
 	}
 
@@ -76,11 +82,12 @@ class World {
 	}
 
 	removeBody(body) {
-		this.physics.toRemove.push(body);
+		this.physics.remove(body);
 		this.bodies.delete(body);
 		this.ships.delete(body);
 		this.structures.delete(body);
 		this.asteroids.delete(body);
+		this.missiles.delete(body);
 		this.room.broadcast('destroy', body.id);
 	}
 
@@ -95,23 +102,23 @@ class World {
 	tick(self) {
 		self.physics.step();
 
-		self.ships.forEach(body => {
-			body.applyDelta(),
-			body.tick();
-		});
-
-		if (this.tickCount % 1 == 0) {
-			self.asteroids.forEach(body => {
-				body.applyDelta(),
+		let tickBodies = (set, interval) => {
+			set.forEach(body => {
+				if (this.tickCount % interval == 0)
+					body.applyDelta();
 				body.tick();
 			});
+		};
 
-			if (Date.now() - this.tpsStart > 5000) {
-				this.tps = this.tpsCount / 5 | 0;
-				this.tpsCount = 0;
-				this.tpsStart = Date.now();
-				//console.log('TPS: ' + this.tps);
-			}
+		tickBodies(self.ships, 1);
+		tickBodies(self.asteroids, 4);
+		tickBodies(self.missiles, 1);
+
+		if (Date.now() - this.tpsStart > 5000) {
+			this.tps = this.tpsCount / 5 | 0;
+			this.tpsCount = 0;
+			this.tpsStart = Date.now();
+			//console.log('TPS: ' + this.tps);
 		}
 
 		this.tpsCount++;

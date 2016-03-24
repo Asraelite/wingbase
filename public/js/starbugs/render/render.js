@@ -66,6 +66,7 @@ class Renderer {
 			} else if (body.bodyType == 'asteroid') {
 				this.renderAsteroid(pallet, body);
 			} else {
+				this.renderBody(pallet, body);
 				// Render structures, projectiles etc..
 			}
 		}

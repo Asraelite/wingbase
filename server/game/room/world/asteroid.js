@@ -8,9 +8,10 @@ class Asteroid extends Body {
 
 		this.x = pos.x;
 		this.y = pos.y;
-		this.type = 'asteroid';
 
 		this.size = size;
+
+		this.type = 'asteroid';
 		this.frame = this.randomFrame();
 	}
 

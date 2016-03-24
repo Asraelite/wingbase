@@ -4,7 +4,6 @@ class World {
 	constructor() {
 		this.bodies = {};
 		this.playerShip = false;
-		this.playerShipId = false;
 		this.physics = new Physics();
 
 		this.bounds = {
@@ -37,6 +36,7 @@ class World {
 		if (data.type == 'asteroid') body = new Asteroid(data);
 		if (data.type == 'ship') body = new Ship(data);
 		if (data.type == 'structure') body = new Structure(data);
+		if (data.type == 'missile') body = new Missile(data);
 
 		//if(data.type == 'ship') console.log(body);
 
@@ -59,8 +59,6 @@ class World {
 	};
 
 	update(data) {
-		this.playerShip = this.bodies[this.playerShipId];
-
 		for (var id in data) {
 			if (!this.bodies[id]) {
 				game.net.send('requestBodyData', id);
@@ -73,6 +71,11 @@ class World {
 			if (data[id].destroy) delete this.bodies[id];
 		}
 	};
+
+	setPlayerShip(id) {
+		this.playerShip = this.bodies[id];
+		game.player.ship = this.playerShip;
+	}
 
 	tick() {
 		this.physics.step();

@@ -37,12 +37,14 @@ class Physics {
 		let bodyDef = new Box2D.b2BodyDef();
 		bodyDef.userData = body;
 		bodyDef.position = new b2Vec2(body.x / s || 0, body.y / s || 0);
+		bodyDef.angle = body.r || 0;
 		bodyDef.fixedRotation = false;
 		bodyDef.active = true;
 		bodyDef.linearVelocity = new b2Vec2(body.xvel / s || 0, body.yvel / s || 0);
 		bodyDef.angularVelocity = body.rvel || 0;
-		bodyDef.linearDamping = body.type == 'ship' ? 0.01 : 0.003;
-		bodyDef.angularDamping = body.type == 'ship' ? 0.01 : 0.003;
+		bodyDef.bullet = body.type == 'missile';
+		bodyDef.linearDamping = body.type == 'asteroid' ? 0.003 : 0.01;
+		bodyDef.angularDamping = body.type == 'asteroid' ? 0.003 : 0.01;
 		bodyDef.type = body.type == 'structure' ?
 			Box2D.b2BodyType.b2_staticBody : Box2D.b2BodyType.b2_dynamicBody;
 		if (body.player || true) bodyDef.allowSleep = false;
@@ -62,6 +64,10 @@ class Physics {
 
 		body.b2body = b2body;
 		//if (body.type == 'ship') console.log(b2body.GetLocalCenter());
+	}
+
+	remove(body) {
+		this.toRemove.push(body);
 	}
 
 	step() {

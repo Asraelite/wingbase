@@ -22,8 +22,8 @@ class Connection {
 			this.player.name = data.name.slice(0, 20) || 'Fish';
 		});
 
-		socket.on('move', data => {
-			this.player.move(data);
+		socket.on('inputs', data => {
+			this.player.updateInputs(data);
 		});
 
 		this.server.assignRoom(this.player);

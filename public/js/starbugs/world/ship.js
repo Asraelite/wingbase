@@ -5,7 +5,6 @@ class Ship extends Body {
 		this.team = data.team;
 		this.name = data.name;
 		this.hull = '01';
-		this.move = [];
 		this.thrust = {};
 		this.power = data.power;
 		this.mounts = data.mounts;
@@ -19,13 +18,6 @@ class Ship extends Body {
 		this.bodyType = 'ship';
 	}
 
-	updateMove() {
-		if (JSON.stringify(this.move) != JSON.stringify(this.lastMove) || true) {
-			game.net.update(this.move);
-			this.lastMove = Array.apply(0, this.move); // Bloody Javascript.
-		}
-	}
-
 	updateType(data) {
 		this.thrust = {
 			forward: data[6]
@@ -33,18 +25,18 @@ class Ship extends Body {
 	}
 
 	tick() {
-		if (this.move[0]) {
+		if (this.thrust.forward) {
 			var power = this.power.forward;
 			var x = Math.cos(this.getPos().r) * power;
 			var y = Math.sin(this.getPos().r) * power;
 			this.applyForce(x, y);
 		}
 
-		if (this.move[1]) {
+		if (this.thrust.left) {
 			this.applyTorque(-this.power.rotation);
 		}
 
-		if (this.move[2]) {
+		if (this.thrust.right) {
 			this.applyTorque(this.power.rotation);
 		}
 	}

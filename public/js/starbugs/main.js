@@ -18,11 +18,13 @@ class Game {
 
 		this.connected = false;
 		this.state = 'connecting';
+		this.pingMode = 'fast';
 
 		this.input = new Input();
 		this.net = new Net();
 		this.world = new World();
 		this.renderer = new Renderer();
+		this.player = new Player();
 	}
 
 	tick() {
@@ -30,9 +32,10 @@ class Game {
 
 		var ship = this.world ? this.world.playerShip : false;
 
-		if(ship) {
-			ship.move = [87, 65, 68].map(k => this.input.keys.held[k] || false);
-			ship.updateMove();
+		if(this.player.ship) {
+			let delta = this.player.packDelta();
+			if (delta)
+				game.net.sendUpdate(delta);
 		}
 
 		this.input.clear();

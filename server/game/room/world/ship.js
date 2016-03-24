@@ -19,6 +19,7 @@ class Ship extends Body {
 		this.size = traits.size;
 		this.player = player;
 		this.type = 'ship';
+		this.inputs = {};
 
 		this.thrust = {
 			forward: 0,
@@ -27,35 +28,40 @@ class Ship extends Body {
 		}
 	}
 
-	move(data) {
-		let b = this.b2body;
+	updateInputs(data) {
+		this.inputs = {
+			forward: data[0],
+			left: data[1],
+			right: data[2],
+			missile: data[3]
+		};
 
-		//console.log(b.GetLocalCenter());
+		this.thrust.forward = this.inputs.forward;
+		this.thrust.left = this.inputs.left;
+		this.thrust.right = this.inputs.right;
 
-		for(var i in b) {
-			//if(typeof b[i] == 'function') console.log(i);
-		}
+		if (this.inputs.missile) this.launchMissile();
+	}
 
-		if (data.forward) {
+	launchMissile() {
+		this.world.spawner.spawnMissile(this);
+	}
+
+	tickType() {
+		if (this.thrust.forward) {
 			let power = this.power.forward;
 			let x = Math.cos(this.b2body.GetAngleRadians()) * power;
 			let y = Math.sin(this.b2body.GetAngleRadians()) * power;
 			this.applyForce(x, y);
 		}
 
-		if (data.left) {
+		if (this.thrust.left) {
 			this.applyTorque(-this.power.rotation);
 		}
 
-		if (data.right) {
+		if (this.thrust.right) {
 			this.applyTorque(this.power.rotation);
 		}
-
-		this.thrust = {
-			forward: data.forward,
-			left: data.left,
-			right: data.right
-		};
 	}
 
 	packTypeDelta() {

@@ -23,15 +23,14 @@ class Net {
 
 		this.socket.on('world', function(data) {
 			game.world.clear();
-			game.world.playerShipId = data.playerShipId;
 			game.world.bounds = data.bounds;
 			for (var i in data.bodies) {
 				game.world.add(data.bodies[i]);
 			}
+			game.world.setPlayerShip(data.playerShipId);
 		});
 
 		this.socket.on('create', function(data) {
-			console.log(data.id);
 			game.world.add(data);
 		});
 
@@ -40,12 +39,8 @@ class Net {
 		});
 	};
 
-	update(move) {
-		this.socket.emit('move', {
-			forward: move[0],
-			left: move[1],
-			right: move[2]
-		});
+	sendUpdate(inputs) {
+		this.socket.emit('inputs', inputs);
 	}
 
 	send(msg, data) {

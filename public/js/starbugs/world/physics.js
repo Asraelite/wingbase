@@ -19,12 +19,14 @@ class Physics {
 		let bodyDef = new b2BodyDef();
 		bodyDef.userData = body;
 		bodyDef.position = new b2Vec2(body.x || 0, body.y || 0);
+		bodyDef.angle = body.r || 0;
 		bodyDef.fixedRotation = false;
 		bodyDef.active = true;
 		bodyDef.linearVelocity = new b2Vec2(0, 0);
 		bodyDef.angularVelocity = 0;
-		bodyDef.linearDamping = body.bodyType == 'ship' ? 0.01 : 0.003;
-		bodyDef.angularDamping = body.bodyType == 'ship' ? 0.01 : 0.003;
+		bodyDef.bullet = body.type == 'missile';
+		bodyDef.linearDamping = body.bodyType == 'asteroid' ? 0.003 : 0.01;
+		bodyDef.angularDamping = body.bodyType == 'asteroid' ? 0.003 : 0.01;
 		bodyDef.type = body.bodyType == 'structure' ?
 			b2Body.b2_staticBody : b2Body.b2_dynamicBody;
 		bodyDef.allowSleep = false;

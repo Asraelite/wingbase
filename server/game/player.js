@@ -18,12 +18,8 @@ class Player {
 		this.room.remove(this);
 	}
 
-	move(data) {
-		this.ship.move({
-			forward: data.forward || 0,
-			left: data.left || 0,
-			right: data.right || 0
-		});
+	updateInputs(data) {
+		this.ship.updateInputs(data);
 		this.lastAction = Date.now();
 	}
 
