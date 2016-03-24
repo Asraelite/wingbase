@@ -27,7 +27,7 @@ function Asteroid(data) {
 		this.yvel = data[3];
 		this.r = data[4];
 		this.rvel = data[5];
-		this.updated = true;
+		this.updated = 10;
 	};
 
 	this.tick = function() {

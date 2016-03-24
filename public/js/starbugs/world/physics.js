@@ -73,12 +73,16 @@ function Physics() {
 
 		for (var i in game.world.bodies) {
 			var s = SCALE;
+			var r = 0.1;
 			var body = game.world.bodies[i];
-			if (!body.updated) continue;
-			body.b2body.SetPositionAndAngle(new b2Vec2(body.x, body.y), body.r);
+			var pos = body.getPos();
+			var x = (body.x * r + pos.x) / (r + 1);
+			var y = (body.y * r + pos.y) / (r + 1);
+			var r = (body.r * r + pos.r) / (r + 1);
+			if (body.updated-- <= 0) continue;
+			body.b2body.SetPositionAndAngle(new b2Vec2(x, y), r);
 			body.b2body.SetLinearVelocity(new b2Vec2(body.xvel, body.yvel));
 			body.b2body.SetAngularVelocity(body.rvel);
-			body.updated = false;
 		}
 		for (var i = 0; i < this.toRemove.length; i++) {
 			this.world.DestroyBody(this.toRemove[i]);

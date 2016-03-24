@@ -45,7 +45,7 @@ function Ship(data) {
 		this.yvel = data[3];
 		this.r = data[4];
 		this.rvel = data[5];
-		this.updated = true;
+		this.updated = 10;
 		this.thrust = {
 			forward: data[6],
 			left: data[7],
