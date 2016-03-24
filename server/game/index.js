@@ -23,6 +23,10 @@ class GameServer {
 		room.add(player);
 	}
 
+	deleteRoom(name) {
+		this.rooms.delete(name);
+	}
+
 	start() {
 		this.net.listen();
 	}

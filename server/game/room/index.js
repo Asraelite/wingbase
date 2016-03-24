@@ -29,6 +29,11 @@ class Room {
 		this.teamA.delete(player);
 		this.teamB.delete(player);
 		this.world.removePlayer(player);
+
+		if (this.players.size == 0) {
+			this.stop();
+			starbugs.gameServer.deleteRoom(this.name);
+		}
 	}
 
 	setTeam(player, team) {
