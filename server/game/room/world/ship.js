@@ -30,7 +30,6 @@ class Ship extends Body {
 	move(data) {
 		let b = this.b2body;
 
-
 		//console.log(b.GetLocalCenter());
 
 		for(var i in b) {
@@ -70,7 +69,9 @@ class Ship extends Body {
 			type: 'ship',
 			id: this.id,
 			team: this.player.team,
+			name: this.player.name,
 			frame: this.frame,
+			power: this.power,
 			mounts: this.mounts,
 			turrets: this.turrets,
 			size: this.size,

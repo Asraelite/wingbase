@@ -8,6 +8,7 @@ class Player {
 		this.ship = false;
 		this.team = false;
 		this.kickCount = 0;
+		this.lastAction = Date.now();
 		this.connection = connection;
 		this.name = `Stupid ${fruit[Math.random() * fruit.length | 0]}`;
 		this.delta = {};
@@ -23,6 +24,7 @@ class Player {
 			left: data.left || 0,
 			right: data.right || 0
 		});
+		this.lastAction = Date.now();
 	}
 
 	send(msg, data) {
@@ -34,7 +36,7 @@ class Player {
 	}
 
 	sendUpdate() {
-		if (Object.keys(this.delta).length == 0 || Math.random() < 0) return;
+		if (Object.keys(this.delta).length == 0) return;
 		this.connection.send('update', this.delta);
 		this.delta = {};
 	}

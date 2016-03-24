@@ -10,8 +10,6 @@ const Box2D = require('box2d-html5');
 
 const b2Vec2 = Box2D.b2Vec2;
 
-Box2D.b2Settings.b2_linearSleepTolerance = 0.0002;
-
 class Physics {
 	constructor() {
 		this.world = new Box2D.b2World(new b2Vec2(0, 0), false);
@@ -43,15 +41,15 @@ class Physics {
 		bodyDef.active = true;
 		bodyDef.linearVelocity = new b2Vec2(body.xvel / s || 0, body.yvel / s || 0);
 		bodyDef.angularVelocity = body.rvel || 0;
-		bodyDef.linearDamping = body.type == 'ship' ? 0.001 : 0.0003;
-		bodyDef.angularDamping = body.type == 'ship' ? 0.001 : 0.0003;
+		bodyDef.linearDamping = body.type == 'ship' ? 0.01 : 0.003;
+		bodyDef.angularDamping = body.type == 'ship' ? 0.01 : 0.003;
 		bodyDef.type = body.type == 'structure' ?
 			Box2D.b2BodyType.b2_staticBody : Box2D.b2BodyType.b2_dynamicBody;
 		if (body.player || true) bodyDef.allowSleep = false;
 		let b2body = this.world.CreateBody(bodyDef);
 
 		let fixtureDef = new Box2D.b2FixtureDef();
-		fixtureDef.density = 10;
+		fixtureDef.density = 10.1;
 		fixtureDef.friction = 1;
 		fixtureDef.restitution = 1;
 
@@ -63,7 +61,7 @@ class Physics {
 		}
 
 		body.b2body = b2body;
-		//console.log(Object.keys(b2body).sort());
+		//if (body.type == 'ship') console.log(b2body.GetLocalCenter());
 	}
 
 	step() {

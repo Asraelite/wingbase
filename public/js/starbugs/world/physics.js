@@ -1,0 +1,89 @@
+function Physics() {
+	var b2Vec2 = Box2D.Common.Math.b2Vec2;
+	var b2World = Box2D.Dynamics.b2World;
+	var b2Body = Box2D.Dynamics.b2Body;
+	var b2BodyDef = Box2D.Dynamics.b2BodyDef;
+	var b2Fixture = Box2D.Dynamics.b2Fixture;
+	var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
+	var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
+
+	this.world = new b2World(new b2Vec2(0, 0));
+	this.toRemove = [];
+
+	var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
+	var debugDraw = new b2DebugDraw();
+	debugDraw.SetSprite(document.getElementById("starbugs_canvas").getContext("2d"));
+	debugDraw.SetDrawScale(SCALE);
+	debugDraw.SetFillAlpha(0.3);
+	debugDraw.SetLineThickness(1.0);
+	debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+	this.world.SetDebugDraw(debugDraw);
+
+	this.createBody = function(body) {
+		var s = SCALE;
+		var bodyDef = new b2BodyDef();
+		bodyDef.userData = body;
+		bodyDef.position = new b2Vec2(body.x || 0, body.y || 0);
+		bodyDef.fixedRotation = false;
+		bodyDef.active = true;
+		bodyDef.linearVelocity = new b2Vec2(0, 0);
+		bodyDef.angularVelocity = 0;
+		bodyDef.linearDamping = body.bodyType == 'ship' ? 0.01 : 0.003;
+		bodyDef.angularDamping = body.bodyType == 'ship' ? 0.01 : 0.003;
+		bodyDef.type = body.bodyType == 'structure' ?
+			b2Body.b2_staticBody : b2Body.b2_dynamicBody;
+		bodyDef.allowSleep = false;
+		var b2body = this.world.CreateBody(bodyDef);
+
+		var fixtureDef = new b2FixtureDef();
+		fixtureDef.density = 10;
+		fixtureDef.friction = 1;
+		fixtureDef.restitution = 1;
+
+		for (var i in body.frame) {
+			var poly = body.frame[i].map(function(vertex) {
+				return new b2Vec2(vertex[0] / s, vertex[1] / s);
+			});
+			fixtureDef.shape = new b2PolygonShape();
+			fixtureDef.shape.SetAsArray(poly, poly.length);
+			//console.log(fixtureDef);
+			b2body.CreateFixture(fixtureDef);
+		}
+
+		body.b2body = b2body;
+
+		body.com = b2body.GetLocalCenter();
+		if (body.bodyType == 'ship') {
+			console.log(body.getPos());
+			//console.log(b2body.GetLocalCenter());
+			//console.log(body);
+			//console.log(b2body.GetMass());
+			//console.log(b2body.GetFixtureList().GetShape());
+		}
+	}
+
+	this.removeBody = function(body) {
+		this.toRemove.push(body.b2body);
+	}
+
+	this.step = function() {
+		this.world.Step(1, 5, 1 / 60);
+		this.world.ClearForces();
+		//this.world.DrawDebugData();
+
+		for (var i in game.world.bodies) {
+			var s = SCALE;
+			var body = game.world.bodies[i];
+			if (!body.updated) continue;
+			body.b2body.SetPositionAndAngle(new b2Vec2(body.x, body.y), body.r);
+			body.b2body.SetLinearVelocity(new b2Vec2(body.xvel, body.yvel));
+			body.b2body.SetAngularVelocity(body.rvel);
+			body.updated = false;
+		}
+		for (var i = 0; i < this.toRemove.length; i++) {
+			this.world.DestroyBody(this.toRemove[i]);
+		}
+
+		this.toRemove = [];
+	}
+}

@@ -41,7 +41,12 @@ class Connection {
 	}
 
 	disconnect() {
+		this.socket.disconnect();
 		this.player.disconnect();
+	}
+
+	drop() {
+		this.disconnect();
 	}
 
 	send(msg, data) {

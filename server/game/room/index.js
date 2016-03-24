@@ -38,8 +38,20 @@ class Room {
 		player.team = team;
 	}
 
+	kick(player, reason) {
+		player.send('kicked', reason);
+		player.connection.drop();
+	}
+
 	update(self) {
-		self.players.forEach(player => player.sendUpdate());
+		//if (this.world.tickCount % 100 == 0)
+		self.players.forEach(player => {
+			player.sendUpdate();
+			if (Date.now() - player.lastAction > 10000) {
+				//this.kick(player);
+				//console.log('Kicked ' + player.name);
+			}
+		});
 	}
 
 	broadcast(msg, data) {

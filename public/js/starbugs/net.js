@@ -16,12 +16,11 @@ function Net() {
 
 		this.socket.on('update', function(data) {
 			game.world.update(data);
-			window.q = data;
+			//console.log('.');
 		});
 
 		this.socket.on('world', function(data) {
 			game.world.clear();
-			console.log(data);
 			game.world.playerShipId = data.playerShipId;
 			for (var i in data.bodies) {
 				game.world.add(data.bodies[i]);
@@ -30,6 +29,10 @@ function Net() {
 
 		this.socket.on('create', function(data) {
 			game.world.add(data);
+		});
+
+		this.socket.on('destroy', function(data) {
+			game.world.remove(data);
 		});
 	};
 

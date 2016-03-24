@@ -17,6 +17,9 @@ function minifyJs(callback) {
 
 		var comment = '';
 
+		// Remove to re-enable minifying.
+		callback(cache); return;
+
 		try {
 			cache = uglify.minify(cache, { fromString: true }).code;
 

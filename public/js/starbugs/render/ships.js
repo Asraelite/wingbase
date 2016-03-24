@@ -8,12 +8,12 @@ function renderShip(pallet, ship) {
 	var turr = game.assets.images.turrets['01'].small;
 	//pallet.view(ship.x, ship.y, false, ship.r);
 	var pos = ship.getPos();
-	var x = pos.x;
-	var y = pos.y;
+	var x = pos.x * SCALE;
+	var y = pos.y * SCALE;
 	var vx = -game.world.getCenter().x;
 	var vy = -game.world.getCenter().y;
 
-	pallet.view(x + vx, y + vy, false, ship.r);
+	pallet.view(x + vx, y + vy, false, pos.r);
 
 	var ts = ship.size / 2;
 	for (var i = 0; i < ship.mounts.length; i++) {
@@ -27,4 +27,6 @@ function renderShip(pallet, ship) {
 	pallet.image(ship.move[0] ? thr8 : thr0, 0, 0, 0);
 
 	pallet.restore();
+
+	//pallet.text(ship.name, x + vx | 0, y + vy | 0, '#fff', 'FreePixel', 16, 'center', 'bottom');
 }

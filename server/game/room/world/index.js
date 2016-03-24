@@ -13,6 +13,11 @@ class World {
 		this.ships = new Map();
 		this.players = new Set();
 		this.room = room;
+		this.tps = 0;
+		this.tpsCount = 0;
+		this.tpsStart = Date.now();
+
+		this.tickCount = 0;
 
 		this.bounds = {
 			left: -5,
@@ -54,7 +59,7 @@ class World {
 	}
 
 	populate() {
-		for (var i = 0; i < 20; i++) {
+		for (var i = 0; i < 40; i++) {
 			let pos = {
 				x: Math.random() * 2000 - 200,
 				y: Math.random() * 500 - 250
@@ -76,10 +81,11 @@ class World {
 		this.ships.delete(body);
 		this.structures.delete(body);
 		this.asteroids.delete(body);
+		this.room.broadcast('destroy', body.id);
 	}
 
 	start() {
-		this.interval = setInterval(_ => this.tick(this), 1 / 60);
+		this.interval = setInterval(_ => this.tick(this), 1000 / 60);
 	}
 
 	stop() {
@@ -89,12 +95,27 @@ class World {
 	tick(self) {
 		self.physics.step();
 
-		if (Math.random() < 0.1) {
-			self.bodies.forEach(body => {
+		self.ships.forEach(body => {
+			body.applyDelta(),
+			body.tick();
+		});
+
+		if (this.tickCount % 1 == 0) {
+			self.asteroids.forEach(body => {
 				body.applyDelta(),
 				body.tick();
 			});
+
+			if (Date.now() - this.tpsStart > 5000) {
+				this.tps = this.tpsCount / 5 | 0;
+				this.tpsCount = 0;
+				this.tpsStart = Date.now();
+				//console.log('TPS: ' + this.tps);
+			}
 		}
+
+		this.tpsCount++;
+		this.tickCount++;
 	}
 }
 

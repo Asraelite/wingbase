@@ -5,7 +5,7 @@ function renderAsteroid(pallet, body) {
 	var vx = -game.world.getCenter().x;
 	var vy = -game.world.getCenter().y;
 
-	pallet.view(x + vx, y + vy, false, body.r);
+	pallet.view(x + vx, y + vy, false, pos.r);
 
 	var context = pallet.context;
 	var points = body.frame[0];

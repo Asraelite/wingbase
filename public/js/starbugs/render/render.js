@@ -54,7 +54,7 @@ function Renderer() {
 			} else if (body.bodyType == 'asteroid') {
 				renderAsteroid(pallet, body);
 			} else {
-				pallet.rect('#338', body.x, body.y, 10, 10);
+				// Render structures, projectiles etc..
 			}
 		}
 
