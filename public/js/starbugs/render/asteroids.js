@@ -1,4 +1,4 @@
-function renderAsteroid(pallet, body) {
+Renderer.prototype.renderAsteroid = (pallet, body) => {
 	var pos = body.getPos();
 	var x = pos.x * SCALE;
 	var y = pos.y * SCALE;
@@ -16,7 +16,9 @@ function renderAsteroid(pallet, body) {
 	}
 	context.closePath();
 	context.strokeStyle = '#fff';
+	context.fillStyle = '#090909';
+	context.fill();
 	context.stroke();
 
 	pallet.restore();
-}
+};

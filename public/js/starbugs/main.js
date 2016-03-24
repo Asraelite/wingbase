@@ -12,35 +12,33 @@ function init() {
 	game.net.connect();
 }
 
-function Game() {
-	var self = this;
+class Game {
+	constructor() {
+		this.assets = this.loadAssets();
 
-	this.assets = loadAssets();
+		this.connected = false;
+		this.state = 'connecting';
 
-	this.connected = false;
-	this.state = 'connecting';
+		this.input = new Input();
+		this.net = new Net();
+		this.world = new World();
+		this.renderer = new Renderer();
+	}
 
-	this.input = new Input();
-	this.net = new Net();
-	this.world = new World();
-	this.renderer = new Renderer();
+	tick() {
+		this.renderer.render(this.state);
 
-	this.tick = function() {
-		self.renderer.render(self.state);
-
-		var ship = self.world ? self.world.playerShip : false;
+		var ship = this.world ? this.world.playerShip : false;
 
 		if(ship) {
-			ship.move[0] = self.input.keys.held[87] || false;
-			ship.move[1] = self.input.keys.held[65] || false;
-			ship.move[2] = self.input.keys.held[68] || false;
+			ship.move = [87, 65, 68].map(k => this.input.keys.held[k] || false);
 			ship.updateMove();
 		}
 
-		self.input.clear();
+		this.input.clear();
 
-		self.world.tick();
+		this.world.tick();
 
-		requestAnimationFrame(self.tick);
+		requestAnimationFrame(this.tick.bind(this));
 	}
 }

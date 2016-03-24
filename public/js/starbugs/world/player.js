@@ -1,5 +1,7 @@
-function Player(own, name, ship) {
-	this.name = name;
-	this.ship = ship;
-	this.own = own;
+class Player {
+	constructor(name, team, ship) {
+		this.name = name;
+		this.team = team;
+		this.ship = ship;
+	}
 }

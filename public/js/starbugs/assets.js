@@ -1,5 +1,5 @@
-function loadAssets() {
-	var sources = {
+Game.prototype.loadAssets = _ => {
+	let sources = {
 		images: {
 			ships: {
 				'01': {
@@ -19,11 +19,11 @@ function loadAssets() {
 		}
 	}
 
-	var result = {};
+	let result = {};
 
 	// Magical recursive magic.
 	(function r(o, t) {
-		for (var i in o) {
+		for (let i in o) {
 			if (typeof o[i] == 'string') {
 				t[i] = new Image();
 				t[i].src = o[i];

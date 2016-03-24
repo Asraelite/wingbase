@@ -1,3 +1,5 @@
+'use strict';
+
 const colors = require('colors');
 const fs = require('fs');
 const path = require('path');
@@ -9,13 +11,25 @@ function minifyJs(callback) {
 
 	var dir = path.join(__dirname, '../../public/js/starbugs');
 	var cache = '';
+	var scripts = [];
+
+	var getPriority = (file) => {
+		if (file.slice(0, 3) == '//@') {
+			let a = +file.split('\n')[0].slice(3);
+			return a;
+		} else return 0;
+	}
 
 	recursive(dir, function(err, files) {
 		for(var i in files) {
-			cache += fs.readFileSync(files[i], 'utf8').toString();
+			scripts.push(fs.readFileSync(files[i], 'utf8').toString());
 		}
 
-		var comment = '';
+		scripts.sort((a, b) => getPriority(b) - getPriority(a));
+
+		let comment = '';
+
+		cache = scripts.join('');
 
 		// Remove to re-enable minifying.
 		callback(cache); return;

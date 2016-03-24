@@ -1,7 +1,9 @@
-function Net() {
-	this.socket;
+class Net {
+	constructor() {
+		this.socket;
+	}
 
-	this.connect = function() {
+	connect() {
 		this.socket = io.connect('/');
 
 		this.socket.on('connect', function() {
@@ -22,12 +24,14 @@ function Net() {
 		this.socket.on('world', function(data) {
 			game.world.clear();
 			game.world.playerShipId = data.playerShipId;
+			game.world.bounds = data.bounds;
 			for (var i in data.bodies) {
 				game.world.add(data.bodies[i]);
 			}
 		});
 
 		this.socket.on('create', function(data) {
+			console.log(data.id);
 			game.world.add(data);
 		});
 
@@ -36,7 +40,7 @@ function Net() {
 		});
 	};
 
-	this.update = function(move) {
+	update(move) {
 		this.socket.emit('move', {
 			forward: move[0],
 			left: move[1],
@@ -44,7 +48,7 @@ function Net() {
 		});
 	}
 
-	this.send = function(msg, data) {
+	send(msg, data) {
 		this.socket.emit(msg, data);
 	}
 }

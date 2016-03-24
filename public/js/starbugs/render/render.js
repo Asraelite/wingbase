@@ -1,23 +1,30 @@
-function Renderer() {
-	var self = this;
+//@10
 
-	var s = SCALE;
+class Renderer {
+	constructor() {
+		let pallet = new Pallet();
+		let canvas = pallet.canvas;
+		let context = pallet.context;
 
-	var pallet = new Pallet();
-	var canvas = pallet.canvas;
-	var context = pallet.context;
+		this.pallet = pallet;
+		this.canvas = canvas;
+		this.context = context;
 
-	this.pallet = pallet;
-	this.canvas = canvas;
-	this.context = context;
+		pallet.fillScreen();
+		window.addEventListener('resize', pallet.fillScreen);
+	}
 
-	this.render = function(state) {
-		var ship = game.world.playerShip;
-		var cpos = game.world.getCenter();
-		var cx = -cpos.x;
-		var cy = -cpos.y;
-		var cw = canvas.width;
-		var ch = canvas.height;
+	render(state) {
+		let canvas = this.canvas;
+		let context = this.context;
+		let pallet = this.pallet;
+
+		let ship = game.world.playerShip;
+		let cpos = game.world.getCenter();
+		let cx = -cpos.x;
+		let cy = -cpos.y;
+		let cw = canvas.width;
+		let ch = canvas.height;
 
 		if (state == 'connecting' || state == 'disconnected') {
 			pallet.clear();
@@ -40,9 +47,14 @@ function Renderer() {
 		// Grid
 		var gridx = cx % 50;
 		var gridy = cy % 50;
-		for (var x = gridx - cw / 2 - 50; x < cx + cw + 50; x += 50) {
-			for (var y = gridy - ch / 2 - 50; y < cy + ch + 50; y += 50) {
-				pallet.outline('#0a0a0a', x, y, 51, 51, 1);
+		for (var x = gridx - cw / 2 - 50; x < cw + 50; x += 50) {
+			for (var y = gridy - ch / 2 - 50; y < ch + 50; y += 50) {
+				var wx = (-cx + x) / SCALE;
+				var wy = (-cy + y) / SCALE;
+				var b = game.world.bounds;
+				if (wx > b.right || wx < b.left || wy > b.bottom || wy < b.top)
+				pallet.outline('#141424', x, y, 51, 51, 1);
+				else pallet.outline('#0a0a0a', x, y, 51, 51, 1);
 			}
 		}
 
@@ -50,9 +62,9 @@ function Renderer() {
 			var body = game.world.bodies[id];
 
 			if (body.bodyType == 'ship') {
-				renderShip(pallet, body);
+				this.renderShip(pallet, body);
 			} else if (body.bodyType == 'asteroid') {
-				renderAsteroid(pallet, body);
+				this.renderAsteroid(pallet, body);
 			} else {
 				// Render structures, projectiles etc..
 			}
@@ -61,9 +73,7 @@ function Renderer() {
 		pallet.restore();
 	}
 
-	this.renderGrid = function() {
-	}
+	renderGrid() {
 
-	pallet.fillScreen();
-	window.addEventListener('resize', pallet.fillScreen);
+	}
 }

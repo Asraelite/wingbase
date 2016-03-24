@@ -66,7 +66,6 @@ class Physics {
 
 	step() {
 		this.world.Step(1, 5, 1 / 60);
-
 		for (var i = 0; i < this.toRemove.length; i++) {
 			this.world.DestroyBody(this.toRemove[i].b2body);
 		}

@@ -66,6 +66,7 @@ class Room {
 	sendWorld(player) {
 		let data = {
 			playerShipId: player.ship.id,
+			bounds: this.world.bounds,
 			bodies: Array.from(this.world.bodies).map(b => b.packFull())
 		};
 

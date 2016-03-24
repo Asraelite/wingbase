@@ -1,22 +1,27 @@
 var SCALE = 32;
 
-function World() {
-	this.bodies = {};
-	this.playerShip = false;
-	this.playerShipId = false;
-	this.physics = new Physics();
+class World {
+	constructor() {
+		this.bodies = {};
+		this.playerShip = false;
+		this.playerShipId = false;
+		this.physics = new Physics();
 
-	var fr = false;
+		this.bounds = {
+			left: -50,
+			right: 50,
+			top: -50,
+			bottom: 50
+		}
+	}
 
-	this.getCenter = function() {
+	getCenter() {
 		if (!this.playerShip) return { x: 0, y: 0 };
 
 		var x = this.playerShip.getPos().x * SCALE;
 		var y = this.playerShip.getPos().y * SCALE;
 		var comx = this.playerShip.com.x * SCALE;
 		var comy = this.playerShip.com.y * SCALE;
-		comx = 0;
-		comy = 0;
 		var r = this.playerShip.getPos().r;
 		var d = Math.sqrt(comx * comx + comy * comy);
 		var a = Math.atan2(comy, comx);
@@ -27,33 +32,33 @@ function World() {
 		return { x: x, y: y };
 	};
 
-	this.add = function(data) {
+	add(data) {
 		var body;
 		if (data.type == 'asteroid') body = new Asteroid(data);
 		if (data.type == 'ship') body = new Ship(data);
 		if (data.type == 'structure') body = new Structure(data);
 
-		if(data.type == 'ship') console.log(body);
+		//if(data.type == 'ship') console.log(body);
 
 		this.bodies[body.id] = body;
-		if(data.type == 'ship') console.log(this.bodies);
+		//if(data.type == 'ship') console.log(this.bodies);
 		this.physics.createBody(body);
 	};
 
-	this.remove = function(id) {
-		console.log(id);
+	remove(id) {
+		//console.log(id);
 		this.physics.removeBody(this.bodies[id]);
 		delete this.bodies[id];
 	};
 
-	this.clear = function() {
+	clear() {
 		for (var i in this.bodies) {
 			this.remove(i);
 		}
 		this.playerShip = false;
 	};
 
-	this.update = function(data) {
+	update(data) {
 		this.playerShip = this.bodies[this.playerShipId];
 
 		for (var id in data) {
@@ -69,7 +74,7 @@ function World() {
 		}
 	};
 
-	this.tick = function() {
+	tick() {
 		this.physics.step();
 
 		for (var i in this.bodies) {
