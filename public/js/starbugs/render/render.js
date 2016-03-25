@@ -10,6 +10,8 @@ class Renderer {
 		this.canvas = canvas;
 		this.context = context;
 
+		this.effects = new Set();
+
 		pallet.fillScreen();
 		window.addEventListener('resize', pallet.fillScreen);
 	}
@@ -71,10 +73,18 @@ class Renderer {
 			}
 		}
 
+		this.effects.forEach(effect => {
+			effect.render();
+		});
+
 		pallet.restore();
 	}
 
 	renderGrid() {
 
+	}
+
+	addEffect(data) {
+		this.effects.add(new Effect(data));
 	}
 }

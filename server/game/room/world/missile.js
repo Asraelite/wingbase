@@ -28,6 +28,11 @@ class Missile extends Body {
 
 	detonate() {
 		this.world.explosion(this.center, 10);
+		this.world.room.broadcast('effect', {
+			type: 'explosion',
+			size: 10,
+			pos: this.center
+		});
 		this.world.removeBody(this);
 	}
 

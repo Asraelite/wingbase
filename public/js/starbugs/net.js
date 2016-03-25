@@ -6,36 +6,40 @@ class Net {
 	connect() {
 		this.socket = io.connect('/');
 
-		this.socket.on('connect', function() {
+		this.socket.on('connect', data => {
 			game.connected = true;
 			game.state = 'connected';
 		});
 
-		this.socket.on('disconnect', function() {
+		this.socket.on('disconnect', data => {
 			game.connected = false;
 			game.state = 'disconnected';
 		});
 
-		this.socket.on('update', function(data) {
+		this.socket.on('update', data => {
 			game.world.update(data);
 			//console.log('.');
 		});
 
-		this.socket.on('world', function(data) {
+		this.socket.on('world', data => {
 			game.world.clear();
 			game.world.bounds = data.bounds;
-			for (var i in data.bodies) {
-				game.world.add(data.bodies[i]);
+			for (var b of data.bodies) {
+				game.world.add(b);
 			}
 			game.world.setPlayerShip(data.playerShipId);
 		});
 
-		this.socket.on('create', function(data) {
+		this.socket.on('create', data => {
 			game.world.add(data);
 		});
 
-		this.socket.on('destroy', function(data) {
+		this.socket.on('destroy', data => {
 			game.world.remove(data);
+		});
+
+		this.socket.on('effect', data => {
+			game.renderer.addEffect(data);
 		});
 	};
 
