@@ -24,7 +24,9 @@ class Spawner {
 		let pos = {
 			x: ship.center.x + ox,
 			y: ship.center.y + oy,
-			r: r
+			r: r,
+			xvel: ship.vel.x,
+			yvel: ship.vel.y
 		};
 		let missile = new Missile(this.world, pos, ship);
 		this.world.addMissile(missile);

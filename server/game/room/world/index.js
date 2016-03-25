@@ -65,6 +65,19 @@ class World {
 		this.players.forEach(player => player.delta[body] = data);
 	}
 
+	explosion(pos, power) {
+		var rays = Array(50).fill().map((_, i) => {
+			let a = Math.PI * i / 25;
+			let x = pos.x + Math.cos(a) * Math.sqrt(power);
+			let y = pos.y + Math.sin(a) * Math.sqrt(power);
+			return this.physics.raycast(pos, { x : x, y: y }, (body, point, dis) => {
+				dis = Math.max(dis, 0.5);
+				let force = power * (1 / dis) * (1 / dis);
+				body.applyForce(x * force, y * force, point);
+			});
+		});
+	}
+
 	populate() {
 		for (var i = 0; i < 40; i++) {
 			let pos = {

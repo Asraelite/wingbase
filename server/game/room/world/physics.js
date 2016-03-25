@@ -21,11 +21,14 @@ class Physics {
 
 			bodya.applyDelta();
 			bodyb.applyDelta();
+
+			bodya.contact(bodyb);
+			bodyb.contact(bodya);
 		}
 
 		let listener = new Box2D.b2ContactListener();
 		listener.BeginContact = onContact;
-		listener.EndContact = onContact;
+		//listener.EndContact = onContact;
 
 		this.world.SetContactListener(listener);
 	}
@@ -66,12 +69,36 @@ class Physics {
 		//if (body.type == 'ship') console.log(b2body.GetLocalCenter());
 	}
 
+	raycast(start, end, callback) {
+		let p1 = new b2Vec2(start.x, start.y);
+		let p2 = new b2Vec2(end.x, end.x);
+		let dx = p1.x - p2.x;
+		let dy = p1.y - p2.y;
+		let dis = Math.sqrt(dx * dx + dy * dy);
+		let closest = {};
+		let i = 0;
+		this.world.RayCast((fixture, point, normal, fraction) => {
+			let body = fixture.GetBody().GetUserData();;
+			if (fraction <= closest.fraction) {
+				closest = {
+					body: body,
+					fraction: fraction,
+					point: point
+				}
+			}
+			//console.log(fixture.GetNext());
+			callback(body, point, dis * fraction);
+			return fraction;
+		}, p1, p2);
+	}
+
 	remove(body) {
 		this.toRemove.push(body);
 	}
 
 	step() {
 		this.world.Step(1, 5, 1 / 60);
+
 		for (var i = 0; i < this.toRemove.length; i++) {
 			this.world.DestroyBody(this.toRemove[i].b2body);
 		}

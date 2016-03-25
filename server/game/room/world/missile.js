@@ -8,6 +8,8 @@ class Missile extends Body {
 
 		this.x = pos.x * 32;
 		this.y = pos.y * 32;
+		this.xvel = pos.xvel;
+		this.yvel = pos.yvel;
 		this.r = pos.r;
 
 		this.source = source;
@@ -18,8 +20,12 @@ class Missile extends Body {
 		this.frame = [[[0, 0], [10, 0], [10, 3], [0, 3]]];
 	}
 
+	contact(body) {
+		this.detonate();
+	}
+
 	detonate() {
-		// Blow up stuff.
+		this.world.explosion(this.pos, 10);
 		this.world.removeBody(this);
 	}
 
@@ -28,7 +34,7 @@ class Missile extends Body {
 		let x = Math.cos(this.b2body.GetAngleRadians()) * power;
 		let y = Math.sin(this.b2body.GetAngleRadians()) * power;
 		this.applyForce(x, y);
-		
+
 		if(this.fuel-- <= 0)
 			this.detonate();
 	}

@@ -9,6 +9,9 @@ class Ship extends Body {
 	constructor(world, pos, player, build) {
 		super(world);
 
+		this.x = pos.x || 0;
+		this.y = pos.y || 0;
+
 		build = build || {};
 		this.class = build.ship || defaults.spawnShip.ship;
 		this.turrets = build.turrets || defaults.spawnShip.turrets;

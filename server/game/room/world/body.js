@@ -22,11 +22,15 @@ class Body {
 
 	applyForce(x, y, center) {
 		let b = this.b2body;
-		b.ApplyForce(new b2Vec2(x, y), b.GetWorldCenter());
+		let c = center ? new b2Vec2(center.x, center.y) : b.GetWorldCenter();
+		b.ApplyForce(new b2Vec2(x, y), c);
 	}
 
 	applyTorque(f) {
 		this.b2body.ApplyTorque(f);
+	}
+
+	contact() {
 	}
 
 	tick() {
@@ -73,6 +77,13 @@ class Body {
 			y: this.b2body.GetPosition().y,
 			r: this.b2body.GetAngleRadians()
 		};
+	}
+
+	get vel() {
+		return {
+			xvel: this.b2body.GetLinearVelocity().x,
+			yvel: this.b2body.GetLinearVelocity().y
+		}
 	}
 }
 
