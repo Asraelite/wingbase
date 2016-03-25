@@ -9,6 +9,8 @@ class Asteroid extends Body {
 		this.x = pos.x;
 		this.y = pos.y;
 
+		this.debug = 0;
+
 		this.size = size;
 
 		this.type = 'asteroid';
@@ -23,8 +25,13 @@ class Asteroid extends Body {
 		return [build];
 	}
 
+	tickType() {
+		if (this.debug > 0)
+			this.debug--;
+	}
+
 	packTypeDelta() {
-		return [];
+		return [this.debug];
 	}
 
 	packFull() {

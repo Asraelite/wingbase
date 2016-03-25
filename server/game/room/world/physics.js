@@ -43,7 +43,7 @@ class Physics {
 		bodyDef.angle = body.r || 0;
 		bodyDef.fixedRotation = false;
 		bodyDef.active = true;
-		bodyDef.linearVelocity = new b2Vec2(body.xvel / s || 0, body.yvel / s || 0);
+		bodyDef.linearVelocity = new b2Vec2(body.xvel || 0, body.yvel || 0);
 		bodyDef.angularVelocity = body.rvel || 0;
 		bodyDef.bullet = body.type == 'missile';
 		bodyDef.linearDamping = body.type == 'asteroid' ? 0.003 : 0.01;
@@ -69,13 +69,15 @@ class Physics {
 		//if (body.type == 'ship') console.log(b2body.GetLocalCenter());
 	}
 
-	raycast(start, end, callback) {
+	raycast(start, end) {
 		let p1 = new b2Vec2(start.x, start.y);
-		let p2 = new b2Vec2(end.x, end.x);
+		let p2 = new b2Vec2(end.x, end.y);
 		let dx = p1.x - p2.x;
 		let dy = p1.y - p2.y;
 		let dis = Math.sqrt(dx * dx + dy * dy);
-		let closest = {};
+		let closest = {
+			fraction: 1
+		};
 		let i = 0;
 		this.world.RayCast((fixture, point, normal, fraction) => {
 			let body = fixture.GetBody().GetUserData();;
@@ -83,13 +85,13 @@ class Physics {
 				closest = {
 					body: body,
 					fraction: fraction,
-					point: point
+					point: point,
+					dis: dis * fraction
 				}
 			}
-			//console.log(fixture.GetNext());
-			callback(body, point, dis * fraction);
 			return fraction;
 		}, p1, p2);
+		return closest.body ? closest : false;
 	}
 
 	remove(body) {

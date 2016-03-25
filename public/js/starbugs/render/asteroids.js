@@ -16,7 +16,7 @@ Renderer.prototype.renderAsteroid = (pallet, body) => {
 	}
 	context.closePath();
 	context.strokeStyle = '#fff';
-	context.fillStyle = '#090909';
+	context.fillStyle = body.debug ? `rgb(${body.debug}, 9, 9)` : '#090909';
 	context.fill();
 	context.stroke();
 

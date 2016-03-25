@@ -4,6 +4,8 @@ const Physics = require('./physics.js');
 const Ship = require('./ship.js');
 const Spawner = require('./spawner.js');
 
+const b2Vec2 = require('box2d-html5').b2Vec2;
+
 class World {
 	constructor(room) {
 		this.physics = new Physics();
@@ -66,15 +68,20 @@ class World {
 	}
 
 	explosion(pos, power) {
-		var rays = Array(50).fill().map((_, i) => {
-			let a = Math.PI * i / 25;
-			let x = pos.x + Math.cos(a) * Math.sqrt(power);
-			let y = pos.y + Math.sin(a) * Math.sqrt(power);
-			return this.physics.raycast(pos, { x : x, y: y }, (body, point, dis) => {
-				dis = Math.max(dis, 0.5);
-				let force = power * (1 / dis) * (1 / dis);
-				body.applyForce(x * force, y * force, point);
-			});
+		var rays = Array(200).fill().map((_, i) => {
+			let a = Math.PI * i / 100;
+			let rx = Math.cos(a) * Math.sqrt(power);
+			let ry = Math.sin(a) * Math.sqrt(power);
+			let x = pos.x + rx;
+			let y = pos.y + ry;
+			let closest = this.physics.raycast(pos, { x : x, y: y });
+			if (!closest)
+				return;
+			let dis = Math.max(closest.dis, 1);
+			let force = power * (1 / dis) * (1 / dis);
+			closest.body.debug = (255 * (force / power)) | 0;
+			force *= 0.001;
+			closest.body.applyImpulse(rx * force, ry * force, closest.point);
 		});
 	}
 

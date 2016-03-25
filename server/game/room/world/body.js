@@ -26,6 +26,12 @@ class Body {
 		b.ApplyForce(new b2Vec2(x, y), c);
 	}
 
+	applyImpulse(x, y, center) {
+		let b = this.b2body;
+		let c = center ? new b2Vec2(center.x, center.y) : b.GetWorldCenter();
+		b.ApplyLinearImpulse(new b2Vec2(x, y), c);
+	}
+
 	applyTorque(f) {
 		this.b2body.ApplyTorque(f);
 	}
@@ -81,8 +87,8 @@ class Body {
 
 	get vel() {
 		return {
-			xvel: this.b2body.GetLinearVelocity().x,
-			yvel: this.b2body.GetLinearVelocity().y
+			x: this.b2body.GetLinearVelocity().x,
+			y: this.b2body.GetLinearVelocity().y
 		}
 	}
 }
