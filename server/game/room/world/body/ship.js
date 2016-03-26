@@ -1,7 +1,7 @@
 'use strict';
 
-const defaults = require('./traits/defaults.json');
-const shipTraits = require('./traits/ships.json');
+const defaults = require('../traits/defaults.json');
+const shipTraits = require('../traits/ships.json');
 
 const Body = require('./body.js');
 

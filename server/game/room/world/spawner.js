@@ -1,7 +1,7 @@
 'use strict';
 
-const Asteroid = require('./asteroid.js');
-const Missile = require('./missile.js');
+const Asteroid = require('./body/asteroid.js');
+const Missile = require('./body/projectile/missile.js');
 
 class Spawner {
 	constructor(world) {

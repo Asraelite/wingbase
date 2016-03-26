@@ -1,7 +1,7 @@
 'use strict';
 
 const Physics = require('./physics.js');
-const Ship = require('./ship.js');
+const Ship = require('./body/ship.js');
 const Spawner = require('./spawner.js');
 
 const b2Vec2 = require('box2d-html5').b2Vec2;
@@ -11,6 +11,7 @@ class World {
 		this.physics = new Physics();
 		this.spawner = new Spawner(this);
 		this.bodies = new Set();
+		this.copulae = new Set();
 		this.structures = new Set();
 		this.asteroids = new Set();
 		this.missiles = new Set();
@@ -63,6 +64,12 @@ class World {
 		this.room.broadcast('create', body.packFull());
 	}
 
+	addCopula(copula) {
+		this.copulae.add(copula);
+		this.physics.createCopula(copula);
+		this.room.broadcast('create', copula.packFull());
+	}
+
 	applyDelta(body, data) {
 		this.players.forEach(player => player.delta[body] = data);
 	}
@@ -93,6 +100,14 @@ class World {
 			};
 			this.spawner.spawnAsteroid(pos.x, pos.y,Math.random() * 50 + 10);
 		}
+
+		let a1 = Array.from(this.asteroids)[Math.random() * this.asteroids.size];
+		let a2 = Array.from(this.asteroids)[Math.random() * this.asteroids.size];
+
+		let copula = new (require('./copula/copula.js'))(a1, a2);
+		if (a1 != a2) {
+			this.physics.createCopula(copula);
+		}
 	}
 
 	removePlayer(player) {
@@ -109,6 +124,11 @@ class World {
 		this.asteroids.delete(body);
 		this.missiles.delete(body);
 		this.room.broadcast('destroy', body.id);
+	}
+
+	removeCopula(copula) {
+		this.copulae.delete(body);
+		this.room.broadcast('destroy', copula.id);
 	}
 
 	start() {

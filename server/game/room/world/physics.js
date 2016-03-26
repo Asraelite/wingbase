@@ -69,6 +69,10 @@ class Physics {
 		//if (body.type == 'ship') console.log(b2body.GetLocalCenter());
 	}
 
+	createCopula(copula) {
+		
+	}
+
 	raycast(start, end) {
 		let p1 = new b2Vec2(start.x, start.y);
 		let p2 = new b2Vec2(end.x, end.y);

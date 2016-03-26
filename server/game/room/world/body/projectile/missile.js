@@ -1,8 +1,8 @@
 'use strict';
 
-const Body = require('./body.js');
+const Projectile = require('./projectile.js');
 
-class Missile extends Body {
+class Missile extends Projectile {
 	constructor(world, pos, source) {
 		super(world);
 
