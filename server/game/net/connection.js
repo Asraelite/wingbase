@@ -26,6 +26,10 @@ class Connection {
 			this.player.updateInputs(data);
 		});
 
+		socket.on('test', data => {
+			this.player.room.world.test();
+		});
+
 		this.server.assignRoom(this.player);
 	}
 

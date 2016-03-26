@@ -41,6 +41,20 @@ class World {
 		let ship = new Ship(this, pos, player);
 		player.ship = ship;
 		this.addShip(ship);
+
+		//this.test();
+	}
+
+	test() {
+		if (this.players.size == 2) {
+			let b1 = Array.from(this.players)[0].ship;
+			let b2 = Array.from(this.players)[1].ship;
+
+			let copula = new (require('./copula/rope.js'))(b1, b2);
+			if (b1 != b2) {
+				this.physics.createCopula(copula);
+			}
+		}
 	}
 
 	addShip(ship) {
@@ -99,14 +113,6 @@ class World {
 				y: Math.random() * 500 - 250
 			};
 			this.spawner.spawnAsteroid(pos.x, pos.y,Math.random() * 50 + 10);
-		}
-
-		let a1 = Array.from(this.asteroids)[Math.random() * this.asteroids.size];
-		let a2 = Array.from(this.asteroids)[Math.random() * this.asteroids.size];
-
-		let copula = new (require('./copula/copula.js'))(a1, a2);
-		if (a1 != a2) {
-			this.physics.createCopula(copula);
 		}
 	}
 

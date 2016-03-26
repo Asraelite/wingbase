@@ -70,6 +70,13 @@ class Body {
 	packFull() {
 	}
 
+	get com() {
+		return {
+			x: this.b2body.GetLocalCenter().x,
+			y: this.b2body.GetLocalCenter().y
+		}
+	}
+
 	get center() {
 		return {
 			x: this.b2body.GetWorldCenter().x,

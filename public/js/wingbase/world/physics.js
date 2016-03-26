@@ -1,3 +1,5 @@
+// TODO: Find more up-to-date Box2D library with Box2D 2.3 or higher.
+
 class Physics {
 	constructor() {
 
