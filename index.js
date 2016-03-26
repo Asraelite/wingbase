@@ -4,6 +4,6 @@
 
 const packageJson = require('./package.json');
 
-console.log(`Starbugs version ${packageJson.version} running.`);
+console.log(`Wingbase version ${packageJson.version} running.`);
 
 require('./server/')();

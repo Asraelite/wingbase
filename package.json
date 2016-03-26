@@ -1,11 +1,11 @@
 {
-  "name": "starbugs",
+  "name": "wingbase",
   "version": "0.0.1",
-  "description": "Game or something",
+  "description": "2D multiplayer space arcade game",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "bitbucket:Asraelite/starbugs"
+    "url": "bitbucket:Asraelite/wingbase"
   },
   "private": true,
   "scripts": {

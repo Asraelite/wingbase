@@ -1,4 +1,4 @@
-Starbugs
+Wingbase
 ===
 
 This is a stupid little game where you fly around and bump into asteroids and stuff.
