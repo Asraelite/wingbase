@@ -14,7 +14,7 @@ class World {
 		this.copulae = new Set();
 		this.structures = new Set();
 		this.asteroids = new Set();
-		this.missiles = new Set();
+		this.projectiles = new Set();
 		this.ships = new Map();
 		this.players = new Set();
 		this.room = room;
@@ -67,9 +67,10 @@ class World {
 		this.addBody(asteroid);
 	}
 
-	addMissile(missile) {
-		this.missiles.add(missile);
-		this.addBody(missile);
+	addProjectile(projectile) {
+		this.projectiles.add(projectile);
+		this.addBody(projectile);
+		projectile.connect();
 	}
 
 	addBody(body) {
@@ -128,13 +129,17 @@ class World {
 		this.ships.delete(body);
 		this.structures.delete(body);
 		this.asteroids.delete(body);
-		this.missiles.delete(body);
+		this.projectiles.delete(body);
 		this.room.broadcast('destroy', body.id);
 	}
 
 	removeCopula(copula) {
 		this.copulae.delete(body);
 		this.room.broadcast('destroy', copula.id);
+	}
+
+	weld(bodyA, bodyB) {
+		this.physics.weld(bodyA, bodyB);
 	}
 
 	start() {
@@ -158,7 +163,7 @@ class World {
 
 		tickBodies(self.ships, 1);
 		tickBodies(self.asteroids, 4);
-		tickBodies(self.missiles, 1);
+		tickBodies(self.projectiles, 1);
 
 		if (Date.now() - this.tpsStart > 5000) {
 			this.tps = this.tpsCount / 5 | 0;

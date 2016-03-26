@@ -14,21 +14,9 @@ class World {
 		}
 	}
 
+	// Deprecated
 	getCenter() {
-		if (!this.playerShip) return { x: 0, y: 0 };
-
-		var x = this.playerShip.getPos().x * SCALE;
-		var y = this.playerShip.getPos().y * SCALE;
-		var comx = this.playerShip.com.x * SCALE;
-		var comy = this.playerShip.com.y * SCALE;
-		var r = this.playerShip.getPos().r;
-		var d = Math.sqrt(comx * comx + comy * comy);
-		var a = Math.atan2(comy, comx);
-
-		x += Math.cos(a + r) * d;
-		y += Math.sin(a + r) * d;
-
-		return { x: x, y: y };
+		return this.center;
 	};
 
 	add(data) {
@@ -37,6 +25,7 @@ class World {
 		if (data.type == 'ship') body = new Ship(data);
 		if (data.type == 'structure') body = new Structure(data);
 		if (data.type == 'missile') body = new Missile(data);
+		if (!body) body = new Body(data);
 
 		this.bodies[body.id] = body;
 		this.physics.createBody(body);
@@ -80,4 +69,21 @@ class World {
 			this.bodies[i].tick();
 		}
 	};
+
+	get center() {
+		if (!this.playerShip) return { x: 0, y: 0 };
+
+		let x = this.playerShip.getPos().x * SCALE;
+		let y = this.playerShip.getPos().y * SCALE;
+		let comx = this.playerShip.com.x * SCALE;
+		let comy = this.playerShip.com.y * SCALE;
+		let r = this.playerShip.getPos().r;
+		let d = Math.sqrt(comx * comx + comy * comy);
+		let a = Math.atan2(comy, comx);
+
+		x += Math.cos(a + r) * d;
+		y += Math.sin(a + r) * d;
+
+		return { x: x, y: y };
+	}
 }

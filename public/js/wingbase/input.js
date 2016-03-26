@@ -4,7 +4,17 @@ class Input {
 			x: 0,
 			y: 0,
 			held: {},
-			pressed: {}
+			pressed: {},
+
+			get wx() {
+				let x = this.x + game.world.center.x;
+				return (x - game.renderer.canvas.width / 2) / SCALE;
+			},
+
+			get wy() {
+				let y = this.y + game.world.center.y;
+				return (y - game.renderer.canvas.height / 2) / SCALE;
+			}
 		};
 
 		this.keys = {
@@ -12,11 +22,15 @@ class Input {
 			pressed: {}
 		};
 
+		this.mouse
+
 		document.addEventListener('mousemove', this.mouseMove.bind(this));
 		document.addEventListener('mousedown', this.mouseDown.bind(this));
 		document.addEventListener('mouseup', this.mouseUp.bind(this));
 		document.addEventListener('keydown', this.keyDown.bind(this));
 		document.addEventListener('keyup', this.keyUp.bind(this));
+
+		document.addEventListener('contextmenu', e => e.preventDefault());
 	}
 
 	mouseMove() {

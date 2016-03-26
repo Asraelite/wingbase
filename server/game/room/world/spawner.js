@@ -1,6 +1,7 @@
 'use strict';
 
 const Asteroid = require('./body/asteroid.js');
+const Grapple = require('./body/projectile/grapple.js');
 const Missile = require('./body/projectile/missile.js');
 
 class Spawner {
@@ -29,7 +30,26 @@ class Spawner {
 			yvel: ship.vel.y
 		};
 		let missile = new Missile(this.world, pos, ship);
-		this.world.addMissile(missile);
+		this.world.addProjectile(missile);
+		return missile;
+	}
+
+	spawnGrapple(ship, x, y) {
+		let sx = ship.center.x;
+		let sy = ship.center.y;
+		let dx = x - sx;
+		let dy = y - sy;
+		let a = Math.atan2(dy, dx);
+		let pos = {
+			x: sx + Math.cos(a) * 1,
+			y: sy + Math.sin(a) * 1,
+			r: a,
+			xvel: ship.vel.x,
+			yvel: ship.vel.y
+		};
+		let grapple = new Grapple(this.world, pos, ship);
+		this.world.addProjectile(grapple);
+		return grapple;
 	}
 }
 

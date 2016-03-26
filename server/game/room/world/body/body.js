@@ -65,9 +65,15 @@ class Body {
 	}
 
 	packTypeDelta() {
+		return [];
 	}
 
 	packFull() {
+		return {
+			type: 'body',
+			id: this.id,
+			delta: this.packDelta()
+		}
 	}
 
 	get com() {

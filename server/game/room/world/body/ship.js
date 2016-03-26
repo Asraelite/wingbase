@@ -23,6 +23,7 @@ class Ship extends Body {
 		this.player = player;
 		this.type = 'ship';
 		this.inputs = {};
+		this.grapple = false;
 
 		this.thrust = {
 			forward: 0,
@@ -36,7 +37,11 @@ class Ship extends Body {
 			forward: data[0],
 			left: data[1],
 			right: data[2],
-			missile: data[3]
+			missile: data[3],
+			mx: data[4],
+			my: data[5],
+			grapple: data[6],
+			release: data[7]
 		};
 
 		this.thrust.forward = this.inputs.forward;
@@ -44,10 +49,24 @@ class Ship extends Body {
 		this.thrust.right = this.inputs.right;
 
 		if (this.inputs.missile) this.launchMissile();
+		if (this.inputs.grapple) {
+			if (this.grapple) {
+				this.grapple.retract();
+			} else {
+				this.launchGrapple(this.inputs.mx, this.inputs.my);
+			}
+		}
+		if (this.inputs.release && this.grapple) {
+			this.grapple.release();
+		}
 	}
 
 	launchMissile() {
 		this.world.spawner.spawnMissile(this);
+	}
+
+	launchGrapple(x, y) {
+		this.grapple = this.world.spawner.spawnGrapple(this, x, y);
 	}
 
 	tickType() {

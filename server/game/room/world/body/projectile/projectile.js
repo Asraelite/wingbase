@@ -6,6 +6,10 @@ class Projectile extends Body {
 	constructor(world) {
 		super(world);
 	}
+
+	connect() {
+		
+	}
 }
 
 module.exports = Projectile;

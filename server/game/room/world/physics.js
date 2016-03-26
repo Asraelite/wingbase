@@ -20,6 +20,7 @@ class Physics {
 	constructor() {
 		this.world = new Box2D.b2World(new b2Vec2(0, 0), false);
 		this.toRemove = [];
+		this.toWeld = [];
 
 		let onContact = contact => {
 			let bodya = contact.GetFixtureA().GetBody().GetUserData();
@@ -27,12 +28,12 @@ class Physics {
 
 			if (bodya) {
 				bodya.applyDelta();
-				bodya.contact(bodyb);
+				bodya.contact(bodyb. contact);
 			}
 
 			if (bodyb) {
 				bodyb.applyDelta();
-				bodyb.contact(bodya);
+				bodyb.contact(bodya, contact);
 			}
 		}
 
@@ -88,9 +89,8 @@ class Physics {
 			let p1 = copula.pointA;
 			let p2 = copula.pointB;
 			// See top of file.
-			let start = b1.GetWorldPoint(b1.GetLocalCenter(), {});
+			let start = b1.GetWorldPoint(new b2Vec2(p1.x, p1.y), {});
 			let end = b2.GetWorldPoint(new b2Vec2(p2.x, p2.y), {});
-			console.log(start, end);
 			let dx = start.x - end.x
 			let dy = start.y - end.y;
 			let len = Math.sqrt(dx * dx + dy * dy);
@@ -107,6 +107,24 @@ class Physics {
 			copula.b2joint = b2joint;
 		}
 
+	}
+
+	weld(bodyA, bodyB) {
+		this.toWeld.push([bodyA, bodyB]);
+	}
+
+	contactData(contact) {
+		let worldManifold = new Box2D.b2WorldManifold();
+		contact.GetWorldManifold(worldManifold);
+		let localManifold = new Box2D.b2WorldManifold();
+		contact.GetManifold(localManifold);
+		let worldNormal = worldManifold.normal;
+		let normal = localManifold.normal;
+
+		return {
+			normal: normal,
+			worldNormal: worldNormal
+		};
 	}
 
 	raycast(start, end) {
@@ -149,7 +167,18 @@ class Physics {
 			this.world.DestroyBody(this.toRemove[i].b2body);
 		}
 
+		for (var i = 0; i < this.toWeld.length; i++) {
+			let b1 = this.toWeld[i][0].b2body;
+			let b2 = this.toWeld[i][1].b2body;
+			let jointDef = new Box2D.b2WeldJointDef();
+			jointDef.bodyA = b1;
+			jointDef.bodyB = b2;
+			//jointDef.referenceAngle = b1.GetAngleRadians() - b2.GetAngleRadians();
+			this.world.CreateJoint(jointDef);
+		}
+
 		this.toRemove = [];
+		this.toWeld = [];
 	}
 }
 

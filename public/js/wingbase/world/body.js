@@ -54,4 +54,8 @@ class Body {
 	updateType() {
 
 	}
+
+	tick() {
+		
+	}
 }

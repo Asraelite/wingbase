@@ -7,6 +7,10 @@ class Copula {
 		this.pointA = p1 || b1.com;
 		this.pointB = p2 || b2.com;
 	}
+
+	packFull() {
+		return {};
+	}
 }
 
 module.exports = Copula;
