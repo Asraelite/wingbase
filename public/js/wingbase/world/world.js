@@ -38,15 +38,11 @@ class World {
 		if (data.type == 'structure') body = new Structure(data);
 		if (data.type == 'missile') body = new Missile(data);
 
-		//if(data.type == 'ship') console.log(body);
-
 		this.bodies[body.id] = body;
-		//if(data.type == 'ship') console.log(this.bodies);
 		this.physics.createBody(body);
 	};
 
 	remove(id) {
-		//console.log(id);
 		this.physics.removeBody(this.bodies[id]);
 		delete this.bodies[id];
 	};

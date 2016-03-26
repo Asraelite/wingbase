@@ -60,7 +60,8 @@ class Physics {
 	}
 
 	removeBody(body) {
-		this.toRemove.push(body.b2body);
+		if (body)
+			this.toRemove.push(body.b2body);
 	}
 
 	step() {
@@ -81,6 +82,7 @@ class Physics {
 			body.b2body.SetLinearVelocity(new b2Vec2(body.xvel, body.yvel));
 			body.b2body.SetAngularVelocity(body.rvel);
 		}
+
 		for (var i = 0; i < this.toRemove.length; i++) {
 			this.world.DestroyBody(this.toRemove[i]);
 		}

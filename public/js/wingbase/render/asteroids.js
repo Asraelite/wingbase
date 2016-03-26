@@ -15,9 +15,14 @@ Renderer.prototype.renderAsteroid = (pallet, body) => {
 		context.lineTo(points[i][0], points[i][1]);
 	}
 	context.closePath();
-	context.strokeStyle = '#fff';
+	context.clip();
 	context.fillStyle = body.debug ? `rgb(${body.debug}, 9, 9)` : '#090909';
 	context.fill();
+	context.lineWidth = 7;
+	context.strokeStyle = '#000';
+	context.stroke();
+	context.lineWidth = 3;
+	context.strokeStyle = '#fff';
 	context.stroke();
 
 	pallet.restore();

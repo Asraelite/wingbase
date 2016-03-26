@@ -39,7 +39,7 @@ class Renderer {
 		}
 
 		pallet.clear();
-		pallet.fill('#000');
+		pallet.fill('#020202');
 
 		context.save();
 
@@ -49,16 +49,20 @@ class Renderer {
 		// Grid
 		var gridx = cx % 50;
 		var gridy = cy % 50;
+		pallet.opacity(0.05);
 		for (var x = gridx - cw / 2 - 50; x < cw + 50; x += 50) {
 			for (var y = gridy - ch / 2 - 50; y < ch + 50; y += 50) {
 				var wx = (-cx + x) / SCALE;
 				var wy = (-cy + y) / SCALE;
 				var b = game.world.bounds;
-				if (wx > b.right || wx < b.left || wy > b.bottom || wy < b.top)
-				pallet.outline('#141424', x, y, 51, 51, 1);
-				else pallet.outline('#0a0a0a', x, y, 51, 51, 1);
+				if (wx > b.right || wx < b.left || wy > b.bottom || wy < b.top) {
+					pallet.opacity(0.2);
+					pallet.outline('#8af', x, y, 51, 51, 1);
+					pallet.opacity(0.05);
+				} else pallet.outline('#fff', x, y, 51, 51, 1);
 			}
 		}
+		pallet.opacity(1);
 
 		for (var id in game.world.bodies) {
 			var body = game.world.bodies[id];
