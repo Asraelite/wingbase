@@ -34,13 +34,16 @@ class Connection {
 	}
 
 	chat(data) {
-		console.log(this.room);
-		if(this.chatCooldown > 5 || !this.room) return;
+		//if(this.chatCooldown > 5 || !this.room) return;
+		if(!data.msg) return;
+
+		wingbase.log(`${this.room}/${this.player.name}: ${data.msg}`);
 
 		this.chatCooldown++;
 		this.io.to(this.room).emit('chat', {
-			name: this.player.name,
-			msg: data.msg.slice(0, 100)
+			type: 'player',
+			source: this.player.name,
+			message: data.msg.slice(0, 100)
 		});
 	}
 

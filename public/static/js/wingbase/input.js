@@ -22,7 +22,7 @@ class Input {
 			pressed: {}
 		};
 
-		this.mouse
+		this._locked = false;
 
 		document.addEventListener('mousemove', this.mouseMove.bind(this));
 		document.addEventListener('mousedown', this.mouseDown.bind(this));
@@ -34,31 +34,42 @@ class Input {
 	}
 
 	mouseMove() {
+		if (this.locked) return;
 		var rect = game.renderer.canvas.getBoundingClientRect();
 		this.mouse.x = event.clientX - rect.left;
 		this.mouse.y = event.clientY - rect.top;
 	};
 
 	mouseDown() {
+		if (this.locked) return;
 		this.mouse.pressed[event.which] = true;
 		this.mouse.held[event.which] = true;
 	};
 
 	mouseUp() {
+		if (this.locked) return;
 		this.mouse.held[event.which] = false;
 	}
 
 	keyDown() {
+		if (this.locked) {
+			if (event.which == '13' || event.which == '27') {
+				this.keys.pressed[event.which] = true;
+			}
+			return;
+		}
 		if (!this.keys.held[event.which])
 			this.keys.pressed[event.which] = true;
 		this.keys.held[event.which] = true;
 	}
 
 	keyUp() {
+		if (this.locked) return;
 		this.keys.held[event.which] = false;
 	}
 
 	mouseAnyPressed() {
+		if (this.locked) return;
 		var p = this.mouse.pressed;
 		return p[1] || p[2] || p[3];
 	}
@@ -67,4 +78,15 @@ class Input {
 		for (var i in this.keys.pressed) this.keys.pressed[i] = false;
 		for (var i in this.mouse.pressed) this.mouse.pressed[i] = false;
 	};
+
+	get locked() {
+		return this._locked;
+	}
+
+	set locked(value) {
+		this._locked = value;
+		if (!value) return;
+		this.keys.held = {};
+		this.mouse.held = {};
+	}
 }

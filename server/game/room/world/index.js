@@ -108,7 +108,7 @@ class World {
 	}
 
 	populate() {
-		for (var i = 0; i < 40; i++) {
+		for (var i = 0; i < 5; i++) {
 			let pos = {
 				x: Math.random() * 2000 - 200,
 				y: Math.random() * 500 - 250

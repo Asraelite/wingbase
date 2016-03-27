@@ -1,4 +1,4 @@
-'use strict';
+//@30
 
 window.addEventListener('load', init);
 
@@ -9,7 +9,7 @@ function init() {
 
 	game.tick();
 
-	//game.net.connect();
+	game.net.connect();
 }
 
 class Game {
@@ -17,14 +17,16 @@ class Game {
 		this.assets = this.loadAssets();
 
 		this.connected = false;
-		this.state = 'connecting';
 		this.pingMode = 'fast';
 
 		this.input = new Input();
+		this.gui = new GUI();
 		this.net = new Net();
 		this.world = new World();
 		this.renderer = new Renderer();
 		this.player = new Player();
+
+		this.state = 'connecting';
 	}
 
 	tick() {
@@ -38,10 +40,26 @@ class Game {
 				game.net.sendUpdate(delta);
 		}
 
-		this.input.clear();
+		this.gui.tick();
 
 		this.world.tick();
 
+		this.input.clear();
+
 		requestAnimationFrame(this.tick.bind(this));
+	}
+
+	get state() {
+		return this._state;
+	}
+
+	set state(state) {
+		this._state = state;
+
+		if (state != 'connected') {
+			this.gui.visible = true;
+		} else {
+			this.gui.visible = false;
+		}
 	}
 }

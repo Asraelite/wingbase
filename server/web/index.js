@@ -28,7 +28,12 @@ class WebServer {
 		});
 
 		app.get('/', (req, res) => {
-			res.render('index', {});
+			try {
+				res.render('index', {});
+			} catch(err) {
+				wingbase.error('Renderng error:' + err);
+				res.render('error/500', { error: err });
+			}
 		});
 
 		app.use(express.static('public/static'));

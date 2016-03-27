@@ -42,7 +42,9 @@ class Net {
 			game.renderer.addEffect(data);
 		});
 
-		this.socket.on('chat', data => console.log(data));
+		this.socket.on('chat', data => {
+			game.gui.chat.addMessage(data);
+		});
 	};
 
 	sendUpdate(inputs) {

@@ -1,19 +1,16 @@
-doctype html
-html(lang='en')
-	head
-		meta(charset="UTF-8")
-		link(rel="icon", type="image/png", href="img/favicon.png")
-		link(rel="stylesheet", type="text/css", href="css/styles.css")
-		title
-			| Wingbase
-		script(src="js/lib/dexie.min.js")
-		script(src="socket.io/socket.io.js")
-		script(src="js/lib/box2dweb.min.js")
-		script(src="https://rawgit.com/Asraelite/pallet.js/master/pallet.js")
+extends layout.jade
 
-		script(src="wingbase.min.js")
-	body
-		canvas#wingbase_canvas
-			| Sorry, your browser does not currently support HTML5 Canvas.
-		#gui
-			include 
+block head
+	title
+		| Wingbase
+	script(src="js/lib/dexie.min.js")
+	script(src="socket.io/socket.io.js")
+	script(src="js/lib/box2dweb.min.js")
+	script(src="https://rawgit.com/Asraelite/pallet.js/master/pallet.js")
+	script(src="wingbase.min.js")
+	
+block body
+	canvas#wingbase_canvas
+		| Sorry, your browser does not currently support HTML5 Canvas.
+	#gui
+		include gui/gui.jade

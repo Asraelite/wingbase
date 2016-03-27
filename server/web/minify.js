@@ -26,12 +26,13 @@ function minifyJs(callback) {
 		}
 
 		scripts.sort((a, b) => getPriority(b) - getPriority(a));
+		scripts = scripts.map(s => s.replace(/(\/\/@\d+\n)/, ''));
 
 		let comment = '';
 
 		cache = scripts.join('');
 
-		// Remove to re-enable minifying.
+		//Remove to re-enable minifying.
 		callback(cache); return;
 
 		try {
