@@ -89,7 +89,7 @@ class Ship extends Body {
 	packTypeDelta() {
 		let t = this.thrust;
 
-		return [t.forward, t.left, t.right];
+		return [t.forward, t.left, t.right, this.debug || false];
 	}
 
 	packFull() {

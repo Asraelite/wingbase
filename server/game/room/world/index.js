@@ -82,7 +82,7 @@ class World {
 	addCopula(copula) {
 		this.copulae.add(copula);
 		this.physics.createCopula(copula);
-		this.room.broadcast('create', copula.packFull());
+		this.room.broadcast('effect', copula.packFull());
 	}
 
 	applyDelta(body, data) {
@@ -138,8 +138,8 @@ class World {
 		this.room.broadcast('destroy', copula.id);
 	}
 
-	weld(bodyA, bodyB) {
-		this.physics.weld(bodyA, bodyB);
+	weld(bodyA, bodyB, point) {
+		this.physics.weld(bodyA, bodyB, point);
 	}
 
 	start() {

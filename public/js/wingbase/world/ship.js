@@ -22,6 +22,8 @@ class Ship extends Body {
 		this.thrust = {
 			forward: data[6]
 		}
+
+		this.debug = data[9];
 	}
 
 	tick() {

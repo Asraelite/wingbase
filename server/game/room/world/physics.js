@@ -21,20 +21,14 @@ class Physics {
 		this.world = new Box2D.b2World(new b2Vec2(0, 0), false);
 		this.toRemove = [];
 		this.toWeld = [];
+		this.contacts = [];
+		this.idk = false;
 
 		let onContact = contact => {
 			let bodya = contact.GetFixtureA().GetBody().GetUserData();
 			let bodyb = contact.GetFixtureB().GetBody().GetUserData();
 
-			if (bodya) {
-				bodya.applyDelta();
-				bodya.contact(bodyb. contact);
-			}
-
-			if (bodyb) {
-				bodyb.applyDelta();
-				bodyb.contact(bodya, contact);
-			}
+			this.contacts.push([bodya, bodyb, contact]);
 		}
 
 		let listener = new Box2D.b2ContactListener();
@@ -58,7 +52,7 @@ class Physics {
 		bodyDef.angularVelocity = body.rvel || 0;
 		bodyDef.bullet = body.type == 'missile';
 		bodyDef.linearDamping = body.type == 'asteroid' ? 0.003 : 0.01;
-		bodyDef.angularDamping = body.type == 'asteroid' ? 0.003 : 0.01;
+		bodyDef.angularDamping = body.type == 'asteroid' ? 0.003 : 0.04;
 		bodyDef.type = body.type == 'structure' ?
 			Box2D.b2BodyType.b2_staticBody : Box2D.b2BodyType.b2_dynamicBody;
 		if (body.player || true) bodyDef.allowSleep = false;
@@ -83,14 +77,18 @@ class Physics {
 
 	// TODO: Make this shorter somehow.
 	createCopula(copula) {
+		let s = SCALE;
+
 		if (copula.type == 'rope') {
 			let b1 = copula.bodyA.b2body;
 			let b2 = copula.bodyB.b2body;
-			let p1 = copula.pointA;
-			let p2 = copula.pointB;
+			let p1 = new b2Vec2(copula.pointA.x, copula.pointA.y);
+			let p2 = new b2Vec2(copula.pointB.x, copula.pointB.y);
 			// See top of file.
-			let start = b1.GetWorldPoint(new b2Vec2(p1.x, p1.y), {});
-			let end = b2.GetWorldPoint(new b2Vec2(p2.x, p2.y), {});
+			let start = b1.GetWorldPoint(p1, {});
+			let end = b2.GetWorldPoint(p2, {});
+			copula.bodyA.debug = p1;
+			//copula.bodyB.debug = end;
 			let dx = start.x - end.x
 			let dy = start.y - end.y;
 			let len = Math.sqrt(dx * dx + dy * dy);
@@ -98,10 +96,10 @@ class Physics {
 			let ropeDef = new Box2D.b2RopeJointDef();
 			ropeDef.bodyA = b1;
 			ropeDef.bodyB = b2;
-			ropeDef.maxLength = len;
+			ropeDef.maxLength = copula.initLength || len;
 			ropeDef.collideConnected = true;
-			ropeDef.worldAnchorA = new b2Vec2(start);
-			ropeDef.worldAnchorB = new b2Vec2(end);
+			ropeDef.localAnchorA = p1;
+			ropeDef.localAnchorB = p2;
 			let b2joint = this.world.CreateJoint(ropeDef);
 
 			copula.b2joint = b2joint;
@@ -109,17 +107,28 @@ class Physics {
 
 	}
 
-	weld(bodyA, bodyB) {
-		this.toWeld.push([bodyA, bodyB]);
+	weld(bodyA, bodyB, point) {
+		let b1 = bodyA.b2body;
+		let b2 = bodyB.b2body;
+		let jointDef = new Box2D.b2WeldJointDef();
+		let anchor = b1.GetWorldPoint(new b2Vec2(point.x, point.y), {});
+		jointDef.bodyA = b1;
+		jointDef.bodyB = b2;
+		jointDef.collideConnected = true;
+		jointDef.localAnchorA = b1.GetLocalPoint(anchor, {});
+		jointDef.localAnchorB = b2.GetLocalPoint(anchor, {});
+		jointDef.localAnchorA = new b2Vec2(jointDef.localAnchorA.x, jointDef.localAnchorA.y);
+		jointDef.localAnchorB = new b2Vec2(jointDef.localAnchorB.x, jointDef.localAnchorB.y);
+		jointDef.referenceAngle = b2.GetAngleRadians() - b1.GetAngleRadians();
+		this.world.CreateJoint(jointDef);
 	}
 
 	contactData(contact) {
 		let worldManifold = new Box2D.b2WorldManifold();
 		contact.GetWorldManifold(worldManifold);
-		let localManifold = new Box2D.b2WorldManifold();
-		contact.GetManifold(localManifold);
+		let localManifold = contact.GetManifold();
 		let worldNormal = worldManifold.normal;
-		let normal = localManifold.normal;
+		let normal = localManifold.localNormal;
 
 		return {
 			normal: normal,
@@ -167,18 +176,25 @@ class Physics {
 			this.world.DestroyBody(this.toRemove[i].b2body);
 		}
 
-		for (var i = 0; i < this.toWeld.length; i++) {
-			let b1 = this.toWeld[i][0].b2body;
-			let b2 = this.toWeld[i][1].b2body;
-			let jointDef = new Box2D.b2WeldJointDef();
-			jointDef.bodyA = b1;
-			jointDef.bodyB = b2;
-			//jointDef.referenceAngle = b1.GetAngleRadians() - b2.GetAngleRadians();
-			this.world.CreateJoint(jointDef);
+		this.toRemove = [];
+
+		for (var i = 0; i < this.contacts.length; i++) {
+			let contact = this.contacts[i][2];
+			let bodya = this.contacts[i][0];
+			let bodyb = this.contacts[i][1];
+
+			if (bodya) {
+				bodya.applyDelta();
+				bodya.contact(bodyb, contact);
+			}
+
+			if (bodyb) {
+				bodyb.applyDelta();
+				bodyb.contact(bodya, contact);
+			}
 		}
 
-		this.toRemove = [];
-		this.toWeld = [];
+		this.contacts = [];
 	}
 }
 

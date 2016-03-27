@@ -28,7 +28,7 @@ class Physics {
 		bodyDef.angularVelocity = 0;
 		bodyDef.bullet = body.type == 'missile';
 		bodyDef.linearDamping = body.bodyType == 'asteroid' ? 0.003 : 0.01;
-		bodyDef.angularDamping = body.bodyType == 'asteroid' ? 0.003 : 0.01;
+		bodyDef.angularDamping = body.bodyType == 'asteroid' ? 0.003 : 0.04;
 		bodyDef.type = body.bodyType == 'structure' ?
 			b2Body.b2_staticBody : b2Body.b2_dynamicBody;
 		bodyDef.allowSleep = false;
@@ -76,6 +76,7 @@ class Physics {
 			var r = 0.1;
 			var body = game.world.bodies[i];
 			var pos = body.getPos();
+			if (Math.abs(body.r - pos.r) > 0.3) pos.r = body.r;
 			var x = (body.x * r + pos.x) / (r + 1);
 			var y = (body.y * r + pos.y) / (r + 1);
 			var r = (body.r * r + pos.r) / (r + 1);

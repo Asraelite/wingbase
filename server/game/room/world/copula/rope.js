@@ -9,11 +9,23 @@ class Rope extends Copula {
 	}
 
 	get length() {
-		return this.b2joint.GetMaxLength();
+		//return this.b2joint.GetMaxLength();
+		return 8;
 	}
 
 	set length(len) {
-		this.b2joint.SetMaxLength(len);
+		//this.b2joint.SetMaxLength(len);
+	}
+
+	packFull() {
+		return {
+			type: 'rope',
+			length: this.length,
+			bodyA: this.bodyA.id,
+			bodyB: this.bodyB.id,
+			posA: this.pointA,
+			posB: this.pointB
+		};
 	}
 }
 

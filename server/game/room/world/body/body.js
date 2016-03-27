@@ -36,6 +36,14 @@ class Body {
 		this.b2body.ApplyTorque(f);
 	}
 
+	setRotation(r) {
+		this.b2body.SetAngleRadians(r);
+	}
+
+	setVelocity(x, y) {
+		this.b2body.SetLinearVelocity(new b2Vec2(x, y));
+	}
+
 	contact() {
 	}
 

@@ -5,7 +5,7 @@
 		"power": {
 			"forward": 0.015,
 			"back": 0,
-			"rotation": 0.001
+			"rotation": 0.003
 		},
 		"hull": [
 			[

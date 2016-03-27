@@ -25,6 +25,10 @@ Renderer.prototype.renderShip = (pallet, ship) => {
 	pallet.image(img, 0, 0, 0);
 	pallet.image(ship.thrust.forward ? thr8 : thr0, 0, 0, 0);
 
+	if (ship.debug) {
+		pallet.square('#f00', ship.debug.x * SCALE, ship.debug.y * SCALE, 2);
+	}
+
 	pallet.restore();
 
 	//pallet.text(ship.name, x + vx | 0, y + vy | 0, '#fff', 'FreePixel', 16, 'center', 'bottom');

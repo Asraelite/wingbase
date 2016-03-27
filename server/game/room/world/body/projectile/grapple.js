@@ -12,8 +12,8 @@ class Grapple extends Projectile {
 		this.xvel = pos.xvel;
 		this.yvel = pos.yvel;
 		this.r = pos.r;
-		this.xvel += Math.cos(this.r) * 0.4;
-		this.yvel += Math.sin(this.r) * 0.4;
+		this.xvel += Math.cos(this.r) * 0.25;
+		this.yvel += Math.sin(this.r) * 0.25;
 
 		this.welded = false;
 
@@ -22,8 +22,8 @@ class Grapple extends Projectile {
 
 		this.type = 'grapple';
 		this.frame = [
-			[[0, -8], [5, -12], [4, 0], [0, 0]],
-			[[0, 0], [4, 0], [5, 12], [0, 8]]
+			[[0, -8], [5, -12], [2, 0], [0, 0]],
+			[[0, 0], [2, 0], [5, 12], [0, 8]]
 		];
 	}
 
@@ -39,24 +39,25 @@ class Grapple extends Projectile {
 
 	connect() {
 		let p1 = { x: 0, y: 0.5 };
-		let p2 = { x: 4, y: 0 };
+		let p2 = { x: 0.0625, y: 0 };
 		this.rope = new Rope(this.player.ship, this, p1, p2);
+		this.rope.initLength = 6;
 		this.world.addCopula(this.rope);
-		this.rope.length = 5;
 	}
 
 	contact(body, contact) {
 		if (this.welded || body == this.source)
 			return;
-		this.welded = true;
-		let normal = this.world.physics.contactData(contact).normal;
+		let normal = this.world.physics.contactData(contact).worldNormal;
 		let angle = Math.atan2(normal.y, normal.x);
-		this.b2body.SetAngleRadians(angle);
-		this.world.weld(this, body);
+		this.setRotation(angle + Math.PI);
+		this.b2body.SetAngularVelocity(0);
+		this.setVelocity(0, 0);
+		this.world.weld(this, body, { x: 0.15625, y: 0 });
+		this.welded = true;
 	}
 
 	tickType() {
-
 	}
 
 	packTypeDelta() {
