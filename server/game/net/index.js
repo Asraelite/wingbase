@@ -6,7 +6,7 @@ const Connection = require('./connection.js');
 
 class GameNet {
 	constructor(server) {
-		this.io = socketio(starbugs.webServer.appServer);
+		this.io = socketio(wingbase.webServer.appServer);
 		this.server = server;
 
 		this.connections = new Map();

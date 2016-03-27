@@ -1,11 +1,14 @@
 'use strict';
 
-const WebServer = require('./web/');
 const GameServer = require('./game/');
+const WebServer = require('./web/');
+const ServerInterface = require('./interface.js');
 
-class StarbugsServer {
+const packageJson = require('../package.json');
+
+class WingbaseServer extends ServerInterface {
 	constructor() {
-
+		super();
 	}
 
 	start() {
@@ -14,12 +17,14 @@ class StarbugsServer {
 
 		this.webServer.start();
 		this.gameServer.start();
+
+		this.log(`Wingbase version ${packageJson.version} running.`);
 	}
 }
 
 function init() {
-	global.starbugs = new StarbugsServer();
-	starbugs.start();
+	global.wingbase = new WingbaseServer();
+	wingbase.start();
 }
 
 module.exports = init;

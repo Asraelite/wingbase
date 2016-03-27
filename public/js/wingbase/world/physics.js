@@ -76,7 +76,7 @@ class Physics {
 			var r = 0.1;
 			var body = game.world.bodies[i];
 			var pos = body.getPos();
-			if (Math.abs(body.r - pos.r) > 0.3) pos.r = body.r;
+			if (Math.abs(body.r - pos.r) > 1) pos.r = body.r;
 			var x = (body.x * r + pos.x) / (r + 1);
 			var y = (body.y * r + pos.y) / (r + 1);
 			var r = (body.r * r + pos.r) / (r + 1);

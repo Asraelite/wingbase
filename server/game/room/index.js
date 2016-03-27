@@ -14,7 +14,7 @@ class Room {
 	}
 
 	add(player) {
-		console.log(`${player.name} joined ${this.name}.`);
+		wingbase.log(`${player.name} joined ${this.name}.`);
 		player.room = this;
 		player.connection.room = this.name;
 		this.players.add(player);
@@ -24,7 +24,7 @@ class Room {
 	}
 
 	remove(player) {
-		console.log(`${player.name} left ${this.name}.`);
+		wingbase.log(`${player.name} left ${this.name}.`);
 		this.players.delete(player);
 		this.teamA.delete(player);
 		this.teamB.delete(player);
@@ -32,7 +32,7 @@ class Room {
 
 		if (this.players.size == 0) {
 			this.stop();
-			starbugs.gameServer.deleteRoom(this.name);
+			wingbase.gameServer.deleteRoom(this.name);
 		}
 	}
 
