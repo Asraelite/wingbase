@@ -9,7 +9,7 @@ function init() {
 
 	game.tick();
 
-	game.net.connect();
+	//game.net.connect();
 }
 
 class Game {

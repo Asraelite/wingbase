@@ -12,18 +12,26 @@ class WebServer {
 	}
 
 	start() {
-		this.appServer.listen(8080);
+		this.appServer.listen(process.env.PORT || 8080);
 
 		let app = this.app;
 
-		app.get('/starbugs.min.js', (req, res) => {
+		app.set('views', './public/views');
+		app.set('view engine', 'jade');
+		app.engine('jade', require('jade').__express);
+
+		app.get('/wingbase.min.js', (req, res) => {
 			minify(result => {
-				res.contentType('starbugs.min.js');
+				res.contentType('wingbase.min.js');
 				res.end(result);
 			});
 		});
 
-		app.use(express.static('public'));
+		app.get('/', (req, res) => {
+			res.render('index', {});
+		});
+
+		app.use(express.static('public/static'));
 	}
 }
 

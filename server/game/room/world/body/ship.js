@@ -30,8 +30,8 @@ class Ship extends Body {
 		this.size = traits.size;
 
 		// Mounts
-		traits.mounts.forEach((mount, i) => {
-			let mounts = new Mount(this, mount);
+		traits.mounts.forEach((data, i) => {
+			let mount = new Mount(this, data);
 			this.mounts.push(mount);
 		});
 
@@ -112,7 +112,7 @@ class Ship extends Body {
 			name: this.player.name,
 			frame: this.frame,
 			power: this.power,
-			mounts: this.traits.mounts,
+			mounts: this.mounts.map(m => m.packFull()),
 			turrets: this.turrets,
 			size: this.size,
 			delta: this.packDelta()

@@ -9,7 +9,7 @@ const uglify = require('uglify-js');
 function minifyJs(callback) {
 	callback = callback || function() {};
 
-	var dir = path.join(__dirname, '../../public/js/wingbase');
+	var dir = path.join(__dirname, '../../public/static/js/wingbase');
 	var cache = '';
 	var scripts = [];
 

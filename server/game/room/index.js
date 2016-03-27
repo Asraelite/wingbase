@@ -2,6 +2,8 @@
 
 const World = require('./world');
 
+const messages = require('./messages.json');
+
 class Room {
 	constructor() {
 		this.players = new Set();
@@ -14,13 +16,14 @@ class Room {
 	}
 
 	add(player) {
-		wingbase.log(`${player.name} joined ${this.name}.`);
 		player.room = this;
 		player.connection.room = this.name;
 		this.players.add(player);
 		this.setTeam(player, this.teamA.size > this.teamB.size ? 'b' : 'a');
 		this.world.addPlayer(player);
 		this.sendWorld(player);
+		wingbase.log(`${player.name} joined ${this.name}.`);
+		this.message('roomEnter', player.name);
 	}
 
 	remove(player) {
@@ -61,6 +64,22 @@ class Room {
 
 	broadcast(msg, data) {
 		this.players.forEach(player => player.send(msg, data));
+	}
+
+	message(type, values) {
+		if (!(values instanceof Array)) values = [values];
+
+		let messageList = messages[type];
+		let message = messageList[Math.random() * messageList.length | 0];
+
+		// TODO: format name to class.
+
+		message = message.replace('@', values[0]);
+
+		this.broadcast('chat', {
+			type: 'server',
+			message: message
+		});
 	}
 
 	sendWorld(player) {

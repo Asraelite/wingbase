@@ -20,6 +20,11 @@ class WingbaseServer extends ServerInterface {
 
 		this.log(`Wingbase version ${packageJson.version} running.`);
 	}
+
+	stop() {
+		this.log('Server stopping.');
+		process.exit();
+	}
 }
 
 function init() {

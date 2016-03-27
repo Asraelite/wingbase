@@ -19,6 +19,12 @@ class Mount {
 		if (!this.fixture) return;
 		this.fixture.destruct();
 	}
+
+	packFull() {
+		return {
+			
+		}
+	}
 }
 
 module.exports = Mount;

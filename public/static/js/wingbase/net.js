@@ -41,6 +41,8 @@ class Net {
 		this.socket.on('effect', data => {
 			game.renderer.addEffect(data);
 		});
+
+		this.socket.on('chat', data => console.log(data));
 	};
 
 	sendUpdate(inputs) {
