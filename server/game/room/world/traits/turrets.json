@@ -1,0 +1,27 @@
+{
+	"01": {
+		"name": "Basic Blaster",
+		"type": "blaster",
+		"damage": {
+			"thermal": 5,
+			"kinetic": 1
+		},
+		"speed": 1,
+		"range": 10,
+		"autofire": true,
+		"rateOfFire": 4,
+		"overheat": {
+			"cooldown": 0.01,
+			"heat": 0.1
+		},
+		"cost": {
+
+		},
+		"appearance": {
+			"type": "laser",
+			"color": "#ff5f45",
+			"trail": 3,
+			"size": 2
+		}
+	}
+}

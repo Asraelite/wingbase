@@ -2,8 +2,8 @@
 
 class Shot {
 	constructor() {
-		
+
 	}
 }
 
-module.exports = Beam;
+module.exports = Shot;

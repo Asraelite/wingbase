@@ -11,9 +11,15 @@ class Body {
 		this.r = 0;
 		this.b2body = false;
 		this.type = 'asteroid';
+		this.mounts = [];
 		this.health = 1;
 		this.world = world;
 		this.id = uuid.v4().slice(0, 8);
+	}
+
+	destruct() {
+		this.mounts.forEach(mount => mount.destruct());
+		this.world.physics.remove(this);
 	}
 
 	applyDelta() {

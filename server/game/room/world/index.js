@@ -124,7 +124,7 @@ class World {
 	}
 
 	removeBody(body) {
-		this.physics.remove(body);
+		body.destruct();
 		this.bodies.delete(body);
 		this.ships.delete(body);
 		this.structures.delete(body);

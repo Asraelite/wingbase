@@ -4,26 +4,38 @@ const defaults = require('../traits/defaults.json');
 const shipTraits = require('../traits/ships.json');
 
 const Body = require('./body.js');
+const Mount = require('./turret/mount.js');
 
 class Ship extends Body {
 	constructor(world, pos, player, build) {
 		super(world);
 
+		build = build || defaults.spawnShip;
+
+		// Body data.
 		this.x = pos.x || 0;
 		this.y = pos.y || 0;
 
-		build = build || {};
-		this.class = build.ship || defaults.spawnShip.ship;
-		this.turrets = build.turrets || defaults.spawnShip.turrets;
-		let traits = shipTraits[this.class];
-		this.frame = traits.hull;
-		this.power = traits.power;
-		this.mounts = traits.mounts;
-		this.size = traits.size;
-		this.player = player;
 		this.type = 'ship';
+		this.class = build.ship;
+		this.player = player;
 		this.inputs = {};
 		this.grapple = false;
+
+		// Traits.
+		let traits = shipTraits[this.class];
+		this.traits = traits;
+		this.frame = traits.frame;
+		this.power = traits.power;
+		this.size = traits.size;
+
+		// Mounts
+		traits.mounts.forEach((mount, i) => {
+			let mounts = new Mount(this, mount);
+			this.mounts.push(mount);
+		});
+
+		this.turrets = [];
 
 		this.thrust = {
 			forward: 0,
@@ -100,7 +112,7 @@ class Ship extends Body {
 			name: this.player.name,
 			frame: this.frame,
 			power: this.power,
-			mounts: this.mounts,
+			mounts: this.traits.mounts,
 			turrets: this.turrets,
 			size: this.size,
 			delta: this.packDelta()

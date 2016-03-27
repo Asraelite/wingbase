@@ -7,7 +7,7 @@
 			"back": 0,
 			"rotation": 0.003
 		},
-		"hull": [
+		"frame": [
 			[
 				[12, 1],
 				[29, 13],
@@ -18,8 +18,11 @@
 			]
 		],
 		"mounts": [
-			[18, 4],
-			[18, 28]
+			{
+				"pos": [18, 4],
+				"type": "fixed",
+				"traversal": false
+			}
 		]
 	}
 }

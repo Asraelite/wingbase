@@ -23,6 +23,10 @@ class ServerInterface {
 			`${pad(('' + d.getUTCMilliseconds()).slice(0, 2), 2, true)}> `;
 		console.log(timestamp.gray, msg);
 	}
+
+	debug(msg) {
+		this.log(msg.cyan);
+	}
 }
 
 module.exports = ServerInterface;
