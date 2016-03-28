@@ -54,7 +54,7 @@ class ServerInterface {
 		let d = new Date();
 		let date =
 			`${pad(d.getUTCFullYear(), 2)}-` +
-			`${pad(d.getUTCMonth(), 2)}-` +
+			`${pad(d.getUTCMonth() + 1, 2)}-` +
 			`${pad(d.getUTCDate(), 2)}`;
 		return 'log/' + date + '.log';
 	}

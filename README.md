@@ -7,7 +7,7 @@ This is a stupid little game where you fly around and bump into asteroids and st
 
 Clone the Git repository, install Node.js version 5.6.0 or higher then run `npm install` in the project directory.
 
-Make sure that the command `node` links to this Node..js version and not `nodejs`.
+Make sure that the command `node` links to this Node.js version and not `nodejs`.
 
 ###Running
 
