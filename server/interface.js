@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs');
+
 require('colors');
 
 class ServerInterface {
@@ -21,11 +23,25 @@ class ServerInterface {
 			`${pad(d.getUTCMinutes(), 2)}:` +
 			`${pad(d.getUTCSeconds(), 2)}.` +
 			`${pad(('' + d.getUTCMilliseconds()).slice(0, 2), 2, true)}> `;
-		console.log(timestamp.gray, msg);
+		let output = msg;
+		Array.from(arguments).splice(1).forEach(a => output = output[a]);
+		output = timestamp.gray + output;
+		// Clear and go to start of line.
+		console.log('\x1b[2K\x1b[999D' + output);
+
+		let date =
+			`${pad(d.getUTCFullYear(), 2)}-` +
+			`${pad(d.getUTCMonth(), 2)}-` +
+			`${pad(d.getUTCDate(), 2)}`;
+		fs.appendFile('log/' + date + '.log', timestamp + msg + '\n');
 	}
 
 	debug(msg) {
-		this.log(msg.cyan);
+		this.log(msg, 'cyan');
+	}
+
+	error(msg) {
+		this.log(msg, 'red');
 	}
 }
 
