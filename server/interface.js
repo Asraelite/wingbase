@@ -17,6 +17,10 @@ class ServerInterface {
 	}
 
 	log(msg) {
+		if (!fs.existsSync('log')){
+    		fs.mkdirSync('log');
+		}
+
 		let timestamp = this.timestamp;
 		let output = msg;
 		Array.from(arguments).splice(1).forEach(a => output = output[a]);
