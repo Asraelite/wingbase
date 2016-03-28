@@ -5,7 +5,7 @@
 		"power": {
 			"forward": 0.015,
 			"back": 0,
-			"rotation": 0.003
+			"rotation": 0.004
 		},
 		"frame": [
 			[
@@ -21,6 +21,19 @@
 			{
 				"pos": [18, 4],
 				"type": "fixed",
+				"size": 0,
+				"traversal": false
+			},
+			{
+				"pos": [18, 28],
+				"type": "fixed",
+				"size": 0,
+				"traversal": false
+			},
+			{
+				"pos": [1, 16],
+				"type": "fixed",
+				"size": 1,
 				"traversal": false
 			}
 		]

@@ -19,6 +19,15 @@ class GUI {
 		return result.length == 1 ? result[0] : result;
 	}
 
+	format() {
+		let args = Array.from(arguments);
+		let text = args.shift();
+		let element = args.shift();
+		let string = `<${element} class="${args.join(' ')}">`;
+		string += `${text}</${element}>`;
+		return string;
+	}
+
 	tick() {
 		this.chat.tick();
 	}

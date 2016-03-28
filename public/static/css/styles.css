@@ -35,6 +35,15 @@ body {
 	margin-top: 5px;
 }
 
+#gui #chat b {
+    font-weight: 100;
+    color: #8af;
+}
+
+#gui #chat span.server {
+    color: #68c;
+}
+
 #gui #chat input {
 	font-family: inherit;
 	font-size: 16px;

@@ -1,16 +1,21 @@
 'use strict';
 
+const escapeHtml = require('escape-html');
+
 const World = require('./world');
 
 const messages = require('./messages.json');
 
 class Room {
-	constructor() {
+	constructor(gameServer) {
 		this.players = new Set();
 		this.teamA = new Set();
 		this.teamB = new Set();
 		this.world = new World(this);
 		this.name = (Math.random() * 100000 | 0).toString(36);
+
+		this.gameServer = gameServer;
+		this.io = this.gameServer.net.io;
 
 		this.start();
 	}
@@ -37,6 +42,8 @@ class Room {
 			this.stop();
 			wingbase.gameServer.deleteRoom(this.name);
 		}
+
+		this.message('roomLeave', player.name);
 	}
 
 	setTeam(player, team) {
@@ -66,6 +73,17 @@ class Room {
 		this.players.forEach(player => player.send(msg, data));
 	}
 
+	chat(player, message) {
+		wingbase.log(`${this.name}/${player.name}: ${message}`);
+
+		this.chatCooldown++;
+		this.io.to(this.name).emit('chat', {
+			type: 'player',
+			source: player.name,
+			message: escapeHtml(message.slice(0, 100))
+		});
+	}
+
 	message(type, values) {
 		if (!(values instanceof Array)) values = [values];
 
@@ -74,7 +92,7 @@ class Room {
 
 		// TODO: format name to class.
 
-		message = message.replace('@', values[0]);
+		message = message.replace('@', `<b>${values[0]}</b>`);
 
 		this.broadcast('chat', {
 			type: 'server',

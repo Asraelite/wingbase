@@ -15,20 +15,28 @@ GUI.prototype.Chat = class {
 	addMessage(messageData) {
 		let message = {
 			type: messageData.type,
-			player: messageData.player,
+			source: messageData.source || '?',
 			text: messageData.message,
 			createTime: Date.now()
 		};
 
-		let span = this.gui.createElement(this.messageElement, 'span', {
-			html: message.text
-		});
+		let span;
 
-		this.messages.push(message);
+		if (message.type == 'server') {
+			span = this.gui.createElement(this.messageElement, 'span', {
+				html: `${message.text}`
+			});
+			span.classList.add('server');
+		} else {
+			span = this.gui.createElement(this.messageElement, 'span', {
+				html: `&lt;${message.source.bold()}&gt; ${message.text}`
+			});
+		}
+
+
 
 		setTimeout(_ => {
-			this.messageElement.removeChild(span);
-			this.messages.shift();
+			//this.messageElement.removeChild(span);
 		}, 15000);
 	}
 

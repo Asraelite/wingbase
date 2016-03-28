@@ -16,7 +16,7 @@ class GameServer {
 		})[0];
 
 		if (!room || room.full) {
-			room = new Room();
+			room = new Room(this);
 			this.rooms.set(room.name, room);
 		}
 

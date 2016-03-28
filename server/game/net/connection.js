@@ -15,7 +15,7 @@ class Connection {
 		this.chatCooldown = 0;
 
 		socket.on('chat', data => {
-			this.chat(data);
+			this.player.chat(data);
 		});
 
 		socket.on('setName', data => {
@@ -31,20 +31,6 @@ class Connection {
 		});
 
 		this.server.assignRoom(this.player);
-	}
-
-	chat(data) {
-		//if(this.chatCooldown > 5 || !this.room) return;
-		if(!data.msg) return;
-
-		wingbase.log(`${this.room}/${this.player.name}: ${data.msg}`);
-
-		this.chatCooldown++;
-		this.io.to(this.room).emit('chat', {
-			type: 'player',
-			source: this.player.name,
-			message: data.msg.slice(0, 100)
-		});
 	}
 
 	disconnect() {

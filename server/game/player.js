@@ -1,6 +1,6 @@
 'use strict';
 
-const fruit = ['Apple', 'Banana', 'Pear', 'Plum', 'Pineapple', 'Peach', 'Apricot', 'Orange', 'Triangle', 'Kiwi', 'Mango', 'Strawberry', 'Lemon', 'Blueberry', 'Raspberry', 'Grape', 'Dragonfruit', 'Watermelon', 'Honeymelon', 'Pomegranate', 'Cherry', 'Avocado'];
+const  names = require('./names');
 
 class Player {
 	constructor(connection) {
@@ -10,8 +10,10 @@ class Player {
 		this.kickCount = 0;
 		this.lastAction = Date.now();
 		this.connection = connection;
-		this.name = `Stupid ${fruit[Math.random() * fruit.length | 0]}`;
+		this.name = this.randomName();
 		this.delta = {};
+
+		this.chatCooldown = 0;
 	}
 
 	disconnect() {
@@ -21,6 +23,21 @@ class Player {
 	updateInputs(data) {
 		this.ship.updateInputs(data);
 		this.lastAction = Date.now();
+	}
+
+	randomName() {
+		let fruit = names.fruit[Math.random() * names.fruit.length | 0];
+		let adjectives = names.adjectives[fruit[0].toLowerCase()];
+		adjectives = adjectives || ['Weird'];
+		let adjective = adjectives[Math.random() * adjectives.length | 0];
+		return adjective + ' ' + fruit;
+	}
+
+	chat(data) {
+		if(!this.room) return;
+		if(!data.msg) return;
+
+		this.room.chat(this, data.msg.slice(0, 100));
 	}
 
 	send(msg, data) {
@@ -35,6 +52,10 @@ class Player {
 		if (Object.keys(this.delta).length == 0) return;
 		this.connection.send('update', this.delta);
 		this.delta = {};
+	}
+
+	tick() {
+		if(this.chatCooldown > 0) this.chatCooldown -= 0.1;
 	}
 }
 

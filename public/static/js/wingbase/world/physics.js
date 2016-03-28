@@ -28,7 +28,7 @@ class Physics {
 		bodyDef.angularVelocity = 0;
 		bodyDef.bullet = body.type == 'missile';
 		bodyDef.linearDamping = body.bodyType == 'asteroid' ? 0.003 : 0.01;
-		bodyDef.angularDamping = body.bodyType == 'asteroid' ? 0.003 : 0.04;
+		bodyDef.angularDamping = body.bodyType == 'asteroid' ? 0.003 : 0.06;
 		bodyDef.type = body.bodyType == 'structure' ?
 			b2Body.b2_staticBody : b2Body.b2_dynamicBody;
 		bodyDef.allowSleep = false;

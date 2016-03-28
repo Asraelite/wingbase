@@ -52,7 +52,7 @@ class Physics {
 		bodyDef.angularVelocity = body.rvel || 0;
 		bodyDef.bullet = body.type == 'missile';
 		bodyDef.linearDamping = body.type == 'asteroid' ? 0.003 : 0.01;
-		bodyDef.angularDamping = body.type == 'asteroid' ? 0.003 : 0.04;
+		bodyDef.angularDamping = body.type == 'asteroid' ? 0.003 : 0.06;
 		bodyDef.type = body.type == 'structure' ?
 			Box2D.b2BodyType.b2_staticBody : Box2D.b2BodyType.b2_dynamicBody;
 		if (body.player || true) bodyDef.allowSleep = false;

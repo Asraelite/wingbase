@@ -13,7 +13,7 @@ class Renderer {
 		this.effects = new Set();
 
 		pallet.fillScreen();
-		window.addEventListener('resize', pallet.fillScreen);
+		window.addEventListener('resize', _ => pallet.fillScreen(1000, 600));
 	}
 
 	render(state) {

@@ -7,7 +7,11 @@ class Mount {
 		this.ship = ship;
 
 		this.type = data.type || 'turret';
-		this.fixture = false; // TODO: Create fixture.
+		this.fixture = false;
+		this.position = {
+			x: data.pos[0],
+			y: data.pos[1]
+		}
 
 		this.traversal = data.traversal ? {
 			cw: data.bounds[0],
@@ -22,7 +26,7 @@ class Mount {
 
 	packFull() {
 		return {
-			
+
 		}
 	}
 }
