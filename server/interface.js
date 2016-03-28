@@ -2,6 +2,13 @@
 
 const fs = require('fs');
 
+const pad = (str, len, right) => {
+	str = '' + str;
+	return (right ? str : '') +
+		Array(len > str.length ? 1 + len - str.length : 0)
+		.join('0') + (right ? '' : str);
+};
+
 require('colors');
 
 class ServerInterface {
@@ -10,30 +17,13 @@ class ServerInterface {
 	}
 
 	log(msg) {
-		let pad = (str, len, right) => {
-			str = '' + str;
-			return (right ? str : '') +
-				Array(len > str.length ? 1 + len - str.length : 0)
-				.join('0') + (right ? '' : str);
-		}
-
-		let d = new Date();
-		let timestamp =
-			`<${pad(d.getUTCHours(), 2)}:` +
-			`${pad(d.getUTCMinutes(), 2)}:` +
-			`${pad(d.getUTCSeconds(), 2)}.` +
-			`${pad(('' + d.getUTCMilliseconds()).slice(0, 2), 2, true)}> `;
+		let timestamp = this.timestamp;
 		let output = msg;
 		Array.from(arguments).splice(1).forEach(a => output = output[a]);
 		output = timestamp.gray + output;
 		// Clear and go to start of line.
 		console.log('\x1b[2K\x1b[999D' + output);
-
-		let date =
-			`${pad(d.getUTCFullYear(), 2)}-` +
-			`${pad(d.getUTCMonth(), 2)}-` +
-			`${pad(d.getUTCDate(), 2)}`;
-		fs.appendFile('log/' + date + '.log', timestamp + msg + '\n');
+		fs.appendFile(this.logfile, timestamp + msg + '\n');
 	}
 
 	debug(msg) {
@@ -42,6 +32,27 @@ class ServerInterface {
 
 	error(msg) {
 		this.log(msg, 'red');
+	}
+
+	capLogfile() {
+		fs.appendFile(this.logfile, '-----------\n');
+	}
+
+	get timestamp() {
+		let d = new Date();
+		return `<${pad(d.getUTCHours(), 2)}:` +
+			`${pad(d.getUTCMinutes(), 2)}:` +
+			`${pad(d.getUTCSeconds(), 2)}.` +
+			`${pad(('' + d.getUTCMilliseconds()).slice(0, 2), 2, true)}> `;
+	}
+
+	get logfile() {
+		let d = new Date();
+		let date =
+			`${pad(d.getUTCFullYear(), 2)}-` +
+			`${pad(d.getUTCMonth(), 2)}-` +
+			`${pad(d.getUTCDate(), 2)}`;
+		return 'log/' + date + '.log';
 	}
 }
 
