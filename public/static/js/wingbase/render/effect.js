@@ -77,7 +77,7 @@ class Effect {
 
 	createExplosion() {
 		let num = this.size * this.size;
-		let colors = ['#f52', '#ff7'];
+		let colors = ['#f52', '#ff7', '#fff'];
 		let b = 'sizzle';
 		this.generateParticles(0, 0, 1, num, colors, [1, 2], b, 50, 3);
 	}

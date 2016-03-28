@@ -3,8 +3,8 @@
 const traits = require('../../traits/turrets.json');
 
 class Fixture {
-	constructor(hardpoint, data) {
-		this.hardpoint = hardpoint;
+	constructor(mount, data) {
+		this.mount = mount;
 
 		this.projectiles = new WeakSet();
 
@@ -12,12 +12,24 @@ class Fixture {
 
 		this.rof = turretTraits.rateOfFire;
 
-		this.traversal = this.hardpoint.traversal || false;
+		this.traversal = this.mount.traversal || false;
+		this.fired = false;
 		this._angle = this.traversal ? this.traversal.cw : 0;
 	}
 
 	destruct() {
 		this.projectiles.forEach(p => p.world.removeBody(p));
+	}
+
+	packFull() {
+		return {
+			
+			traversal: this.traversal
+		}
+	}
+
+	packDelta() {
+		return [this.traversal];
 	}
 
 	get angle() {

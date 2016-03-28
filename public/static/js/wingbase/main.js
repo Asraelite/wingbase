@@ -20,6 +20,7 @@ class Game {
 		this.pingMode = 'fast';
 
 		this.input = new Input();
+		this.commandProcessor = new CommandProcessor();
 		this.gui = new GUI();
 		this.net = new Net();
 		this.world = new World();
@@ -27,6 +28,10 @@ class Game {
 		this.player = new Player();
 
 		this.state = 'connecting';
+	}
+
+	command(a, b) {
+		this.commandProcessor.run(a, b);
 	}
 
 	tick() {

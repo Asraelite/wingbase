@@ -14,7 +14,6 @@ GUI.prototype.Chat = class {
 	}
 
 	addMessage(messageData) {
-		console.log(messageData);
 		let message = {
 			type: messageData.type,
 			team: messageData.team || 'c',
@@ -50,14 +49,18 @@ GUI.prototype.Chat = class {
 				if (game.input.keys.pressed[13]) {
 					let message = this.inputElement.value;
 					this.inputElement.value = '';
-					game.net.send('chat', { msg: message });
+					if (message[0] == '/') {
+						let args = message.split(' ');
+						game.command(args[0].slice(1), args.splice(1).join(' '));
+					} else {
+						game.net.send('chat', { msg: message });
+					}
 				}
 				this.typing = false;
 				this.inputElement.blur();
 				this.inputElement.disabled = true;
 				game.input.locked = false;
 			} else {
-				console.log(game.input.locked);
 				this.typing = true;
 				this.inputElement.disabled = false;
 				this.inputElement.focus();

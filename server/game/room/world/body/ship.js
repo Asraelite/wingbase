@@ -35,7 +35,7 @@ class Ship extends Body {
 			this.mounts.push(mount);
 		});
 
-		this.turrets = [];
+		this.turrets = build.turrets || [];
 
 		this.thrust = {
 			forward: 0,
@@ -113,7 +113,7 @@ class Ship extends Body {
 			frame: this.frame,
 			power: this.power,
 			mounts: this.mounts.map(m => m.packFull()),
-			turrets: this.turrets,
+			turrets: this.turrets.map(t => t.packFull()),
 			size: this.size,
 			delta: this.packDelta()
 		};

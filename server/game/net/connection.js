@@ -19,7 +19,7 @@ class Connection {
 		});
 
 		socket.on('setName', data => {
-			this.player.name = data.name.slice(0, 20) || 'Fish';
+			this.player.name = ('' + data).slice(0, 20) || 'Fish';
 		});
 
 		socket.on('inputs', data => {

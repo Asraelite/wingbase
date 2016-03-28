@@ -1,5 +1,6 @@
 class Ship extends Body {
 	constructor(data) {
+		console.log(data);
 		super(data);
 		this.player = new Player(data.name, data.team, this);
 		this.team = data.team;

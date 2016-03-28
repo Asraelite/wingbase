@@ -8,6 +8,7 @@ class Mount {
 
 		this.type = data.type || 'turret';
 		this.fixture = false;
+		this.size = data.size || 0;
 		this.position = {
 			x: data.pos[0],
 			y: data.pos[1]
@@ -26,7 +27,8 @@ class Mount {
 
 	packFull() {
 		return {
-
+			x: this.position.x,
+			y: this.position.y
 		}
 	}
 }
