@@ -2,6 +2,7 @@ GUI.prototype.Chat = class {
 	constructor(gui) {
 		this.gui = gui;
 
+		this.element = this.gui.query('#chat');
 		this.messageElement = this.gui.query('#chat-messages');
 		this.inputElement = this.gui.query('#chat input');
 
@@ -13,8 +14,10 @@ GUI.prototype.Chat = class {
 	}
 
 	addMessage(messageData) {
+		console.log(messageData);
 		let message = {
 			type: messageData.type,
+			team: messageData.team || 'c',
 			source: messageData.source || '?',
 			text: messageData.message,
 			createTime: Date.now()
@@ -28,16 +31,17 @@ GUI.prototype.Chat = class {
 			});
 			span.classList.add('server');
 		} else {
+			let el = `<span class="team${message.team}">`
 			span = this.gui.createElement(this.messageElement, 'span', {
-				html: `&lt;${message.source.bold()}&gt; ${message.text}`
+				html: `&lt;${el}${message.source}</span>&gt; ${message.text}`
 			});
 		}
 
-
+		this.element.scrollTop = this.element.scrollHeight;
 
 		setTimeout(_ => {
-			//this.messageElement.removeChild(span);
-		}, 15000);
+			this.messageElement.removeChild(span);
+		}, 20000);
 	}
 
 	tick() {

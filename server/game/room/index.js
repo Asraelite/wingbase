@@ -28,7 +28,7 @@ class Room {
 		this.world.addPlayer(player);
 		this.sendWorld(player);
 		wingbase.log(`${player.name} joined ${this.name}.`);
-		this.message('roomEnter', player.name);
+		this.message('roomEnter', player.name, 'team' + player.team);
 	}
 
 	remove(player) {
@@ -43,7 +43,7 @@ class Room {
 			wingbase.gameServer.deleteRoom(this.name);
 		}
 
-		this.message('roomLeave', player.name);
+		this.message('roomLeave', player.name, 'team' + player.team);
 	}
 
 	setTeam(player, team) {
@@ -75,28 +75,28 @@ class Room {
 
 	chat(player, message) {
 		wingbase.log(`${this.name}/${player.name}: ${message}`);
-
+		
 		this.chatCooldown++;
 		this.io.to(this.name).emit('chat', {
 			type: 'player',
+			team: player.team,
 			source: player.name,
 			message: escapeHtml(message.slice(0, 100))
 		});
 	}
 
-	message(type, values) {
+	message(type, values, classes) {
 		if (!(values instanceof Array)) values = [values];
 
 		let messageList = messages[type];
 		let message = messageList[Math.random() * messageList.length | 0];
 
-		// TODO: format name to class.
-
-		message = message.replace('@', `<b>${values[0]}</b>`);
+		let c = classes || '';
+		let m = message.replace('@', `<span class="${c}">${values[0]}</span>`);
 
 		this.broadcast('chat', {
 			type: 'server',
-			message: message
+			message: m
 		});
 	}
 

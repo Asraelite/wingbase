@@ -30,13 +30,20 @@ body {
 	background-color: rgba(0, 0, 0, 0.55);
 }
 
-#gui #chat span {
+#gui #chat-messages > span {
     display: block;
 	margin-top: 5px;
 }
 
-#gui #chat b {
-    font-weight: 100;
+#gui #chat span > span {
+    color: #afa;
+}
+
+#gui #chat span > span.teama {
+    color: #f76;
+}
+
+#gui #chat span > span.teamb {
     color: #8af;
 }
 
