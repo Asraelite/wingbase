@@ -2,19 +2,37 @@
 
 const uuid = require('uuid');
 
+const Mount = require('./turret/mount.js');
+
 const b2Vec2 = require('box2d-html5').b2Vec2;
 
 class Body {
-	constructor(world) {
-		this.x = 0;
-		this.y = 0;
-		this.r = 0;
-		this.b2body = false;
-		this.type = 'asteroid';
-		this.mounts = [];
-		this.health = 1;
+	constructor(world, data) {
+		data = data || {};
 		this.world = world;
-		this.id = uuid.v4().slice(0, 8);
+		this.id = this.world.room.generateId();
+		this.type = 'body';
+		this.b2body = false;
+
+		this.mounts = data.mounts || [];
+		this.health = data.health || 1;
+		this.mounts = this.mounts.map(m => new Mount(this, m));
+
+		let fixtures = data.fixtures || [];
+		this.fixtures = this.mounts.map((m, i) => fixtures[i] || 0);
+
+		this.interface = {
+			order: [
+				'x',
+				'y',
+				'xvel',
+				'yvel',
+				'r',
+				'rvel'
+			],
+			type: 'body',
+			fixtures: this.fixtures.length
+		};
 	}
 
 	destruct() {
@@ -23,7 +41,7 @@ class Body {
 	}
 
 	applyDelta() {
-		this.world.applyDelta(this.id, this.packDelta());
+		this.world.applyDelta(this.packDelta());
 	}
 
 	applyForce(x, y, center) {
@@ -74,8 +92,13 @@ class Body {
 		let rot = this.b2body.GetAngleRadians();
 		let rvel = this.b2body.GetAngularVelocity();
 
-		// Simple array to save bandwidth.
-		return [pos.x, pos.y, vel.x, vel.y, rot, rvel].concat(this.packTypeDelta());
+		let values = [this.id, pos.x, pos.y, vel.x, vel.y, rot, rvel];
+		values = values.concat(this.packTypeDelta());
+		this.mounts.forEach(m => {
+			values = values.concat(m.packDelta());
+		});
+
+		return values;
 	}
 
 	packTypeDelta() {
@@ -83,11 +106,24 @@ class Body {
 	}
 
 	packFull() {
-		return {
-			type: 'body',
+		let packet = {
+			type: this.type,
 			id: this.id,
-			delta: this.packDelta()
+			frame: this.frame,
+			fixtures: this.mounts.map(m => m.packFull()),
+			delta: this.packDelta(),
+			interface: this.interface
 		}
+
+		let typePacket = this.packTypeFull();
+		for (let i in typePacket)
+			packet[i] = typePacket[i];
+
+		return packet;
+	}
+
+	packTypeFull() {
+		return {};
 	}
 
 	get com() {

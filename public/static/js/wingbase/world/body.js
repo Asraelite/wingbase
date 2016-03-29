@@ -2,17 +2,17 @@
 
 class Body {
 	constructor(data) {
-		this.x = data.delta[0];
-		this.y = data.delta[1];
-		this.xvel = data.delta[2];
-		this.yvel = data.delta[3];
-		this.r = data.delta[4];
-		this.rvel = data.delta[5];
-
+		console.log(data);
+		this.interface = data.interface;
+		let s = this.interface.order.length + this.interface.fixtures;
+		this.interface.size = s;
 		this.id = data.id
 		this.frame = data.frame;
+		this.fixtures = data.fixtures;
 		this.b2body = false;
 		this.updated = 0;
+		
+		game.world.update(data.delta);
 
 		this.com = {
 			x: 0,
@@ -40,15 +40,19 @@ class Body {
 	}
 
 	update(data) {
-		this.x = data[0];
-		this.y = data[1];
-		this.xvel = data[2]
-		this.yvel = data[3];
-		this.r = data[4];
-		this.rvel = data[5];
+		let values = {};
+		Array.from(data).map((v, i) => {
+			values[this.interface.order[i]] = v
+		});
+		this.x = values.x;
+		this.y = values.y;
+		this.xvel = values.xvel;
+		this.yvel = values.yvel;
+		this.r = values.r;
+		this.rvel = values.rvel;
 		this.updated = 10;
 
-		this.updateType(data);
+		this.updateType(values);
 	}
 
 	updateType() {
@@ -56,6 +60,6 @@ class Body {
 	}
 
 	tick() {
-		
+
 	}
 }

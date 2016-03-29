@@ -11,12 +11,12 @@ class World {
 		this.physics = new Physics();
 		this.spawner = new Spawner(this);
 		this.bodies = new Set();
-		this.copulae = new Set();
-		this.structures = new Set();
 		this.asteroids = new Set();
+		this.copulae = new Set();
+		this.players = new Set();
 		this.projectiles = new Set();
 		this.ships = new Map();
-		this.players = new Set();
+		this.structures = new Set();
 		this.room = room;
 		this.tps = 0;
 		this.tpsCount = 0;
@@ -63,18 +63,18 @@ class World {
 	}
 
 	addAsteroid(asteroid) {
-		this.asteroids.add(asteroid);
 		this.addBody(asteroid);
 	}
 
 	addProjectile(projectile) {
-		this.projectiles.add(projectile);
 		this.addBody(projectile);
 		projectile.connect();
 	}
 
 	addBody(body) {
 		this.bodies.add(body);
+		if (body.type == 'asteroid') this.asteroids.add(body);
+		if (body.type == 'structure') this.structures.add(body);
 		this.physics.createBody(body);
 		this.room.broadcast('create', body.packFull());
 	}
@@ -85,8 +85,9 @@ class World {
 		this.room.broadcast('effect', copula.packFull());
 	}
 
-	applyDelta(body, data) {
-		this.players.forEach(player => player.delta[body] = data);
+	applyDelta(data) {
+		data = data.map(v => +(v.toFixed(3)));
+		this.players.forEach(player => player.applyDelta(data));
 	}
 
 	explosion(pos, power) {
@@ -126,9 +127,9 @@ class World {
 	removeBody(body) {
 		body.destruct();
 		this.bodies.delete(body);
-		this.ships.delete(body);
-		this.structures.delete(body);
 		this.asteroids.delete(body);
+		this.structures.delete(body);
+		this.ships.delete(body);
 		this.projectiles.delete(body);
 		this.room.broadcast('destroy', body.id);
 	}
@@ -143,15 +144,15 @@ class World {
 	}
 
 	start() {
-		this.interval = setInterval(_ => this.tick(this), 1000 / 60);
+
 	}
 
 	stop() {
-		clearInterval(this.interval);
+
 	}
 
-	tick(self) {
-		self.physics.step();
+	tick() {
+		this.physics.step();
 
 		let tickBodies = (set, interval) => {
 			set.forEach(body => {
@@ -161,9 +162,9 @@ class World {
 			});
 		};
 
-		tickBodies(self.ships, 1);
-		tickBodies(self.asteroids, 4);
-		tickBodies(self.projectiles, 1);
+		tickBodies(this.ships, 1);
+		tickBodies(this.asteroids, 4);
+		tickBodies(this.projectiles, 1);
 
 		if (Date.now() - this.tpsStart > 5000) {
 			this.tps = this.tpsCount / 5 | 0;

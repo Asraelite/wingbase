@@ -1,6 +1,5 @@
 class Ship extends Body {
 	constructor(data) {
-		console.log(data);
 		super(data);
 		this.player = new Player(data.name, data.team, this);
 		this.team = data.team;
@@ -8,8 +7,6 @@ class Ship extends Body {
 		this.hull = '01';
 		this.thrust = {};
 		this.power = data.power;
-		this.mounts = data.mounts;
-		this.turrets = data.turrets;
 		this.size = {
 			'small': 8,
 			'medium': 16,
@@ -21,10 +18,10 @@ class Ship extends Body {
 
 	updateType(data) {
 		this.thrust = {
-			forward: data[6]
+			forward: data.thrustForward
 		}
 
-		this.debug = data[9];
+		this.debug = data.debug;
 	}
 
 	tick() {

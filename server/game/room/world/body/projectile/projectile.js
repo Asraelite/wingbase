@@ -8,7 +8,21 @@ class Projectile extends Body {
 	}
 
 	connect() {
-		
+
+	}
+
+	packTypeDelta() {
+		return [];
+	}
+
+	packProjectileFull() {
+		return {};
+	}
+
+	packTypeFull() {
+		let packet = this.packProjectileFull();
+		packet.source = this.source.id;
+		return packet;
 	}
 }
 

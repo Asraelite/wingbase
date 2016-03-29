@@ -1,4 +1,4 @@
-var SCALE = 32;
+const SCALE = 32;
 
 class World {
 	constructor() {
@@ -44,16 +44,19 @@ class World {
 	};
 
 	update(data) {
-		for (var id in data) {
-			if (!this.bodies[id]) {
+		let array = new Float32Array(data);
+		let i = 0;
+		while (i < array.length) {
+			let id = array[i++];
+			let body = this.bodies[id];
+
+			if (!body) {
 				game.net.send('requestBodyData', id);
-				continue;
+				return;
 			}
 
-			var body = this.bodies[id];
-			body.update(data[id]);
-
-			if (data[id].destroy) delete this.bodies[id];
+			body.update(array.slice(i, i + body.interface.size));
+			i += body.interface.size;
 		}
 	};
 

@@ -16,9 +16,9 @@ Renderer.prototype.renderShip = (pallet, ship) => {
 	pallet.view(x + vx, y + vy, false, pos.r);
 
 	let ts = ship.size / 2;
-	for (let i = 0; i < ship.mounts.length; i++) {
-		if (ship.turrets[i]) {
-			pallet.image(turr, ship.mounts[i][0] - ts, ship.mounts[i][1] - ts, 0);
+	for (let i = 0; i < ship.fixtures.length; i++) {
+		if (ship.fixtures[i]) {
+			pallet.image(turr, ship.fixtures[i][0] - ts, ship.fixtures[i][1] - ts, 0);
 		}
 	}
 	pallet.image(ship.team == 'a' ? teama : teamb, 0, 0, 0);

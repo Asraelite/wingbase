@@ -31,8 +31,7 @@ class Renderer {
 		if (state == 'connecting' || state == 'disconnected') {
 			pallet.clear();
 			pallet.fill('#111');
-			var str = state == 'connecting' ? 'Connecting' : 'Shit\'s ' +
-				'diconnected, yo!';
+			var str = state == 'connecting' ? 'Connecting' : 'Disconnected';
 			pallet.text(str, canvas.width / 2, canvas.height / 2, '#fff',
 				'FreePixel', 16, 'center', 'middle');
 			return;

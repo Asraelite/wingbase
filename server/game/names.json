@@ -76,11 +76,14 @@
 		"Salal Berry",
 		"Salak",
 		"Satsuma",
+		"Soursop",
 		"Star Fruit",
 		"Strawberry",
 		"Tamarillo",
 		"Tamarind",
-		"Ugli Fruit"
+		"Ugli Fruit",
+		"Yuzu",
+		"Ziziphus"
 	],
 	"adjectives": {
 		"a": [
@@ -159,7 +162,8 @@
 			"Perfect",
 			"Pitiful",
 			"Paranoid",
-			"Pink"
+			"Pink",
+			"Porous"
 		],
 		"q": [
 			"Quivering",
@@ -172,7 +176,8 @@
 		"s": [
 			"Stupid",
 			"Silly",
-			"Smart"
+			"Smart",
+			"Slimy"
 		],
 		"t": [
 			"Terrific",
@@ -195,10 +200,12 @@
 			"Xenophobic"
 		],
 		"y": [
-			"Yellow"
+			"Yellow",
+			"Useful"
 		],
 		"z": [
-			"Zany"
+			"Zany",
+			"Zealous"
 		]
 	}
 }

@@ -6,7 +6,7 @@ class Asteroid extends Body {
 	}
 
 	updateType(data) {
-		this.debug = data[6];
+		this.debug = data.debug;
 	}
 
 	tick() {

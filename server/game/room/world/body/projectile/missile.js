@@ -51,14 +51,8 @@ class Missile extends Projectile {
 		return [];
 	}
 
-	packFull() {
-		return {
-			type: 'missile',
-			id: this.id,
-			source: this.source.id,
-			frame: this.frame,
-			delta: this.packDelta()
-		};
+	packProjectileFull() {
+		return {};
 	}
 }
 

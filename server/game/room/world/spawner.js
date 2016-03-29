@@ -30,7 +30,6 @@ class Spawner {
 			yvel: ship.vel.y
 		};
 		let missile = new Missile(this.world, pos, ship);
-		this.world.addProjectile(missile);
 		return missile;
 	}
 

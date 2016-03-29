@@ -18,7 +18,6 @@ class Net {
 
 		this.socket.on('update', data => {
 			game.world.update(data);
-			//console.log('.');
 		});
 
 		this.socket.on('world', data => {

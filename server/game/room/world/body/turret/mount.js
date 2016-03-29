@@ -17,7 +17,9 @@ class Mount {
 		this.traversal = data.traversal ? {
 			cw: data.bounds[0],
 			ccw: data.bounds[1]
-		} : false;
+		} : 0;
+
+		this.updateDeltaInterface();
 	}
 
 	destruct() {
@@ -25,11 +27,20 @@ class Mount {
 		this.fixture.destruct();
 	}
 
+	packDelta() {
+		return [this.traversal || 0];
+	}
+
+	updateDeltaInterface() {
+		this.deltaInterface = this.fixture ? ['traversal'] : [];
+	}
+
 	packFull() {
 		return {
 			x: this.position.x,
-			y: this.position.y
-		}
+			y: this.position.y,
+			turret: this.turret ? this.turret.type : 0
+		};
 	}
 }
 

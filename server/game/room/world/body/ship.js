@@ -4,13 +4,12 @@ const defaults = require('../traits/defaults.json');
 const shipTraits = require('../traits/ships.json');
 
 const Body = require('./body.js');
-const Mount = require('./turret/mount.js');
 
 class Ship extends Body {
 	constructor(world, pos, player, build) {
-		super(world);
-
 		build = build || defaults.spawnShip;
+		let traits = shipTraits[build.ship];
+		super(world, traits, build);
 
 		// Body data.
 		this.x = pos.x || 0;
@@ -23,19 +22,18 @@ class Ship extends Body {
 		this.grapple = false;
 
 		// Traits.
-		let traits = shipTraits[this.class];
 		this.traits = traits;
 		this.frame = traits.frame;
 		this.power = traits.power;
 		this.size = traits.size;
 
-		// Mounts
-		traits.mounts.forEach((data, i) => {
-			let mount = new Mount(this, data);
-			this.mounts.push(mount);
-		});
-
-		this.turrets = build.turrets || [];
+		// Delta interface.
+		this.interface.order.push.apply(this.interface.order, [
+			'thrustForward',
+			'thrustLeft',
+			'thrustRight'
+		]);
+		this.interface.type = 'ship';
 
 		this.thrust = {
 			forward: 0,
@@ -56,9 +54,9 @@ class Ship extends Body {
 			release: data[7]
 		};
 
-		this.thrust.forward = this.inputs.forward;
-		this.thrust.left = this.inputs.left;
-		this.thrust.right = this.inputs.right;
+		this.thrust.forward = +this.inputs.forward;
+		this.thrust.left = +this.inputs.left;
+		this.thrust.right = +this.inputs.right;
 
 		if (this.inputs.missile) this.launchMissile();
 		if (this.inputs.grapple) {
@@ -100,22 +98,23 @@ class Ship extends Body {
 
 	packTypeDelta() {
 		let t = this.thrust;
-
-		return [t.forward, t.left, t.right, this.debug || false];
+		return [t.forward, t.left, t.right];
 	}
 
-	packFull() {
+	getTypeDeltaInterface() {
+		return [
+			'thrustForward',
+			'thrustLeft',
+			'thrustRight'
+		];
+	}
+
+	packTypeFull() {
 		return {
-			type: 'ship',
-			id: this.id,
 			team: this.player.team,
 			name: this.player.name,
-			frame: this.frame,
 			power: this.power,
-			mounts: this.mounts.map(m => m.packFull()),
-			turrets: this.turrets.map(t => t.packFull()),
-			size: this.size,
-			delta: this.packDelta()
+			size: this.size
 		};
 	}
 }

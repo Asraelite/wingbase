@@ -4,17 +4,19 @@ const Body = require('./body.js');
 
 class Asteroid extends Body {
 	constructor(world, pos, size) {
-		super(world);
-
-		this.x = pos.x;
-		this.y = pos.y;
+		super(world, pos);
 
 		this.debug = 0;
 
-		this.size = size;
-
 		this.type = 'asteroid';
+		this.size = size;
 		this.frame = this.randomFrame();
+
+
+		this.interface.order.push.apply(this.interface.order, [
+			'debug'
+		]);
+		this.interface.type = 'asteroid';
 	}
 
 	randomFrame() {
@@ -34,13 +36,8 @@ class Asteroid extends Body {
 		return [this.debug];
 	}
 
-	packFull() {
-		return {
-			type: 'asteroid',
-			id: this.id,
-			frame: this.frame,
-			delta: this.packDelta()
-		}
+	packTypeFull() {
+		return {};
 	}
 }
 

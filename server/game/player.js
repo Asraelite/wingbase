@@ -11,13 +11,17 @@ class Player {
 		this.lastAction = Date.now();
 		this.connection = connection;
 		this.name = this.randomName();
-		this.delta = {};
+		this.delta = [];
 
 		this.chatCooldown = 0;
 	}
 
 	disconnect() {
 		this.room.remove(this);
+	}
+
+	applyDelta(data) {
+		this.delta = this.delta.concat(data);
 	}
 
 	updateInputs(data) {
@@ -49,9 +53,9 @@ class Player {
 	}
 
 	sendUpdate() {
-		if (Object.keys(this.delta).length == 0) return;
+		if (this.delta.length == 0) return;
 		this.connection.send('update', this.delta);
-		this.delta = {};
+		this.delta = [];
 	}
 
 	tick() {
