@@ -17,11 +17,10 @@ class WingbaseServer extends ServerInterface {
 		commander
 			.version(packageJson.version)
 			.option('-d, --development', 'run in development mode')
-			.option('-p, --port [port]', 'specify port to use', port)
+			.option('-p, --port <port>', 'specify port to use', parseInt, port)
 			.parse(process.argv);
 
 		this.args = commander;
-		console.log(commander.port);
 
 		process.on('SIGINT', this.stop.bind(this));
 	}

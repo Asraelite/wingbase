@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'FreePixel';
+    src: url('/css/FreePixel.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+	font-family: FreePixel;
+}
+
+body {
+    overflow: hidden;
+}
+
+#gui
+    color #fff
+	.container
+    	position fixed
+	#chat
+		bottom 0
+		left 0
+		width 400px
+		max-height 300px
+		overflow hidden
+		background-color rgba(0, 0, 0, 0.55)
+		#chat-messages
+			> span
+				display block
+				margin-top 5px
+				> span
+					color #afa
+					&.teama
+						color #f76
+					&.teamb
+						color #8af
+				&.server
+					color #68c
+		input
+			font-family inherit
+			font-size 16px
+			border 0
+			display block
+			width 100%
+			padding 2px 0 2px 0
+			background-color rgba(20, 20, 20, 0.5)
+			&:focus
+				background-color #eee
+	#weapons
+		bottom 0
+		left 50%
+		transform translate(-50%, 0)

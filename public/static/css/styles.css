@@ -1,74 +1,59 @@
 @font-face {
-    font-family: 'FreePixel';
-    src: url('/css/FreePixel.ttf');
+  font-family: 'FreePixel';
+  src: url("/css/FreePixel.ttf");
 }
-
 * {
-    margin: 0;
-    padding: 0;
-	font-family: FreePixel;
+  margin: 0;
+  padding: 0;
+  font-family: FreePixel;
 }
-
 body {
-    overflow: hidden;
+  overflow: hidden;
 }
-
 #gui {
-    color: #fff;
+  color: #fff;
 }
-
-#gui > .container {
-    position: fixed;
+.container {
+  position: fixed;
 }
-
-#gui #chat {
-	bottom: 0;
-	left: 0;
-	width: 400px;
-	max-height: 300px;
-	overflow: hidden;
-	background-color: rgba(0, 0, 0, 0.55);
+#chat {
+  bottom: 0;
+  left: 0;
+  width: 400px;
+  max-height: 300px;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.55);
 }
-
-#gui #chat-messages > span {
-    display: block;
-	margin-top: 5px;
+#chat #chat-messages > span {
+  display: block;
+  margin-top: 5px;
 }
-
-#gui #chat span > span {
-    color: #afa;
+#chat #chat-messages > span > span {
+  color: #afa;
 }
-
-#gui #chat span > span.teama {
-    color: #f76;
+#chat #chat-messages > span > span.teama {
+  color: #f76;
 }
-
-#gui #chat span > span.teamb {
-    color: #8af;
+#chat #chat-messages > span > span.teamb {
+  color: #8af;
 }
-
-#gui #chat span.server {
-    color: #68c;
+#chat #chat-messages > span.server {
+  color: #68c;
 }
-
-#gui #chat input {
-	font-family: inherit;
-	font-size: 16px;
-	border: 0;
-	display: block;
-	width: 100%;
-	padding: 2px 0 2px 0;
-	background-color: rgba(20, 20, 20, 0.5);
+#chat input {
+  font-family: inherit;
+  font-size: 16px;
+  border: 0;
+  display: block;
+  width: 100%;
+  padding: 2px 0 2px 0;
+  background-color: rgba(20,20,20,0.5);
 }
-
-#gui #chat input:focus {
-	background-color: #eee;
+#chat input:focus {
+  background-color: #eee;
 }
-
-#gui #weapons {
-    bottom: 0;
-	left: 50%;
-	transform: translate(-50%, 0);
+#weapons {
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
-
-#gui #weapons

@@ -25,6 +25,7 @@ class WebServer {
 		app.use(stylus.middleware({
 			src: 'public/stylus',
 			dest: 'public/static/css',
+			force: wingbase.args.development,
 			compile: (str, path) => {
 				return stylus(str)
 					.set('filename', path)
