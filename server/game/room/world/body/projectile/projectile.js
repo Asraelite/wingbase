@@ -5,6 +5,8 @@ const Body = require('../body.js');
 class Projectile extends Body {
 	constructor(world) {
 		super(world);
+
+		this.class = 'projectile';
 	}
 
 	connect() {

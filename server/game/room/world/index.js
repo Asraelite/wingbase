@@ -75,6 +75,7 @@ class World {
 		this.bodies.add(body);
 		if (body.type == 'asteroid') this.asteroids.add(body);
 		if (body.type == 'structure') this.structures.add(body);
+		if (body.class == 'projectile') this.projectiles.add(body);
 		this.physics.createBody(body);
 		this.room.broadcast('create', body.packFull());
 	}

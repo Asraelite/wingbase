@@ -5,9 +5,11 @@ const Rope = require('../../copula/rope.js');
 
 class Grapple extends Projectile {
 	constructor(world, pos, source) {
-		// pos.x *= 32, pos.y *= 32, idk why
 		super(world, pos);
 
+		this.r = pos.r;
+		this.x = pos.x * 32;
+		this.y = pos.y * 32;
 		this.xvel += Math.cos(this.r) * 0.25;
 		this.yvel += Math.sin(this.r) * 0.25;
 

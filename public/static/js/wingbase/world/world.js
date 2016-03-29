@@ -44,10 +44,9 @@ class World {
 	};
 
 	update(data) {
-		let array = new Float32Array(data);
 		let i = 0;
-		while (i < array.length) {
-			let id = array[i++];
+		while (i < data.length) {
+			let id = data[i++];
 			let body = this.bodies[id];
 
 			if (!body) {
@@ -55,7 +54,7 @@ class World {
 				return;
 			}
 
-			body.update(array.slice(i, i + body.interface.size));
+			body.update(data.slice(i, i + body.interface.size));
 			i += body.interface.size;
 		}
 	};

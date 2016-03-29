@@ -11,8 +11,8 @@ class Body {
 		this.fixtures = data.fixtures;
 		this.b2body = false;
 		this.updated = 0;
-		
-		game.world.update(data.delta);
+
+		this.update(data.delta.slice(1));
 
 		this.com = {
 			x: 0,

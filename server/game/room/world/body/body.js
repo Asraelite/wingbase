@@ -14,6 +14,13 @@ class Body {
 		this.type = 'body';
 		this.b2body = false;
 
+		this.x = data.x || 0;
+		this.y = data.y || 0;
+		this.xvel = data.xvel || 0;
+		this.yvel = data.yvel || 0;
+		this.r = data.r || 0;
+		this.rvel = data.rvel || 0;
+
 		this.mounts = data.mounts || [];
 		this.health = data.health || 1;
 		this.mounts = this.mounts.map(m => new Mount(this, m));
@@ -113,7 +120,7 @@ class Body {
 			fixtures: this.mounts.map(m => m.packFull()),
 			delta: this.packDelta(),
 			interface: this.interface
-		}
+		};
 
 		let typePacket = this.packTypeFull();
 		for (let i in typePacket)
