@@ -6,8 +6,6 @@ const Laser = require('./shot/laser.js');
 class Blaster extends Fixture {
 	constructor(hardpoint, data) {
 		super(hardpoint, data);
-
-		console.log(data);
 	}
 
 	fire() {

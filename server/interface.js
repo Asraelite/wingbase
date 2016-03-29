@@ -35,7 +35,11 @@ class ServerInterface {
 	}
 
 	error(msg) {
-		this.log(msg, 'red');
+		this.log(msg, 'red', 'bold');
+	}
+
+	warning(msg) {
+		this.log(msg, 'yellow');
 	}
 
 	capLogfile() {

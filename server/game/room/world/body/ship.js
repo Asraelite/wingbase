@@ -9,7 +9,8 @@ class Ship extends Body {
 	constructor(world, pos, player, build) {
 		build = build || defaults.spawnShip;
 		let traits = shipTraits[build.ship];
-		super(world, traits, build);
+		traits.fixtures = build.fixtures;
+		super(world, traits);
 
 		// Body data.
 		this.x = pos.x || 0;

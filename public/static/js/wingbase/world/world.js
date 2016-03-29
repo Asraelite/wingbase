@@ -14,11 +14,6 @@ class World {
 		}
 	}
 
-	// Deprecated
-	getCenter() {
-		return this.center;
-	};
-
 	add(data) {
 		var body;
 		if (data.type == 'asteroid') body = new Asteroid(data);

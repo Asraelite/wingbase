@@ -36,10 +36,10 @@ class Grapple extends Projectile {
 	}
 
 	connect() {
-		let p1 = { x: 0, y: 0.5 };
+		let p1 = { x: 0.1, y: 0.5 };
 		let p2 = { x: 0.0625, y: 0 };
 		this.rope = new Rope(this.player.ship, this, p1, p2);
-		this.rope.initLength = 6;
+		this.rope.initLength = 8;
 		this.world.addCopula(this.rope);
 	}
 

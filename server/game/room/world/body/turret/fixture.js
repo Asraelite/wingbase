@@ -23,7 +23,6 @@ class Fixture {
 
 	packFull() {
 		return {
-			
 			traversal: this.traversal
 		}
 	}

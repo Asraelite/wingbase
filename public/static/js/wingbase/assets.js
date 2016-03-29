@@ -13,8 +13,11 @@ Game.prototype.loadAssets = _ => {
 			},
 			turrets: {
 				'01': {
-					small: 'img/turrets/01/small.png'
+					small: 'img/turrets/01/normal.png'
 				}
+			},
+			backgrounds: {
+				'01': 'img/space.jpg'
 			}
 		}
 	}

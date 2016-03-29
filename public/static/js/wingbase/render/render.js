@@ -14,77 +14,80 @@ class Renderer {
 
 		pallet.fillScreen();
 		window.addEventListener('resize', _ => pallet.fillScreen(1000, 600));
+
+		this.bodyRenderer = new BodyRenderer(this);
 	}
 
 	render(state) {
-		let canvas = this.canvas;
-		let context = this.context;
-		let pallet = this.pallet;
-
 		let ship = game.world.playerShip;
-		let cpos = game.world.getCenter();
-		let cx = -cpos.x;
-		let cy = -cpos.y;
-		let cw = canvas.width;
-		let ch = canvas.height;
+		let cw = this.canvas.width;
+		let ch = this.canvas.height;
+		let center = game.world.center;
 
 		if (state == 'connecting' || state == 'disconnected') {
-			pallet.clear();
-			pallet.fill('#111');
+			this.pallet.clear();
+			this.pallet.fill('#111');
 			var str = state == 'connecting' ? 'Connecting' : 'Disconnected';
-			pallet.text(str, canvas.width / 2, canvas.height / 2, '#fff',
+			this.pallet.text(str, cw / 2, ch / 2, '#fff',
 				'FreePixel', 16, 'center', 'middle');
 			return;
 		}
 
-		pallet.clear();
-		pallet.fill('#020202');
+		this.pallet.clear();
+		this.pallet.fill('#020202');
 
-		context.save();
+		this.context.save();
 
-		pallet.view(cw / 2, ch / 2, 1, 0);
-		//context.translate(-cx / s, -cy / s);
+		this.pallet.view(cw / 2, ch / 2, 1, 0);
 
-		// Grid
-		var gridx = cx % 50;
-		var gridy = cy % 50;
-		pallet.opacity(0.05);
-		for (var x = gridx - cw / 2 - 50; x < cw + 50; x += 50) {
-			for (var y = gridy - ch / 2 - 50; y < ch + 50; y += 50) {
-				var wx = (-cx + x) / SCALE;
-				var wy = (-cy + y) / SCALE;
-				var b = game.world.bounds;
-				if (wx > b.right || wx < b.left || wy > b.bottom || wy < b.top) {
-					pallet.opacity(0.2);
-					pallet.outline('#8af', x, y, 51, 51, 1);
-					pallet.opacity(0.05);
-				} else pallet.outline('#fff', x, y, 51, 51, 1);
-			}
-		}
-		pallet.opacity(1);
+		this.pallet.opacity(0.3);
+		let img = game.assets.images.backgrounds['01'];
+		let bgx = -img.width / 2 - center.x / 20;
+		let bgy = -img.height / 2 - center.y / 20;
+		this.pallet.image(img, bgx, bgy);
+		this.pallet.opacity(1);
+
+		this.renderGrid();
 
 		for (var id in game.world.bodies) {
-			var body = game.world.bodies[id];
-
-			if (body.bodyType == 'ship') {
-				this.renderShip(pallet, body);
-			} else if (body.bodyType == 'asteroid') {
-				this.renderAsteroid(pallet, body);
-			} else {
-				this.renderBody(pallet, body);
-				// Render structures, projectiles etc..
-			}
+			this.bodyRenderer.render(game.world.bodies[id]);
 		}
 
 		this.effects.forEach(effect => {
 			effect.render();
 		});
 
-		pallet.restore();
+		for (var id in game.world.bodies) {
+			if (game.world.bodies[id].bodyType == 'ship')
+				this.bodyRenderer.renderShipNameplate(game.world.bodies[id]);
+		}
+
+		this.pallet.restore();
 	}
 
 	renderGrid() {
+		let cpos = game.world.center;
+		let cx = -cpos.x;
+		let cy = -cpos.y;
+		let cw = this.canvas.width;
+		let ch = this.canvas.height;
 
+		var gridx = cx % 50;
+		var gridy = cy % 50;
+		this.pallet.opacity(0.05);
+		for (var x = gridx - cw / 2 - 50; x < cw + 50; x += 50) {
+			for (var y = gridy - ch / 2 - 50; y < ch + 50; y += 50) {
+				var wx = (-cx + x) / SCALE;
+				var wy = (-cy + y) / SCALE;
+				var b = game.world.bounds;
+				if (wx > b.right || wx < b.left || wy > b.bottom || wy < b.top) {
+					this.pallet.opacity(0.2);
+					this.pallet.outline('#8af', x, y, 51, 51, 1);
+					this.pallet.opacity(0.05);
+				} else this.pallet.outline('#fff', x, y, 51, 51, 1);
+			}
+		}
+		this.pallet.opacity(1);
 	}
 
 	addEffect(data) {

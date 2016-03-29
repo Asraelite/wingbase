@@ -2,7 +2,6 @@
 
 class Body {
 	constructor(data) {
-		console.log(data);
 		this.interface = data.interface;
 		let s = this.interface.order.length + this.interface.fixtures;
 		this.interface.size = s;
@@ -21,13 +20,7 @@ class Body {
 	}
 
 	getPos() {
-		var pos = this.b2body.GetPosition();
-		var angle = this.b2body.GetAngle();
-		return {
-			x: pos.x,
-			y: pos.y,
-			r: angle
-		};
+		return this.pos;
 	}
 
 	applyForce(x, y) {
@@ -61,5 +54,23 @@ class Body {
 
 	tick() {
 
+	}
+
+	get center() {
+		let pos = this.b2body.GetWorldCenter();
+		return {
+			x: pos.x,
+			y: pos.y
+		};
+	}
+
+	get pos() {
+		let pos = this.b2body.GetPosition();
+		let angle = this.b2body.GetAngle();
+		return {
+			x: pos.x,
+			y: pos.y,
+			r: angle
+		};
 	}
 }

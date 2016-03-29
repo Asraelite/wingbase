@@ -1,14 +1,17 @@
-class Particle {
-	constructor(effect, x, y, xvel, yvel, color, size, behaviour, lifetime) {
+class EffectParticle {
+	constructor(effect, properties) {
 		this.effect = effect;
-		this.x = x;
-		this.y = y;
-		this.xvel = xvel || 0;
-		this.yvel = yvel || 0;
-		this.color = color || '#f00';
-		this.size = size || 1;
-		this.behaviour = behaviour;
-		this.lifetime = lifetime * (1 + (Math.random() - 0.5) * 0.5) || 100;
+		this.x = properties.x || 0;
+		this.y = properties.y || 0;
+		this.xvel = properties.xvel || 0;
+		this.yvel = properties.yvel || 0;
+		this.color = properties.color || '#f00';
+		this.size = properties.size || 1;
+		this.behaviour = properties.behaviour;
+		this.lifetime = properties.lifetime || 50;
+
+		// Randomly adjust lifetime so not all particles die at once.
+		this.lifetime *= (1 + (Math.random() - 0.5) * 0.5) || 100;
 	}
 
 	tick() {

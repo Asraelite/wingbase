@@ -1,17 +1,23 @@
-@font-face {
-    font-family: 'FreePixel';
-    src: url('/css/FreePixel.ttf');
-}
+@font-face
+    font-family 'FreePixel'
+    src url('/css/FreePixel.ttf')
 
-* {
-    margin: 0;
-    padding: 0;
-	font-family: FreePixel;
-}
+@font-face
+	font-family 'PixelArial'
+	src url('/css/PixelArial11.ttf')
 
-body {
-    overflow: hidden;
-}
+*
+	margin 0
+	padding 0
+
+body
+	overflow hidden
+	font-family FreePixel
+	font-size 16px
+
+.small
+	font-family PixelArial
+	font-size 8px
 
 #gui
     color #fff
@@ -38,13 +44,15 @@ body {
 					color #68c
 		input
 			font-family inherit
-			font-size 16px
+			font-size inherit
 			border 0
 			display block
 			width 100%
 			padding 2px 0 2px 0
 			background-color rgba(20, 20, 20, 0.5)
+			height 0
 			&:focus
+				height inherit
 				background-color #eee
 	#weapons
 		bottom 0

@@ -22,11 +22,12 @@ class Body {
 		this.rvel = data.rvel || 0;
 
 		this.mounts = data.mounts || [];
+		this.fixtures = data.fixtures || [];
 		this.health = data.health || 1;
-		this.mounts = this.mounts.map(m => new Mount(this, m));
-
-		let fixtures = data.fixtures || [];
-		this.fixtures = this.mounts.map((m, i) => fixtures[i] || 0);
+		this.mounts = this.mounts.map((m, i) => {
+			let fixture = this.fixtures[i];
+			return new Mount(this, m, fixture);
+		});
 
 		this.interface = {
 			order: [
@@ -38,7 +39,7 @@ class Body {
 				'rvel'
 			],
 			type: 'body',
-			fixtures: this.fixtures.length
+			fixtures: this.mounts.length
 		};
 	}
 

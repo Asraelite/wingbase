@@ -7,7 +7,7 @@ class Mount {
 		this.ship = ship;
 
 		this.type = data.type || 'turret';
-		this.fixture = false;
+		this.fixture = fixture || false;
 		this.size = data.size || 0;
 		this.position = {
 			x: data.pos[0],
@@ -24,7 +24,7 @@ class Mount {
 
 	destruct() {
 		if (!this.fixture) return;
-		this.fixture.destruct();
+		//this.fixture.destruct();
 	}
 
 	packDelta() {
@@ -32,14 +32,14 @@ class Mount {
 	}
 
 	updateDeltaInterface() {
-		this.deltaInterface = this.fixture ? ['traversal'] : [];
+		this.deltaInterface = ['traversal'];
 	}
 
 	packFull() {
 		return {
 			x: this.position.x,
 			y: this.position.y,
-			turret: this.turret ? this.turret.type : 0
+			type: this.fixture ? this.fixture : 0
 		};
 	}
 }

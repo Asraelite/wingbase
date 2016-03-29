@@ -17,6 +17,7 @@ class Net {
 		});
 
 		this.socket.on('update', data => {
+			window.q = data;
 			game.world.update(data);
 		});
 

@@ -21,6 +21,7 @@
 		"Dragonfruit",
 		"Durian",
 		"Elderberry",
+		"Etrog",
 		"Feijoa",
 		"Fig",
 		"Goji Berry",
@@ -100,7 +101,9 @@
 		],
 		"c": [
 			"Crazy",
-			"Cool"
+			"Cool",
+			"Cute",
+			"Careful"
 		],
 		"d": [
 			"Dizzy",
@@ -108,7 +111,8 @@
 		],
 		"e": [
 			"Energetic",
-			"Easy"
+			"Easy",
+			"Evil"
 		],
 		"f": [
 			"Funny",

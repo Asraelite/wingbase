@@ -171,7 +171,8 @@ class World {
 			this.tps = this.tpsCount / 5 | 0;
 			this.tpsCount = 0;
 			this.tpsStart = Date.now();
-			//console.log('TPS: ' + this.tps);
+			if(this.tps < 50)
+				wingbase.warning(`${this.room.name} TPS: ${this.tps}`);
 		}
 
 		this.tpsCount++;

@@ -15,6 +15,8 @@ class Effect {
 				x: 0,
 				y: 0
 			};
+		} else if (this.type == 'engineTrail') {
+			this.createEngineTrail();
 		} else {
 
 		}
@@ -22,24 +24,29 @@ class Effect {
 
 	generateParticles(_x, _y, radius, number, colors, sizes, bhv, lf, vel) {
 		for (var i = 0; i < number; i++) {
-			let x = _x + (Math.random() - 0.5) * radius * 2;
-			let y = _y + (Math.random() - 0.5) * radius * 2;
-			let color = colors[Math.random() * colors.length | 0];
-			let size = sizes[Math.random() * sizes.length | 0];
 			let angle = Math.random() * Math.PI * 2;
-			let v = Math.random() * vel + 0.1;
-			let xvel = Math.cos(angle) * v + (Math.random() - 0.5);
-			let yvel = Math.sin(angle) * v + (Math.random() - 0.5);
-			let p = new Particle(this, x, y, xvel, yvel, color, size, bhv, lf);
-			this.particles.add(p);
+			let speed = Math.random() * vel + 0.1;
+
+			let properties = {
+				x: _x + (Math.random() - 0.5) * radius * 2,
+				y: _y + (Math.random() - 0.5) * radius * 2,
+				color: colors[Math.random() * colors.length | 0],
+				size: sizes[Math.random() * sizes.length | 0],
+				xvel: Math.cos(angle) * speed + (Math.random() - 0.5),
+				yvel: Math.sin(angle) * speed + (Math.random() - 0.5),
+				behaviour: bhv,
+				lifetime: lf
+			};
+			let particle = new EffectParticle(this, properties);
+			this.particles.add(particle);
 		}
 	}
 
 	render() {
 		let x = this.pos.x * SCALE;
 		let y = this.pos.y * SCALE;
-		let vx = -game.world.getCenter().x;
-		let vy = -game.world.getCenter().y;
+		let vx = -game.world.center.x;
+		let vy = -game.world.center.y;
 		this.pallet.view(x + vx, y + vy, false, 0);
 
 		this.particles.forEach(p => {
@@ -65,6 +72,10 @@ class Effect {
 			context.beginPath();
 			context.moveTo(posA.x * SCALE, posA.y * SCALE);
 			context.lineTo(posB.x * SCALE, posB.y * SCALE);
+			context.lineWidth = 4;
+			context.strokeStyle = '#000';
+			context.stroke();
+			context.lineWidth = 1;
 			context.strokeStyle = '#555';
 			context.stroke();
 
@@ -74,12 +85,15 @@ class Effect {
 	}
 
 	// Effect generation.
+	createEngineTrail() {
+		this.generateParticles(0, 0, 2, 3, ['#ff8'], [3], '', 20, 1);
+	}
 
 	createExplosion() {
 		let num = this.size * this.size;
 		let colors = ['#f52', '#ff7', '#fff'];
 		let b = 'sizzle';
-		this.generateParticles(0, 0, 1, num, colors, [1, 2], b, 50, 3);
+		this.generateParticles(0, 0, 10, num, colors, [1, 2], b, 50, 2);
 	}
 
 	createRope() {
