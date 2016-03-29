@@ -62,9 +62,9 @@ class Game {
 		this._state = state;
 
 		if (state != 'connected') {
-			this.gui.visible = true;
-		} else {
 			this.gui.visible = false;
+		} else {
+			this.gui.visible = true;
 		}
 	}
 }

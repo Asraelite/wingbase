@@ -116,6 +116,7 @@ class Body {
 	packFull() {
 		let packet = {
 			type: this.type,
+			class: this.class,
 			id: this.id,
 			frame: this.frame,
 			fixtures: this.mounts.map(m => m.packFull()),

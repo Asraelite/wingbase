@@ -34,6 +34,9 @@ class GUI {
 	}
 
 	set visible(visible) {
-		this.guiElement.style.display = visible ? 'block' : 'hidden';
+		if (visible)
+			this.guiElement.classList.remove('hidden');
+		else
+			this.guiElement.classList.add('hidden');
 	}
 }

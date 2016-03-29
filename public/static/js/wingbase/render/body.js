@@ -6,7 +6,7 @@ class BodyRenderer {
 	}
 
 	render(body) {
-		let pos = body.getPos();
+		let pos = body.pos;
 		let x = pos.x * SCALE;
 		let y = pos.y * SCALE;
 		let vx = -game.world.center.x;
@@ -28,6 +28,8 @@ class BodyRenderer {
 			this.renderShip(body);
 		} else if (body.bodyType == 'asteroid') {
 			this.renderAsteroid(body);
+		} else if (body.bodyClass == 'projectile') {
+			this.renderProjectile(body);
 		} else {
 			this.renderBody(body);
 		}
@@ -109,5 +111,17 @@ class BodyRenderer {
 		let y = -game.world.center.y + ship.center.y * 32 - 15;
 		this.pallet.opacity(0.3);
 		this.pallet.text(ship.name, x, y, '#fff', 'FreePixel', 16, 'center', 'bottom');
+	}
+
+	renderProjectile(body) {
+		if (body.bodyType != 'grapple') {
+			this.renderBody(body);
+			return;
+		}
+
+		let img = game.assets.images.projectiles['02'];
+		let pos = body.pos;
+		this.pallet.image(img, -32, -32, 0);
+		this.pallet.restore();
 	}
 };

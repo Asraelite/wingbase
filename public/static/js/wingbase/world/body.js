@@ -10,6 +10,8 @@ class Body {
 		this.fixtures = data.fixtures;
 		this.b2body = false;
 		this.updated = 0;
+		this.bodyClass = data.class;
+		this.bodyType = data.type;
 
 		this.update(data.delta.slice(1));
 

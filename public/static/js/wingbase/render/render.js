@@ -37,6 +37,10 @@ class Renderer {
 		this.pallet.fill('#020202');
 
 		this.context.save();
+		
+		this.context.beginPath();
+		this.context.rect(0, 0, cw, ch);
+		this.context.clip();
 
 		this.pallet.view(cw / 2, ch / 2, 1, 0);
 
@@ -44,7 +48,7 @@ class Renderer {
 		let img = game.assets.images.backgrounds['01'];
 		let bgx = -img.width / 2 - center.x / 20;
 		let bgy = -img.height / 2 - center.y / 20;
-		this.pallet.image(img, bgx, bgy);
+		this.pallet.image(img, bgx, bgy, 0, img.width * 1.5, img.height * 1.5);
 		this.pallet.opacity(1);
 
 		this.renderGrid();

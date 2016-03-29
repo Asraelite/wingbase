@@ -13,7 +13,6 @@ class Ship extends Body {
 			'large': 24
 		}[data.size];
 		this.lastMove = [];
-		this.bodyType = 'ship';
 		this.activeFixture = 0;
 	}
 
