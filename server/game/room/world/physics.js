@@ -44,7 +44,7 @@ class Physics {
 		let s = SCALE;
 		let bodyDef = new Box2D.b2BodyDef();
 		bodyDef.userData = body;
-		bodyDef.position = new b2Vec2(body.x / s || 0, body.y / s || 0);
+		bodyDef.position = new b2Vec2(body.x || 0, body.y || 0);
 		bodyDef.angle = body.r || 0;
 		bodyDef.fixedRotation = false;
 		bodyDef.active = true;
@@ -55,7 +55,7 @@ class Physics {
 		bodyDef.angularDamping = body.type == 'asteroid' ? 0.003 : 0.06;
 		bodyDef.type = body.type == 'structure' ?
 			Box2D.b2BodyType.b2_staticBody : Box2D.b2BodyType.b2_dynamicBody;
-		if (body.player || true) bodyDef.allowSleep = false;
+		if (body.player) bodyDef.allowSleep = false;
 		let b2body = this.world.CreateBody(bodyDef);
 
 		let fixtureDef = new Box2D.b2FixtureDef();

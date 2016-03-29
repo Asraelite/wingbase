@@ -83,6 +83,9 @@
 		"Tamarillo",
 		"Tamarind",
 		"Ugli Fruit",
+		"Umbu",
+		"Ximenia",
+		"Xylocarp",
 		"Yuzu",
 		"Ziziphus"
 	],
@@ -90,7 +93,9 @@
 		"a": [
 			"Awesome",
 			"Amazing",
-			"Awkward"
+			"Awkward",
+			"Absurd",
+			"Allergic"
 		],
 		"b": [
 			"Bubbly",
@@ -107,7 +112,8 @@
 		],
 		"d": [
 			"Dizzy",
-			"Dangerous"
+			"Dangerous",
+			"Dazzling"
 		],
 		"e": [
 			"Energetic",
@@ -116,7 +122,10 @@
 		],
 		"f": [
 			"Funny",
-			"Fancy"
+			"Fancy",
+			"Fat",
+			"Filthy",
+			"Fizzy"
 		],
 		"g": [
 			"Giggly",
@@ -134,15 +143,21 @@
 			"Introverted"
 		],
 		"j": [
-			"Jolly"
+			"Jolly",
+			"Jealous",
+			"Joyful",
+			"Jittery"
 		],
 		"k": [
-			"Crazy",
-			"Cool"
+			"Keen",
+			"Kind",
+			"Kingly"
 		],
 		"l": [
 			"Little",
-			"Lazy"
+			"Lazy",
+			"Lovely",
+			"Lax"
 		],
 		"m": [
 			"Magnificent",
@@ -151,13 +166,16 @@
 		],
 		"n": [
 			"Nosy",
-			"Noisy"
+			"Noisy",
+			"Nasty",
+			"Naive"
 		],
 		"o": [
 			"Oblivious",
 			"Omnipotent",
 			"Omnipresent",
-			"Okay"
+			"Okay",
+			"Obvious"
 		],
 		"p": [
 			"Pretty",
@@ -175,7 +193,10 @@
 		],
 		"r": [
 			"Radical",
-			"Racist"
+			"Racist",
+			"Red",
+			"Rare",
+			"Risky"
 		],
 		"s": [
 			"Stupid",
@@ -190,7 +211,8 @@
 		],
 		"u": [
 			"Unbelievable",
-			"Ugly"
+			"Ugly",
+			"Ultimate"
 		],
 		"v": [
 			"Voluptuous",
@@ -201,11 +223,13 @@
 			"Weird"
 		],
 		"x": [
+			"Xanthous",
 			"Xenophobic"
 		],
 		"y": [
 			"Yellow",
-			"Useful"
+			"Yucky",
+			"Yummy"
 		],
 		"z": [
 			"Zany",

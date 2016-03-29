@@ -23,6 +23,7 @@ class Net {
 
 		this.socket.on('world', data => {
 			game.world.clear();
+			console.log(data);
 			game.world.bounds = data.bounds;
 			for (var b of data.bodies) {
 				game.world.add(b);

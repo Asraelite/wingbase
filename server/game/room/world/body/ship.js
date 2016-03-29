@@ -15,6 +15,7 @@ class Ship extends Body {
 		// Body data.
 		this.x = pos.x || 0;
 		this.y = pos.y || 0;
+		this.r = player.team == 'b' ? Math.PI : 0;
 
 		this.type = 'ship';
 		this.class = build.ship;
@@ -64,6 +65,7 @@ class Ship extends Body {
 			if (this.grapple) {
 				this.grapple.retract();
 			} else {
+				let s = this.world.scale;
 				this.launchGrapple(this.inputs.mx, this.inputs.my);
 			}
 		}

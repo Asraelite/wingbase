@@ -77,8 +77,8 @@ class Renderer {
 		this.pallet.opacity(0.05);
 		for (var x = gridx - cw / 2 - 50; x < cw + 50; x += 50) {
 			for (var y = gridy - ch / 2 - 50; y < ch + 50; y += 50) {
-				var wx = (-cx + x) / SCALE;
-				var wy = (-cy + y) / SCALE;
+				var wx = ((-cx + x) / SCALE) | 0;
+				var wy = ((-cy + y) / SCALE) | 0;
 				var b = game.world.bounds;
 				if (wx > b.right || wx < b.left || wy > b.bottom || wy < b.top) {
 					this.pallet.opacity(0.2);

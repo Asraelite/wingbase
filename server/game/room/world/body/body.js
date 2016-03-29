@@ -49,7 +49,7 @@ class Body {
 	}
 
 	applyDelta() {
-		this.world.applyDelta(this.packDelta());
+		this.world.applyDelta(this.packDelta(), this.pos);
 	}
 
 	applyForce(x, y, center) {

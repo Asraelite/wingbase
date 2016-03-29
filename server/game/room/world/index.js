@@ -22,21 +22,23 @@ class World {
 		this.tpsCount = 0;
 		this.tpsStart = Date.now();
 
+		this.scale = 32;
+
 		this.tickCount = 0;
 
 		this.bounds = {
-			left: -5,
-			right: 50,
-			top: -15,
-			bottom: 15
+			left: 0,
+			right: 250,
+			top: 0,
+			bottom: 30
 		}
 	}
 
 	addPlayer(player) {
 		this.players.add(player);
 		let pos = {
-			x: player.team == 'b' ? 200 : 0,
-			y: 0
+			x: player.team == 'b' ? this.bounds.right - 5 : 5,
+			y: this.bounds.bottom / 2
 		};
 		let ship = new Ship(this, pos, player);
 		player.ship = ship;
@@ -86,9 +88,14 @@ class World {
 		this.room.broadcast('effect', copula.packFull());
 	}
 
-	applyDelta(data) {
+	applyDelta(data, bodyPos) {
 		data = data.map(v => +(v.toFixed(3)));
-		this.players.forEach(player => player.applyDelta(data));
+		this.players.forEach(player => {
+			let dx = player.ship.pos.x - bodyPos.x;
+			let dy = player.ship.pos.y - bodyPos.y;
+			if (dx * dx + dy * dy < 900)
+				player.applyDelta(data)
+		});
 	}
 
 	explosion(pos, power) {
@@ -110,12 +117,12 @@ class World {
 	}
 
 	populate() {
-		for (var i = 0; i < 5; i++) {
+		for (var i = 0; i < 50; i++) {
 			let pos = {
-				x: Math.random() * 2000 - 200,
-				y: Math.random() * 500 - 250
+				x: Math.random() * this.bounds.right,
+				y: Math.random() * this.bounds.bottom
 			};
-			this.spawner.spawnAsteroid(pos.x, pos.y,Math.random() * 50 + 10);
+			this.spawner.spawnAsteroid(pos.x, pos.y, Math.random() * 50 + 10);
 		}
 	}
 
@@ -171,8 +178,9 @@ class World {
 			this.tps = this.tpsCount / 5 | 0;
 			this.tpsCount = 0;
 			this.tpsStart = Date.now();
-			if(this.tps < 50)
+			if(this.tps < 50) {
 				wingbase.warning(`${this.room.name} TPS: ${this.tps}`);
+			}
 		}
 
 		this.tpsCount++;

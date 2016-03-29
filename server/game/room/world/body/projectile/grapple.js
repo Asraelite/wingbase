@@ -8,8 +8,10 @@ class Grapple extends Projectile {
 		super(world, pos);
 
 		this.r = pos.r;
-		this.x = pos.x * 32;
-		this.y = pos.y * 32;
+		this.x = pos.x;
+		this.y = pos.y;
+		this.xvel = pos.xvel;
+		this.yvel = pos.yvel;
 		this.xvel += Math.cos(this.r) * 0.25;
 		this.yvel += Math.sin(this.r) * 0.25;
 

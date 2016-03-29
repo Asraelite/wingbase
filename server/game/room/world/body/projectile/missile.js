@@ -6,8 +6,8 @@ class Missile extends Projectile {
 	constructor(world, pos, source) {
 		super(world);
 
-		this.x = pos.x * 32;
-		this.y = pos.y * 32;
+		this.x = pos.x;
+		this.y = pos.y;
 		this.xvel = pos.xvel;
 		this.yvel = pos.yvel;
 		this.r = pos.r;
