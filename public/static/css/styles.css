@@ -64,3 +64,11 @@ body {
 #gui #chat input:focus {
 	background-color: #eee;
 }
+
+#gui #weapons {
+    bottom: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
+#gui #weapons

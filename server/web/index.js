@@ -2,6 +2,8 @@
 
 const express = require('express');
 const http = require('http');
+const nib = require('nib');
+const stylus = require('stylus');
 
 const minify = require('./minify.js');
 
@@ -12,13 +14,23 @@ class WebServer {
 	}
 
 	start() {
-		this.appServer.listen(process.env.PORT || 8080);
+		this.appServer.listen(wingbase.args.port);
 
 		let app = this.app;
 
-		app.set('views', './public/views');
+		app.set('views', 'public/views');
 		app.set('view engine', 'jade');
 		app.engine('jade', require('jade').__express);
+
+		app.use(stylus.middleware({
+			src: 'public/stylus',
+			dest: 'public/static/css',
+			compile: (str, path) => {
+				return stylus(str)
+					.set('filename', path)
+					.use(nib())
+			}
+		}));
 
 		app.get('/wingbase.min.js', (req, res) => {
 			minify(result => {

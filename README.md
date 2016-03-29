@@ -1,7 +1,9 @@
 Wingbase
 ===
 
-This is a stupid little game where you fly around and bump into asteroids and stuff.
+Wingbase is a top-down spaceship game in which two teams of four players each compete to destroy their enemy's base while at the same time collecting resources for their own base. These resources can then be used to purchase more powerful ships upon respawn, to build defense turrets, or to research new weapons and upgrades.
+
+The game is built in Javascript using HTML5 Canvas for client rendering, Box2D for physics, and Node.js with Socket.io for the server.
 
 ###Installation
 
@@ -9,11 +11,15 @@ Clone the Git repository, install Node.js version 5.6.0 or higher then run `npm 
 
 Make sure that the command `node` links to this Node.js version and not `nodejs`.
 
+If you have an older version of Node.js you can upgrade by running `sudo npm install -g n` and then `sudo n latest`.
+
 ###Running
 
-Run `node index.js` or `npm start`.
+Run `node index` or `npm start`.
 
-Port 8080 is used by default and this must be open for people to play across the internet. To use a different port, set the `process.env.PORT` variable.
+If you use `npm start` arguments must be preceded by `--` e.g. `npm start -- -p 8000`.
+
+Run `node index --help` or `node index -h` for a list of command line arguments.
 
 ###Tests
 
@@ -28,3 +34,5 @@ Mouse to aim and shoot.
 E/Q to change weapons.
 
 Enter to chat.
+
+Type `/commands` in chat for a list of in-game commands.
