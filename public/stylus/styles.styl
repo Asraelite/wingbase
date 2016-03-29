@@ -1,6 +1,6 @@
 @font-face
-    font-family 'FreePixel'
-    src url('/css/FreePixel.ttf')
+	font-family 'FreePixel'
+	src url('/css/FreePixel.ttf')
 
 @font-face
 	font-family 'PixelArial'
@@ -20,9 +20,9 @@ body
 	font-size 8px
 
 #gui
-    color #fff
+	color #fff
 	.container
-    	position fixed
+		position fixed
 	#chat
 		bottom 0
 		left 0
@@ -58,3 +58,15 @@ body
 		bottom 0
 		left 50%
 		transform translate(-50%, 0)
+		> .weapon
+			background-position center
+			background-size 64px
+			background-color rgba(0, 0, 0, 0.5)
+			float: left
+			width: 48px
+			height: 48px
+			&.active
+				background-color rgba(15, 15, 15, 0.3)
+				width 44px
+				height 44px
+				border 2px solid rgba(30, 30, 30, 0.2)

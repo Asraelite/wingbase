@@ -57,6 +57,7 @@ class World {
 	setPlayerShip(id) {
 		this.playerShip = this.bodies[id];
 		game.player.ship = this.playerShip;
+		game.gui.weapons.update();
 	}
 
 	tick() {

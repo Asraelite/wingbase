@@ -5,6 +5,7 @@ class GUI {
 		this.guiElement = document.getElementById('gui');
 
 		this.chat = new this.Chat(this);
+		this.weapons = new this.Weapons(this);
 	}
 
 	createElement(parent, type, data) {
