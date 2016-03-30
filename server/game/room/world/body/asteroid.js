@@ -22,9 +22,15 @@ class Asteroid extends Body {
 	randomFrame() {
 		let s = this.size;
 		let l = (Math.random() * 4 + 4) | 0;
-		let build = Array(l).fill().map(_ => Math.random() * Math.PI * 2);
-		build = build.sort().map(a => [Math.cos(a) * s, Math.sin(a) * s]);
-		return [build];
+		// Make sure the frame is not a wedge.
+		do {
+			var angles = Array(l).fill().map(_ => Math.random() * Math.PI * 2);
+			let modded = angles.map(a => a % Math.PI);
+			var max = modded.reduce((a, b) => Math.max(a, b));
+			var min = modded.reduce((a, b) => Math.min(a, b));
+		} while (max - min < 1)
+
+		return [angles.sort().map(a => [Math.cos(a) * s, Math.sin(a) * s])];
 	}
 
 	tickType() {

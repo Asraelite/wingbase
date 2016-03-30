@@ -2,3 +2,4 @@ node_modules/
 log/
 public/static/css/*.css
 *.log
+*.sh

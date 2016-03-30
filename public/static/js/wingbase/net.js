@@ -17,14 +17,13 @@ class Net {
 		});
 
 		this.socket.on('update', data => {
-			window.q = data;
 			game.world.update(data);
 		});
 
 		this.socket.on('world', data => {
 			game.world.clear();
-			console.log(data);
 			game.world.bounds = data.bounds;
+			game.player.inputInterface = data.inputInterface;
 			for (var b of data.bodies) {
 				game.world.add(b);
 			}

@@ -4,22 +4,29 @@ class Player {
 		this.team = team;
 		this.ship = ship;
 
-		this.lastInputs = [];
+		this.lastInputs = {};
 
-		this.interface = [];
+		this.inputInterface = [];
 	}
 
 	packDelta() {
 		// W, A, D, Space
-		let inputs = ['w', 'a', 'd'];
-		inputs = inputs.map(k => game.input.keys.held[k] || false);
-		inputs[3] = game.input.keys.pressed['Spacebar'] || false;
-		inputs[4] = game.input.mouse.wx;
-		inputs[5] = game.input.mouse.wy;
-		inputs[6] = game.input.mouse.held[3];
-		inputs[7] = game.input.mouse.pressed[1];
-		let delta = this.lastInputs == inputs ? false : inputs;
-		this.lastInputs = inputs;
+		let input = game.input;
+		let packet = {};
+
+		packet.thrust = ['w', 'a', 'd', 's'].map(k => input.keys.held[k] || 0);
+		packet.fire = input.mouse.pressed[3] ? [1, 1] : [0, 0];
+		packet.aim = {
+			x: input.mouse.wx,
+			y: input.mouse.wy
+		};
+		packet.missile = input.keys.pressed['Spacebar'];
+
+		packet = this.inputInterface.map(i => packet[i]);
+		window.q = packet;
+
+		let delta = this.lastInputs == packet ? false : packet;
+		this.lastInputs = packet;
 		return delta;
 	}
 }
