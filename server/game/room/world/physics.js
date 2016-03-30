@@ -4,6 +4,9 @@
 // so most changes done to it should be mirrored there to keep consistent
 // physics between client and server.
 
+// TODO: Put all physics constants into a JSON file that is sent to the client
+// as well so that the top paragraph no longer applies.
+
 // Note:
 // b2Body.GetWorldPoint is broken or something and to get it to work, you
 // must pass an object as the second argument. I don't think it matters what

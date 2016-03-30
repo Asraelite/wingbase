@@ -8,15 +8,21 @@ class Discharge {
 		this.yvel = data.yvel;
 		this.r = data.r;
 
-		this.lifetime = data.lifetime || 100;
+		this.lifetime = data.lifetime || 50;
 		this.fixture = fixture;
+		this.world = this.fixture.body.world;
 
-		// Might just make it this.world later if it turns out I need it more.
-		this.id = this.fixture.body.world.room.generateId();
+		this.id = this.world.room.generateId();
 	}
 
 	destroy() {
-		this.fixture.body.world.removeDischarge(this);
+		this.world.removeDischarge(this);
+	}
+
+	contact(body) {
+		if (body == this.body) return;
+
+		this.destroy();
 	}
 
 	packDelta() {
@@ -41,6 +47,25 @@ class Discharge {
 	}
 
 	tick() {
+		let start = {
+			x: this.x,
+			y: this.y
+		};
+
+		this.x += this.xvel;
+		this.y += this.yvel
+
+		let end = {
+			x: this.x,
+			y: this.y
+		};
+
+		let contact = this.world.physics.raycast(start, end);
+
+		if (contact) {
+			this.contact(contact.body);
+		}
+
 		if (this.lifetime-- <= 0)
 			this.destroy();
 	}
