@@ -22,19 +22,22 @@
 				"pos": [18, 4],
 				"type": "fixed",
 				"size": 0,
-				"traversal": false
+				"traversal": [0, 0],
+				"hidden": true
 			},
 			{
 				"pos": [18, 28],
 				"type": "fixed",
 				"size": 0,
-				"traversal": false
+				"traversal": [0, 0],
+				"hidden": true
 			},
 			{
-				"pos": [1, 16],
+				"pos": [6, 16],
 				"type": "fixed",
 				"size": 1,
-				"traversal": false
+				"traversal": [3.14, 0],
+				"hidden": true
 			}
 		]
 	}

@@ -39,7 +39,13 @@ class Body {
 				'rvel'
 			],
 			type: 'body',
-			fixtures: this.mounts.length
+			fixtures: {
+				order: [
+					'angle',
+					'state'
+				],
+				num: this.mounts.length
+			}
 		};
 
 		this.sleepTime = 0;
@@ -99,16 +105,12 @@ class Body {
 	}
 
 	packDelta() {
-		let pos = this.b2body.GetPosition();
-		let vel = this.b2body.GetLinearVelocity();
-		let rot = this.b2body.GetAngleRadians();
-		let rvel = this.b2body.GetAngularVelocity();
+		let pos = this.pos;
+		let vel = this.vel;
 
-		let values = [this.id, pos.x, pos.y, vel.x, vel.y, rot, rvel];
+		let values = [this.id, pos.x, pos.y, vel.x, vel.y, pos.r, vel.r];
 		values = values.concat(this.packTypeDelta());
-		this.mounts.forEach(m => {
-			values = values.concat(m.packDelta());
-		});
+		this.mounts.forEach(m => [].push.apply(values, m.packDelta()));
 
 		return values;
 	}
@@ -128,9 +130,8 @@ class Body {
 			interface: this.interface
 		};
 
-		let typePacket = this.packTypeFull();
-		for (let i in typePacket)
-			packet[i] = typePacket[i];
+		// Merge default and type-specific packets.
+		packet = Object.assign(packet, this.packTypeFull());
 
 		return packet;
 	}
@@ -173,7 +174,8 @@ class Body {
 	get vel() {
 		return {
 			x: this.b2body.GetLinearVelocity().x,
-			y: this.b2body.GetLinearVelocity().y
+			y: this.b2body.GetLinearVelocity().y,
+			r: this.b2body.GetAngularVelocity()
 		}
 	}
 }

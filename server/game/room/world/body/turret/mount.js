@@ -1,50 +1,77 @@
 'use strict';
 
 const Blaster = require('./blaster.js');
+const Grapple = require('./grapple.js');
+
+const traits = require('../../traits/fixtures.json');
 
 class Mount {
 	constructor(ship, data, fixture) {
-		this.ship = ship;
+		//this.ship = ship;
 
 		this.type = data.type || 'turret';
-		this.fixture = fixture || false//new Fixture(fixture);
 		this.size = data.size || 0;
+		this.hidden = data.hidden || 'false';
 		this.position = {
 			x: data.pos[0],
 			y: data.pos[1]
 		}
 
 		this.traversal = data.traversal ? {
-			cw: data.bounds[0],
-			ccw: data.bounds[1]
+			cw: data.traversal[0],
+			ccw: data.traversal[1]
 		} : 0;
 
-		this.updateDeltaInterface();
+		this.deltaInterface = ['traversal'];
+
+		this.fixture = false;
+		this.setFixture(fixture);
 	}
 
 	destruct() {
 		if (!this.fixture) return;
-		//this.fixture.destruct();
+		this.fixture.destruct();
 	}
 
 	fire() {
-		console.log(this.fixture);
+		if (!this.fixture) return;
+		this.fixture.fire();
+	}
+
+	setFixture(fixture) {
+		if (!(fixture in traits)) return;
+
+		let fixtureClass = {
+			'blaster': Blaster,
+			'grapple': Grapple
+		}[traits[fixture].type];
+
+		if (!fixtureClass) return;
+
+		let data = traits[fixture];
+		data.id = fixture;
+		this.fixture = new fixtureClass(this, data);
 	}
 
 	packDelta() {
-		return [this.traversal || 0];
+		return [this.angle || 0, this.fixture.state || 0];
 	}
 
-	updateDeltaInterface() {
-		this.deltaInterface = ['traversal'];
+	packTypeDelta() {
+		return [0];
 	}
 
 	packFull() {
 		return {
 			x: this.position.x,
 			y: this.position.y,
-			type: this.fixture ? this.fixture : 0
+			hidden: this.hidden,
+			fixture: this.fixture ? this.fixture.id : 0
 		};
+	}
+
+	get angle() {
+		return this.fixture ? this.fixture.angle : 0;
 	}
 }
 

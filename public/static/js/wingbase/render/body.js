@@ -19,9 +19,9 @@ class BodyRenderer {
 		pallet.view(x, y, false, pos.r);
 
 		for (let f of body.fixtures) {
-			if (!f.type) continue;
-			let img = game.assets.images.turrets[f.type].small;
-			this.pallet.image(img, f.x - 32, f.y - 32, 0);
+			if (!f.fixture || !f.hidden) continue;
+			let img = game.assets.images.turrets[f.fixture].small;
+			this.pallet.image(img, f.x - 32, f.y - 32, f.angle);
 		}
 
 		if (body.bodyType == 'ship') {
@@ -34,6 +34,13 @@ class BodyRenderer {
 			this.renderBody(body);
 		}
 
+		for (let f of body.fixtures) {
+			if (!f.fixture || f.hidden) continue;
+			let img = game.assets.images.turrets[f.fixture].small;
+			this.pallet.image(img, f.x - 32, f.y - 32, f.angle);
+		}
+
+		pallet.restore();
 		pallet.restore();
 
 	}
@@ -62,7 +69,7 @@ class BodyRenderer {
 			context.stroke();
 		}
 
-		this.pallet.restore();
+		//this.pallet.restore();
 	}
 
 	renderBody(body) {
@@ -83,7 +90,7 @@ class BodyRenderer {
 			context.stroke();
 		}
 
-		this.pallet.restore();
+		//this.pallet.restore();
 	}
 
 	renderShip(ship) {
@@ -103,7 +110,7 @@ class BodyRenderer {
 			this.pallet.square('#f00', ship.debug.x * SCALE, ship.debug.y * SCALE, 2);
 		}
 
-		this.pallet.restore();
+		//this.pallet.restore();
 	}
 
 	renderShipNameplate(ship) {
@@ -122,6 +129,6 @@ class BodyRenderer {
 		let img = game.assets.images.projectiles['02'];
 		let pos = body.pos;
 		this.pallet.image(img, -32, -32, 0);
-		this.pallet.restore();
+		//this.pallet.restore();
 	}
 };

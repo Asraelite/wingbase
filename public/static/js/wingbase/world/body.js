@@ -3,7 +3,8 @@
 class Body {
 	constructor(data) {
 		this.interface = data.interface;
-		let s = this.interface.order.length + this.interface.fixtures;
+		let s = this.interface.order.length;
+		s += this.interface.fixtures.order.length * this.interface.fixtures.num;
 		this.interface.size = s;
 		this.id = data.id
 		this.frame = data.frame;
@@ -36,9 +37,7 @@ class Body {
 
 	update(data) {
 		let values = {};
-		Array.from(data).map((v, i) => {
-			values[this.interface.order[i]] = v
-		});
+		this.interface.order.forEach(v => values[v] = data.shift());
 		this.x = values.x;
 		this.y = values.y;
 		this.xvel = values.xvel;
@@ -46,7 +45,14 @@ class Body {
 		this.r = values.r;
 		this.rvel = values.rvel;
 		this.updated = 10;
-		this.debug = values.debug;
+
+		this.fixtures.forEach(fixture => {
+			let obj = {};
+			this.interface.fixtures.order.forEach(v => obj[v] = data.shift());
+			
+			fixture.angle = obj.angle;
+			fixture.state = obj.state;
+		});
 
 		this.updateType(values);
 	}

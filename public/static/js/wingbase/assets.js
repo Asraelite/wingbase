@@ -14,6 +14,9 @@ Game.prototype.loadAssets = _ => {
 			turrets: {
 				'01': {
 					small: 'img/turrets/01/normal.png'
+				},
+				'02': {
+					small: 'img/turrets/02/normal.png'
 				}
 			},
 			projectiles: {

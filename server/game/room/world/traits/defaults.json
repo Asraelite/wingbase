@@ -1,6 +1,6 @@
 {
 	"spawnShip": {
 		"ship": "01",
-		"fixtures": ["01", "01"]
+		"fixtures": ["01", "01", "02"]
 	}
 }

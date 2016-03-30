@@ -9,7 +9,6 @@ class Blaster extends Fixture {
 	}
 
 	fire() {
-		wingbase.debug('pew pew');
 		let data = {
 			speed: 1
 
