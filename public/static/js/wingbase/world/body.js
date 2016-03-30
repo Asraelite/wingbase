@@ -46,6 +46,7 @@ class Body {
 		this.r = values.r;
 		this.rvel = values.rvel;
 		this.updated = 10;
+		this.debug = values.debug;
 
 		this.updateType(values);
 	}
@@ -55,6 +56,10 @@ class Body {
 	}
 
 	tick() {
+		this.tickType();
+	}
+
+	tickType() {
 
 	}
 

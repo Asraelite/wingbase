@@ -7,7 +7,7 @@ class Mount {
 		this.ship = ship;
 
 		this.type = data.type || 'turret';
-		this.fixture = fixture || false;
+		this.fixture = fixture || false//new Fixture(fixture);
 		this.size = data.size || 0;
 		this.position = {
 			x: data.pos[0],
@@ -25,6 +25,10 @@ class Mount {
 	destruct() {
 		if (!this.fixture) return;
 		//this.fixture.destruct();
+	}
+
+	fire() {
+		console.log(this.fixture);
 	}
 
 	packDelta() {

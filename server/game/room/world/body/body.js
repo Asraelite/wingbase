@@ -41,6 +41,8 @@ class Body {
 			type: 'body',
 			fixtures: this.mounts.length
 		};
+
+		this.sleepTime = 0;
 	}
 
 	destruct() {
@@ -88,6 +90,8 @@ class Body {
 		if(pos.y < bounds.top) this.applyForce(0, 0.03);
 		if(pos.y > bounds.bottom) this.applyForce(-0, -0.03);
 
+		this.sleepTime++;
+
 		this.tickType();
 	}
 
@@ -133,6 +137,15 @@ class Body {
 
 	packTypeFull() {
 		return {};
+	}
+
+	get awake() {
+		if (this.b2body.IsAwake()) {
+			this.sleepTime = 0;
+			return true;
+		} else {
+			return this.sleepTime < 50;
+		}
 	}
 
 	get com() {

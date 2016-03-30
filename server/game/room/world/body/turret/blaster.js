@@ -4,8 +4,8 @@ const Fixture = require('./fixture.js');
 const Laser = require('./shot/laser.js');
 
 class Blaster extends Fixture {
-	constructor(hardpoint, data) {
-		super(hardpoint, data);
+	constructor(mount, data) {
+		super(mount, data);
 	}
 
 	fire() {

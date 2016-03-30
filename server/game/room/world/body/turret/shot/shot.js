@@ -1,8 +1,12 @@
 'use strict';
 
 class Shot {
-	constructor() {
+	constructor(pos) {
 
+	}
+
+	tick() {
+		
 	}
 }
 

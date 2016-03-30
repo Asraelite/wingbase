@@ -1,6 +1,6 @@
 'use strict';
 
-const traits = require('../../traits/turrets.json');
+const traits = require('../../traits/fixtures.json');
 
 class Fixture {
 	constructor(mount, data) {
@@ -9,6 +9,8 @@ class Fixture {
 		this.projectiles = new WeakSet();
 
 		let turretTraits = traits[data.type];
+
+		console.log(turretTraits);
 
 		this.rof = turretTraits.rateOfFire;
 

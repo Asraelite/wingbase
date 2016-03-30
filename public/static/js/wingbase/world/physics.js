@@ -2,6 +2,9 @@
 
 class Physics {
 	constructor() {
+		Box2D.Common.b2Settings.b2_linearSleepTolerance = 0.01;
+		Box2D.Common.b2Settings.b2_angularSleepTolerance = 0.01;
+		Box2D.Common.b2Settings.b2_timeToSleep = 0;
 
 		this.world = new b2World(new b2Vec2(0, 0));
 		this.toRemove = [];
@@ -31,7 +34,7 @@ class Physics {
 		bodyDef.angularDamping = body.bodyType == 'asteroid' ? 0.003 : 0.06;
 		bodyDef.type = body.bodyType == 'structure' ?
 			b2Body.b2_staticBody : b2Body.b2_dynamicBody;
-		bodyDef.allowSleep = false;
+		if (body.bodyType != 'asteroid') bodyDef.allowSleep = false;
 		var b2body = this.world.CreateBody(bodyDef);
 
 		var fixtureDef = new b2FixtureDef();

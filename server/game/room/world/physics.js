@@ -18,6 +18,9 @@ const b2Vec2 = Box2D.b2Vec2;
 
 class Physics {
 	constructor() {
+		Box2D.b2_linearSleepTolerance = 0.002;
+		Box2D.b2_angularSleepTolerance = 0.002;
+
 		this.world = new Box2D.b2World(new b2Vec2(0, 0), false);
 		this.toRemove = [];
 		this.toWeld = [];

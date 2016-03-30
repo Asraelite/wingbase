@@ -162,16 +162,16 @@ class World {
 	tick() {
 		this.physics.step();
 
-		let tickBodies = (set, interval) => {
+		let tickBodies = (set, interval, canSleep) => {
 			set.forEach(body => {
-				if (this.tickCount % interval == 0)
+				if (this.tickCount % interval == 0 && body.awake)
 					body.applyDelta();
 				body.tick();
 			});
 		};
 
 		tickBodies(this.ships, 1);
-		tickBodies(this.asteroids, 4);
+		tickBodies(this.asteroids, 1);
 		tickBodies(this.projectiles, 1);
 
 		if (Date.now() - this.tpsStart > 5000) {

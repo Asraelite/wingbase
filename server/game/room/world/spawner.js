@@ -3,6 +3,7 @@
 const Asteroid = require('./body/asteroid.js');
 const Grapple = require('./body/projectile/grapple.js');
 const Missile = require('./body/projectile/missile.js');
+const Laser = require('./body/turret/shot/laser.js');
 
 class Spawner {
 	constructor(world) {
@@ -50,6 +51,22 @@ class Spawner {
 		let grapple = new Grapple(this.world, pos, ship);
 		this.world.addProjectile(grapple);
 		return grapple;
+	}
+
+	spawnLaser(ship) {
+		let r = ship.pos.r;
+		let ox = Math.cos(r) * 0.7;
+		let oy = Math.sin(r) * 0.7;
+		let pos = {
+			x: ship.center.x + ox,
+			y: ship.center.y + oy,
+			r: r,
+			xvel: ship.vel.x,
+			yvel: ship.vel.y
+		};
+		let missile = new Missile(this.world, pos, ship);
+		this.world.addProjectile(missile);
+		return missile;
 	}
 }
 

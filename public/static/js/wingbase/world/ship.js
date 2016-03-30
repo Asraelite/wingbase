@@ -24,7 +24,7 @@ class Ship extends Body {
 		this.debug = data.debug;
 	}
 
-	tick() {
+	tickType() {
 		if (this.thrust.forward) {
 			var power = this.power.forward;
 			var x = Math.cos(this.getPos().r) * power;
