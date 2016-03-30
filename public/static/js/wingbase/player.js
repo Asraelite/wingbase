@@ -4,7 +4,7 @@ class Player {
 		this.team = team;
 		this.ship = ship;
 
-		this.lastInputs = {};
+		this.lastDelta = [];
 
 		this.inputInterface = [];
 	}
@@ -14,19 +14,18 @@ class Player {
 		let input = game.input;
 		let packet = {};
 
-		packet.thrust = ['w', 'a', 'd', 's'].map(k => input.keys.held[k] || 0);
-		packet.fire = input.mouse.pressed[3] ? [1, 1] : [0, 0];
-		packet.aim = {
-			x: input.mouse.wx,
-			y: input.mouse.wy
-		};
+		packet.thrust = ['w', 'a', 'd', 's'].map(k => +input.keys.held[k] || 0);
+		packet.fire = [1, 3].map(k => +input.mouse.pressed[k] || 0);
+		packet.aim = [
+			+input.mouse.wx.toFixed(2),
+			+input.mouse.wy.toFixed(2)
+		];
 		packet.missile = input.keys.pressed['Spacebar'];
 
 		packet = this.inputInterface.map(i => packet[i]);
-		window.q = packet;
 
-		let delta = this.lastInputs == packet ? false : packet;
-		this.lastInputs = packet;
-		return delta;
+		let noDelta = JSON.stringify(this.lastDelta) == JSON.stringify(packet);
+		this.lastDelta = packet;
+		return noDelta ? false : packet;
 	}
 }

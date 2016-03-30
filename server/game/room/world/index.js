@@ -28,7 +28,7 @@ class World {
 
 		this.bounds = {
 			left: 0,
-			right: 10,
+			right: 150,
 			top: 0,
 			bottom: 30
 		}

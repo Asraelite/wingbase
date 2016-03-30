@@ -28,7 +28,7 @@ class Asteroid extends Body {
 			let modded = angles.map(a => a % Math.PI);
 			var max = modded.reduce((a, b) => Math.max(a, b));
 			var min = modded.reduce((a, b) => Math.min(a, b));
-		} while (max - min < 1)
+		} while (max - min < 2)
 
 		return [angles.sort().map(a => [Math.cos(a) * s, Math.sin(a) * s])];
 	}

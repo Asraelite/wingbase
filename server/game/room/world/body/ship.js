@@ -41,36 +41,31 @@ class Ship extends Body {
 			forward: 0,
 			left: 0,
 			right: 0
-		}
-	}
-
-	updateInputs(data) {
-		this.inputs = {
-			forward: data[0],
-			left: data[1],
-			right: data[2],
-			missile: data[3],
-			mx: data[4],
-			my: data[5],
-			grapple: data[6],
-			release: data[7]
 		};
 
-		this.thrust.forward = +this.inputs.forward;
-		this.thrust.left = +this.inputs.left;
-		this.thrust.right = +this.inputs.right;
+		this.aim = {
+			x: 0,
+			y: 0
+		};
+	}
 
-		if (this.inputs.missile) this.launchMissile();
-		if (this.inputs.grapple) {
+	updateInputs(packet) {
+		this.aim.x = packet.aim[0];
+		this.aim.y = packet.aim[1];
+
+		this.thrust.forward = packet.thrust[0];
+		this.thrust.left = packet.thrust[1];
+		this.thrust.right = packet.thrust[2];
+
+		if (packet.fire[1]) this.launchMissile();
+		if (packet.fire[0] && this.grapple) {
+			this.grapple.release();
+		} else if (packet.fire[0] && !this.grapple) {
 			if (this.grapple) {
 				this.grapple.retract();
 			} else {
-				let s = this.world.scale;
-				this.launchGrapple(this.inputs.mx, this.inputs.my);
+				this.launchGrapple(this.aim.x, this.aim.y);
 			}
-		}
-		if (this.inputs.release && this.grapple) {
-			this.grapple.release();
 		}
 	}
 

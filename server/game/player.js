@@ -31,7 +31,12 @@ class Player {
 	}
 
 	updateInputs(data) {
-		this.ship.updateInputs(data);
+		let input = {};
+		let sanitize = v => {
+			return v.length ? v.map(a => sanitize(a)) : +v || 0;
+		}
+		data.forEach((v, i) => input[this.inputInterface[i]] = sanitize(v));
+		this.ship.updateInputs(input);
 		this.lastAction = Date.now();
 	}
 
