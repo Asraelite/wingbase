@@ -37,15 +37,7 @@ class World {
 
 	addPlayer(player) {
 		this.players.add(player);
-		let pos = {
-			x: player.team == 'b' ? this.bounds.right - 5 : 5,
-			y: this.bounds.bottom / 2
-		};
-		let ship = new Ship(this, pos, player);
-		player.ship = ship;
-		this.addShip(ship);
-
-		//this.test();
+		this.spawner.spawnShip(player);
 	}
 
 	test() {
@@ -172,6 +164,11 @@ class World {
 
 	tick() {
 		this.physics.step();
+
+		this.players.forEach(player => {
+			if (!player.ship)
+				this.spawner.spawnShip(player);
+		});
 
 		let tickBodies = (set, interval, forceInterval) => {
 			set.forEach(body => {

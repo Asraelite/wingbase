@@ -54,6 +54,15 @@ class Body {
 	destruct() {
 		this.mounts.forEach(mount => mount.destruct());
 		this.world.physics.remove(this);
+
+		this.destructType();
+	}
+
+	destructType() {
+	}
+
+	destroy() {
+		this.world.removeBody(this);
 	}
 
 	applyDelta() {
@@ -85,6 +94,14 @@ class Body {
 	}
 
 	contact() {
+	}
+
+	damage(value) {
+		this.health -= value;
+
+		if (this.health <= 0) {
+			this.destroy();
+		}
 	}
 
 	tick() {

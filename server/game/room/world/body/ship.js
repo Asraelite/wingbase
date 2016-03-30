@@ -49,6 +49,10 @@ class Ship extends Body {
 		};
 	}
 
+	destructType() {
+		this.player.ship = false;
+	}
+
 	updateInputs(packet) {
 		this.aim.x = packet.aim[0];
 		this.aim.y = packet.aim[1];

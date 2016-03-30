@@ -10,7 +10,8 @@ class Discharge {
 
 		this.lifetime = data.lifetime || 50;
 		this.fixture = fixture;
-		this.world = this.fixture.body.world;
+		this.body = this.fixture.body;
+		this.world = this.body.world;
 
 		this.id = this.world.room.generateId();
 	}
@@ -19,8 +20,12 @@ class Discharge {
 		this.world.removeDischarge(this);
 	}
 
-	contact(body) {
+	contact(body, point) {
 		if (body == this.body) return;
+
+		if (body.type == 'ship' && body.player.team != this.body.player.team) {
+			body.damage(0.1, point)
+		}
 
 		this.destroy();
 	}
@@ -63,7 +68,7 @@ class Discharge {
 		let contact = this.world.physics.raycast(start, end);
 
 		if (contact) {
-			this.contact(contact.body);
+			this.contact(contact.body, contact.point);
 		}
 
 		if (this.lifetime-- <= 0)

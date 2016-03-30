@@ -4,6 +4,7 @@ const Asteroid = require('./body/asteroid.js');
 const Grapple = require('./body/projectile/grapple.js');
 const Missile = require('./body/projectile/missile.js');
 const Laser = require('./body/turret/discharge/laser.js');
+const Ship = require('./body/ship.js');
 
 class Spawner {
 	constructor(world) {
@@ -17,6 +18,17 @@ class Spawner {
 		};
 		let asteroid = new Asteroid(this.world, pos, size);
 		this.world.addAsteroid(asteroid);
+	}
+
+	spawnShip(player) {
+		let pos = {
+			x: player.team == 'b' ? this.world.bounds.right - 5 : 5,
+			y: this.world.bounds.bottom / 2
+		};
+
+		let ship = new Ship(this.world, pos, player);
+		player.ship = ship;
+		this.world.addShip(ship);
 	}
 
 	spawnMissile(ship) {
