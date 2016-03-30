@@ -16,6 +16,7 @@ class Renderer {
 		window.addEventListener('resize', _ => pallet.fillScreen(1000, 600));
 
 		this.bodyRenderer = new BodyRenderer(this);
+		this.dischargeRenderer = new DischargeRenderer(this);
 	}
 
 	render(state) {
@@ -53,9 +54,19 @@ class Renderer {
 
 		this.renderGrid();
 
+		let vx = -game.world.center.x;
+		let vy = -game.world.center.y;
+		this.pallet.view(vx, vy, false, 0);
+
 		for (var id in game.world.bodies) {
 			this.bodyRenderer.render(game.world.bodies[id]);
 		}
+
+		for (var id in game.world.discharges) {
+			this.dischargeRenderer.render(game.world.discharges[id]);
+		}
+
+		this.pallet.restore();
 
 		this.effects.forEach(effect => {
 			effect.render();
@@ -76,8 +87,10 @@ class Renderer {
 		let cw = this.canvas.width;
 		let ch = this.canvas.height;
 
-		var gridx = cx % 50;
-		var gridy = cy % 50;
+		let gridx = cx % 50;
+		let gridy = cy % 50;
+		let lastBlue = false;
+
 		this.pallet.opacity(0.05);
 		for (var x = gridx - cw / 2 - 50; x < cw + 50; x += 50) {
 			for (var y = gridy - ch / 2 - 50; y < ch + 50; y += 50) {
@@ -85,10 +98,18 @@ class Renderer {
 				var wy = ((-cy + y) / SCALE) | 0;
 				var b = game.world.bounds;
 				if (wx > b.right || wx < b.left || wy > b.bottom || wy < b.top) {
-					this.pallet.opacity(0.2);
+					if (!lastBlue) {
+						this.pallet.opacity(0.2);
+						lastBlue = true;
+					}
 					this.pallet.outline('#8af', x, y, 51, 51, 1);
-					this.pallet.opacity(0.05);
-				} else this.pallet.outline('#fff', x, y, 51, 51, 1);
+				} else {
+					if (lastBlue) {
+						this.pallet.opacity(0.05);
+						lastBlue = false;
+					}
+					this.pallet.outline('#fff', x, y, 51, 51, 1);
+				}
 			}
 		}
 		this.pallet.opacity(1);

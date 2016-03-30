@@ -6,13 +6,13 @@ const Grapple = require('./grapple.js');
 const traits = require('../../traits/fixtures.json');
 
 class Mount {
-	constructor(ship, data, fixture) {
-		//this.ship = ship;
+	constructor(body, data, fixture) {
+		this.body = body;
 
 		this.type = data.type || 'turret';
 		this.size = data.size || 0;
 		this.hidden = data.hidden || 'false';
-		this.position = {
+		this.pos = {
 			x: data.pos[0],
 			y: data.pos[1]
 		}
@@ -63,8 +63,8 @@ class Mount {
 
 	packFull() {
 		return {
-			x: this.position.x,
-			y: this.position.y,
+			x: this.pos.x,
+			y: this.pos.y,
 			hidden: this.hidden,
 			fixture: this.fixture ? this.fixture.id : 0
 		};

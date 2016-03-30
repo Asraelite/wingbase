@@ -11,6 +11,7 @@ class Fixture {
 		this._angle = mount.traversal ? mount.traversal.cw : 0;
 
 		this.mount = mount;
+		this.body = this.mount.body;
 	}
 
 	destruct() {

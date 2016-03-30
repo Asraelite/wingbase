@@ -58,24 +58,10 @@ class Ship extends Body {
 		this.thrust.right = packet.thrust[2];
 
 		packet.fire.forEach((m, i) => m ? this.mounts[i].fire(m) : 0);
-
-		if (packet.fire[0] && this.grapple) {
-			this.grapple.release();
-		} else if (packet.fire[0] && !this.grapple) {
-			if (this.grapple) {
-				this.grapple.retract();
-			} else {
-				this.launchGrapple(this.aim.x, this.aim.y);
-			}
-		}
 	}
 
 	launchMissile() {
 		this.world.spawner.spawnMissile(this);
-	}
-
-	launchGrapple(x, y) {
-		this.grapple = this.world.spawner.spawnGrapple(this, x, y);
 	}
 
 	tickType() {

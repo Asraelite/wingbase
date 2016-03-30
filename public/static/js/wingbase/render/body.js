@@ -9,18 +9,15 @@ class BodyRenderer {
 		let pos = body.pos;
 		let x = pos.x * SCALE;
 		let y = pos.y * SCALE;
-		let vx = -game.world.center.x;
-		let vy = -game.world.center.y;
 
 		let pallet = this.pallet;
 		let context = pallet.context;
 
-		pallet.view(vx, vy, false, 0);
 		pallet.view(x, y, false, pos.r);
 
 		for (let f of body.fixtures) {
 			if (!f.fixture || !f.hidden) continue;
-			let img = game.assets.images.turrets[f.fixture].small;
+			let img = game.assets.images.turrets[f.fixture][f.state];
 			this.pallet.image(img, f.x - 32, f.y - 32, f.angle);
 		}
 
@@ -36,11 +33,10 @@ class BodyRenderer {
 
 		for (let f of body.fixtures) {
 			if (!f.fixture || f.hidden) continue;
-			let img = game.assets.images.turrets[f.fixture].small;
+			let img = game.assets.images.turrets[f.fixture][f.state];
 			this.pallet.image(img, f.x - 32, f.y - 32, f.angle);
 		}
 
-		pallet.restore();
 		pallet.restore();
 
 	}

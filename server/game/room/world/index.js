@@ -11,6 +11,7 @@ class World {
 		this.physics = new Physics();
 		this.spawner = new Spawner(this);
 		this.bodies = new Set();
+		this.discharges = new Set();
 		this.asteroids = new Set();
 		this.copulae = new Set();
 		this.players = new Set();
@@ -71,6 +72,11 @@ class World {
 	addProjectile(projectile) {
 		this.addBody(projectile);
 		projectile.connect();
+	}
+
+	addDischarge(discharge) {
+		this.discharges.add(discharge);
+		this.room.broadcast('create', discharge.packFull());
 	}
 
 	addBody(body) {
@@ -147,6 +153,11 @@ class World {
 		this.room.broadcast('destroy', copula.id);
 	}
 
+	removeDischarge(discharge) {
+		this.discharges.delete(discharge);
+		this.room.broadcast('destroy', discharge.id);
+	}
+
 	weld(bodyA, bodyB, point) {
 		this.physics.weld(bodyA, bodyB, point);
 	}
@@ -162,17 +173,20 @@ class World {
 	tick() {
 		this.physics.step();
 
-		let tickBodies = (set, interval, canSleep) => {
+		let tickBodies = (set, interval, forceInterval) => {
 			set.forEach(body => {
-				if (this.tickCount % interval == 0 && body.awake)
+				let force = this.tickCount % forceInterval == 0;
+				if ((this.tickCount % interval == 0 && body.awake) || force)
 					body.applyDelta();
 				body.tick();
 			});
 		};
 
 		tickBodies(this.ships, 1);
-		tickBodies(this.asteroids, 1);
+		tickBodies(this.asteroids, 1, 100);
 		tickBodies(this.projectiles, 1);
+
+		this.discharges.forEach(d => d.tick());
 
 		if (Date.now() - this.tpsStart > 5000) {
 			this.tps = this.tpsCount / 5 | 0;

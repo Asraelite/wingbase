@@ -121,6 +121,7 @@ class Body {
 
 	packFull() {
 		let packet = {
+			form: 'body',
 			type: this.type,
 			class: this.class,
 			id: this.id,
@@ -138,6 +139,10 @@ class Body {
 
 	packTypeFull() {
 		return {};
+	}
+
+	getWorldPos(pos) {
+		return this.b2body.GetWorldPoint(new b2Vec2(pos.x, pos.y), {});
 	}
 
 	get awake() {

@@ -9,6 +9,11 @@ class Body {
 		this.id = data.id
 		this.frame = data.frame;
 		this.fixtures = data.fixtures;
+		this.fixtures = this.fixtures.map(f => {
+			f.x *= 32;
+			f.y *= 32;
+			return f;
+		});
 		this.b2body = false;
 		this.updated = 0;
 		this.bodyClass = data.class;
@@ -49,7 +54,7 @@ class Body {
 		this.fixtures.forEach(fixture => {
 			let obj = {};
 			this.interface.fixtures.order.forEach(v => obj[v] = data.shift());
-			
+
 			fixture.angle = obj.angle;
 			fixture.state = obj.state;
 		});

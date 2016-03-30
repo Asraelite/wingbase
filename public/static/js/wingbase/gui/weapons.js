@@ -13,12 +13,12 @@ GUI.prototype.Weapons = class {
 
 		this.element.innerHTML = '';
 		ship.fixtures.forEach((fixture, i) => {
-			if (!fixture.type) return;
+			if (!fixture.fixture) return;
 			let div = document.createElement('div');
 			div.classList.add('weapon');
 			if (ship.activeFixture == i)
 				div.classList.add('active');
-			let img = `url(/img/turrets/${fixture.type}/normal.png)`;
+			let img = `url(/img/turrets/${fixture.fixture}/normal.png)`;
 			div.style.backgroundImage = img;
 			this.element.appendChild(div);
 		});
