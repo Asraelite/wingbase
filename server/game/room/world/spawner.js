@@ -29,6 +29,14 @@ class Spawner {
 		let ship = new Ship(this.world, pos, player);
 		player.ship = ship;
 		this.world.addShip(ship);
+
+		let data = {
+			playerShipId: player.ship.id,
+			inputInterface: player.inputInterface,
+			bounds: this.world.bounds,
+		};
+
+		player.sendWorld(data);
 	}
 
 	spawnMissile(ship) {

@@ -21,11 +21,12 @@ class Net {
 		});
 
 		this.socket.on('world', data => {
-			game.world.clear();
+			window.q = data;
 			game.world.bounds = data.bounds;
 			game.player.inputInterface = data.inputInterface;
-			for (var b of data.bodies) {
-				game.world.add(b);
+			if (data.bodies) {
+				game.world.clear();
+				data.bodies.forEach(b => game.world.add(b));
 			}
 			game.world.setPlayerShip(data.playerShipId);
 		});
