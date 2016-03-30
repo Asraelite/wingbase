@@ -61,7 +61,9 @@ class Ship extends Body {
 		this.thrust.left = packet.thrust[1];
 		this.thrust.right = packet.thrust[2];
 
-		packet.fire.forEach((m, i) => m ? this.mounts[i].fire(m) : 0);
+		packet.fire.forEach((m, i) => {
+			m ? this.mounts[i].fire(m) : this.mounts[i].rest();
+		});
 	}
 
 	launchMissile() {

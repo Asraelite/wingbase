@@ -29,7 +29,7 @@ class World {
 
 		this.bounds = {
 			left: 0,
-			right: 150,
+			right: 60,
 			top: 0,
 			bottom: 30
 		}
@@ -115,7 +115,7 @@ class World {
 	}
 
 	populate() {
-		for (var i = 0; i < 50; i++) {
+		for (var i = 0; i < 30; i++) {
 			let pos = {
 				x: Math.random() * this.bounds.right,
 				y: Math.random() * this.bounds.bottom

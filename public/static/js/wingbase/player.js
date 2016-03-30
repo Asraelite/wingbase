@@ -15,7 +15,7 @@ class Player {
 		let packet = {};
 
 		packet.thrust = ['w', 'a', 'd', 's'].map(k => +input.keys.held[k] || 0);
-		packet.fire = [1, 1, 3].map(k => +input.mouse.pressed[k] || 0);
+		packet.fire = [1, 1, 3].map(k => +input.mouse.held[k] || 0);
 		packet.aim = [
 			+input.mouse.wx.toFixed(2),
 			+input.mouse.wy.toFixed(2)

@@ -38,6 +38,11 @@ class Mount {
 		this.fixture.fire();
 	}
 
+	rest() {
+		if (!this.fixture) return;
+		this.fixture.rest();
+	}
+
 	setFixture(fixture) {
 		if (!(fixture in traits)) return;
 
@@ -51,6 +56,10 @@ class Mount {
 		let data = traits[fixture];
 		data.id = fixture;
 		this.fixture = new fixtureClass(this, data);
+	}
+
+	tick() {
+		this.fixture.tick();
 	}
 
 	packDelta() {

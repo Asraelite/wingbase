@@ -8,7 +8,7 @@ class Blaster extends Fixture {
 		super(mount, data);
 	}
 
-	fire() {
+	fireType() {
 		this.body.world.spawner.spawnLaser(this);
 	}
 }

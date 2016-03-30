@@ -9,7 +9,7 @@ class Grapple extends Fixture {
 		this.grapple = false;
 	}
 
-	fire(value) {
+	fireType(value) {
 		if (this.state == 1) {
 			this.grapple.release();
 			this.state = 0;

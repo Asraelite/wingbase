@@ -32,6 +32,7 @@
 		"type": "grapple",
 		"speed": 0.1,
 		"range": 8,
+		"autofire": false,
 		"cost": {
 
 		},

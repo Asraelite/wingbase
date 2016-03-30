@@ -113,6 +113,8 @@ class Body {
 		if(pos.y < bounds.top) this.applyForce(0, 0.03);
 		if(pos.y > bounds.bottom) this.applyForce(-0, -0.03);
 
+		this.mounts.forEach(m => m.tick());
+
 		this.sleepTime++;
 
 		this.tickType();
