@@ -44,9 +44,10 @@ GUI.prototype.Chat = class {
 	}
 
 	tick() {
-		if (game.input.keys.pressed[13] || game.input.keys.pressed[27]) {
+		let keys = game.input.keys;
+		if (keys.pressed['Enter'] || keys.pressed['Esc']) {
 			if (this.typing) {
-				if (game.input.keys.pressed[13]) {
+				if (keys.pressed['Enter']) {
 					let message = this.inputElement.value;
 					this.inputElement.value = '';
 					if (message[0] == '/') {

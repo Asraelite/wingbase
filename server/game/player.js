@@ -14,6 +14,12 @@ class Player {
 		this.delta = [];
 
 		this.chatCooldown = 0;
+
+		this.inputInterface = [
+			'thrust',
+			'aim',
+			'fire'
+		];
 	}
 
 	disconnect() {

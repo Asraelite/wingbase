@@ -115,6 +115,7 @@ class Room {
 	sendWorld(player) {
 		let data = {
 			playerShipId: player.ship.id,
+			inputInterface: player.inputInterface,
 			bounds: this.world.bounds,
 			tps: this.tps,
 			bodies: Array.from(this.world.bodies).map(b => b.packFull())

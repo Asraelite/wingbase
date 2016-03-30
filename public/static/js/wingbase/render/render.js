@@ -37,7 +37,7 @@ class Renderer {
 		this.pallet.fill('#020202');
 
 		this.context.save();
-		
+
 		this.context.beginPath();
 		this.context.rect(0, 0, cw, ch);
 		this.context.clip();

@@ -53,19 +53,19 @@ class Input {
 
 	keyDown() {
 		if (this.locked) {
-			if (event.which == '13' || event.which == '27') {
-				this.keys.pressed[event.which] = true;
+			if (event.key == 'Esc' || event.key == 'Enter') {
+				this.keys.pressed[event.key] = true;
 			}
 			return;
 		}
-		if (!this.keys.held[event.which])
-			this.keys.pressed[event.which] = true;
-		this.keys.held[event.which] = true;
+		if (!this.keys.held[event.ket])
+			this.keys.pressed[event.key] = true;
+		this.keys.held[event.key] = true;
 	}
 
 	keyUp() {
 		if (this.locked) return;
-		this.keys.held[event.which] = false;
+		this.keys.held[event.key] = false;
 	}
 
 	mouseAnyPressed() {
