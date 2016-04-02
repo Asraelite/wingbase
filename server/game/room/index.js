@@ -13,7 +13,7 @@ class Room {
 		this.teamB = new Set();
 		this.world = new World(this);
 		this.name = (Math.random() * 100000 | 0).toString(36);
-		this.tps = wingbase.args.development ? 5 : 60;
+		this.tps = wingbase.args.development ? 60 : 60;
 
 		this.idGenerator = (function*() {
 			let i = 0;

@@ -89,6 +89,8 @@ class World {
 	applyDelta(data, bodyPos) {
 		data = data.map(v => +(v.toFixed(3)));
 		this.players.forEach(player => {
+			if (!player.ship)
+				return;
 			let dx = player.ship.pos.x - bodyPos.x;
 			let dy = player.ship.pos.y - bodyPos.y;
 			if (dx * dx + dy * dy < 900)
@@ -132,6 +134,7 @@ class World {
 	}
 
 	removeBody(body) {
+		if(!body) return;
 		body.destruct();
 		this.bodies.delete(body);
 		this.asteroids.delete(body);

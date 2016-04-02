@@ -66,6 +66,8 @@ class World {
 				body.update(data.slice(i, i + body.interface.size));
 			} else if (discharge) {
 				discharge.update(data.slice(i, i + 2));
+			} else {
+				return;
 			}
 
 			i += body.interface.size;
