@@ -33,25 +33,25 @@ class Input {
 		document.addEventListener('contextmenu', e => e.preventDefault());
 	}
 
-	mouseMove() {
+	mouseMove(event) {
 		if (this.locked) return;
 		var rect = game.renderer.canvas.getBoundingClientRect();
 		this.mouse.x = event.clientX - rect.left;
 		this.mouse.y = event.clientY - rect.top;
 	};
 
-	mouseDown() {
+	mouseDown(event) {
 		if (this.locked) return;
 		this.mouse.pressed[event.which] = true;
 		this.mouse.held[event.which] = true;
 	};
 
-	mouseUp() {
+	mouseUp(event) {
 		if (this.locked) return;
 		this.mouse.held[event.which] = false;
 	}
 
-	keyDown() {
+	keyDown(event) {
 		if (this.locked) {
 			if (event.key == 'Esc' || event.key == 'Enter') {
 				this.keys.pressed[event.key] = true;
@@ -63,18 +63,18 @@ class Input {
 		this.keys.held[event.key] = true;
 	}
 
-	keyUp() {
+	keyUp(event) {
 		if (this.locked) return;
 		this.keys.held[event.key] = false;
 	}
 
-	mouseAnyPressed() {
+	mouseAnyPressed(event) {
 		if (this.locked) return;
 		var p = this.mouse.pressed;
 		return p[1] || p[2] || p[3];
 	}
 
-	clear() {
+	clear(event) {
 		for (var i in this.keys.pressed) this.keys.pressed[i] = false;
 		for (var i in this.mouse.pressed) this.mouse.pressed[i] = false;
 	};

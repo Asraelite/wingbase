@@ -125,7 +125,8 @@ class World {
 	}
 
 	removePlayer(player) {
-		this.removeBody(player.ship);
+		if (player.ship || true)
+			this.removeBody(player.ship);
 		this.ships.delete(player);
 		this.players.delete(player);
 	}

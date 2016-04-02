@@ -4,6 +4,7 @@ const colors = require('colors');
 const fs = require('fs');
 const path = require('path');
 const recursive = require('recursive-readdir');
+const traceur = require('traceur');
 const uglify = require('uglify-js');
 
 function minifyJs(callback) {
@@ -21,8 +22,9 @@ function minifyJs(callback) {
 	}
 
 	recursive(dir, function(err, files) {
-		for(var i in files) {
-			scripts.push(fs.readFileSync(files[i], 'utf8').toString());
+		for(var file of files) {
+			let code = fs.readFileSync(file, 'utf8').toString();
+			scripts.push(code);
 		}
 
 		scripts.sort((a, b) => getPriority(b) - getPriority(a));
@@ -32,8 +34,13 @@ function minifyJs(callback) {
 
 		cache = scripts.join('');
 
-		//Remove to re-enable minifying.
-		callback(cache); return;
+		if (!wingbase.args.development)
+			cache = traceur.compile(cache);
+
+		if (wingbase.args.development) {
+			callback(cache);
+			return;
+		}
 
 		try {
 			cache = uglify.minify(cache, { fromString: true }).code;
@@ -42,7 +49,7 @@ function minifyJs(callback) {
 			comment += 'If you would like to view the source in a more readable format, ';
 			comment += 'please contact the developer.*/\n'
 		} catch(err) {
-			console.log('Error parsing kelvin.min.js file'.red);
+			console.log('Error parsing wingbase.min.js file'.red);
 
 
 			comment = '/* This file could not be minified because of JS syntax errors.';
