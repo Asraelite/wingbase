@@ -23,6 +23,7 @@ GUI.prototype.Chat = class {
 		};
 
 		let span;
+		let atBottom = this.element.scrollTop == this.element.scrollHeight;
 
 		if (message.type == 'server') {
 			span = this.gui.createElement(this.messageElement, 'span', {
@@ -36,11 +37,16 @@ GUI.prototype.Chat = class {
 			});
 		}
 
-		this.element.scrollTop = this.element.scrollHeight;
+		if (atBottom)
+			this.element.scrollTop = this.element.scrollHeight;
+
+		setTimeout(_ => {
+			span.classList.add('old');
+		}, 5000);
 
 		setTimeout(_ => {
 			this.messageElement.removeChild(span);
-		}, 20000);
+		}, 200000);
 	}
 
 	tick() {
@@ -59,12 +65,15 @@ GUI.prototype.Chat = class {
 				}
 				this.typing = false;
 				this.inputElement.blur();
+				this.messageElement.classList.add('inactive');
 				this.inputElement.disabled = true;
 				game.input.locked = false;
 			} else {
 				this.typing = true;
 				this.inputElement.disabled = false;
 				this.inputElement.focus();
+				this.messageElement.classList.remove('inactive');
+				this.element.scrollTop = this.element.scrollHeight;
 				game.input.locked = true;
 			}
 		}
