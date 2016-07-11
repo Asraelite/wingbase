@@ -13,6 +13,18 @@ class BodyRenderer {
 		let pallet = this.pallet;
 		let context = pallet.context;
 
+		let limits = {
+			left: game.world.center.x - pallet.canvas.width / 2  - 100,
+			right: game.world.center.x + pallet.canvas.width / 2 + 100,
+			top: game.world.center.y - pallet.canvas.height / 2 - 100,
+			bottom: game.world.center.y + pallet.canvas.height / 2 + 100
+		};
+
+		if (x > limits.right || x < limits.left ||
+			y > limits.bottom || y < limits.top) {
+			return;
+		}
+
 		pallet.view(x, y, false, pos.r);
 
 		for (let f of body.fixtures) {
