@@ -19,8 +19,8 @@ class WebServer {
 		let app = this.app;
 
 		app.set('views', 'public/views');
-		app.set('view engine', 'jade');
-		app.engine('jade', require('jade').__express);
+		app.set('view engine', 'pug');
+		app.engine('pug', require('pug').__express);
 
 		app.use(stylus.middleware({
 			src: 'public/stylus',
