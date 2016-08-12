@@ -9,14 +9,16 @@ class Physics {
 		this.world = new b2World(new b2Vec2(0, 0));
 		this.toRemove = [];
 
-		var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
-		var debugDraw = new b2DebugDraw();
-		debugDraw.SetSprite(document.getElementById("wingbase_canvas").getContext("2d"));
+		/*
+		let b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
+		let debugDraw = new b2DebugDraw();
+		debugDraw.SetSprite(document.getElementById("wingbase-canvas").getContext("2d"));
 		debugDraw.SetDrawScale(SCALE);
 		debugDraw.SetFillAlpha(0.3);
 		debugDraw.SetLineThickness(1.0);
 		debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
 		this.world.SetDebugDraw(debugDraw);
+		*/
 	}
 
 	createBody(body) {

@@ -6,13 +6,14 @@ block head
 	script(src='js/lib/traceur-runtime.js')
 	script(src='js/lib/dexie.min.js')
 	script(src='js/lib/domeventslevel3.shim.min.js')
-	script(src='socket.io/socket.io.js')
 	script(src='js/lib/box2dweb.min.js')
-	script(src='https://rawgit.com/Asraelite/pallet.js/master/pallet.js')
+	script(src='js/lib/pixi.min.js')
+	script(src='socket.io/socket.io.js')
+
 	script(src='wingbase.min.js')
-	
+
 block body
-	canvas#wingbase_canvas
+	canvas#wingbase-canvas
 		| Sorry, your browser does not currently support HTML5 Canvas.
 	#gui
 		include gui/gui.pug

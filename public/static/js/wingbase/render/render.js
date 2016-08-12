@@ -2,24 +2,47 @@
 
 class Renderer {
 	constructor() {
-		let pallet = new Pallet();
-		let canvas = pallet.canvas;
-		let context = pallet.context;
+		const minWidth = 1000;
+		const minHeight = 600;
 
-		this.pallet = pallet;
-		this.canvas = canvas;
-		this.context = context;
+		let element = document.getElementById('wingbase-canvas');
+
+		let pixiRenderer = PIXI.autoDetectRenderer(1000, 600,{
+			backgroundColor : 0x020304,
+			view: element
+		});
+
+		this.canvas = element;
+		this.pixiRenderer = pixiRenderer;
 
 		this.effects = new Set();
+		this.sprites = new WeakMap();
 
-		pallet.fillScreen();
-		window.addEventListener('resize', _ => pallet.fillScreen(1000, 600));
+		this.stage = new PIXI.Container();
+		this.backgroundContainer = new PIXI.Container();
+		this.gridContainer = new PIXI.Graphics();
+		this.spriteContainer = new PIXI.Container();
+		this.graphicsContainer = new PIXI.Graphics();
+		this.particleContainer = new PIXI.particles.ParticleContainer();
 
-		this.bodyRenderer = new BodyRenderer(this);
-		this.dischargeRenderer = new DischargeRenderer(this);
+		this.stage.addChild(this.backgroundContainer);
+		this.stage.addChild(this.gridContainer);
+		this.stage.addChild(this.spriteContainer);
+		this.stage.addChild(this.graphicsContainer);
+		this.stage.addChild(this.particleContainer);
+
+		pixiRenderer.resize(window.innerWidth, window.innerHeight);
+		window.addEventListener('resize', _ => {
+			pixiRenderer.resize(Math.max(window.innerWidth, minWidth || 0),
+				Math.max(window.innerHeight, minHeight || 0));
+		});
+
+		//this.bodyRenderer = new BodyRenderer(this);
+		//this.dischargeRenderer = new DischargeRenderer(this);
 	}
 
 	render(state) {
+		/*
 		let ship = game.world.playerShip;
 		let cw = this.canvas.width;
 		let ch = this.canvas.height;
@@ -49,11 +72,11 @@ class Renderer {
 		let img = game.assets.images.backgrounds['01'];
 		let bgx = -img.width / 2 - center.x / 20;
 		let bgy = -img.height / 2 - center.y / 20;
-		this.pallet.image(img, bgx, bgy, 0, img.width * 1.5, img.height * 1.5);
+		//this.pallet.image(img, bgx, bgy, 0, img.width * 1.5, img.height * 1.5);
 		this.pallet.opacity(1);
-
+		*/
 		this.renderGrid();
-
+		/*
 		let vx = -game.world.center.x;
 		let vy = -game.world.center.y;
 		this.pallet.view(vx, vy, false, 0);
@@ -61,6 +84,7 @@ class Renderer {
 		for (var id in game.world.bodies) {
 			this.bodyRenderer.render(game.world.bodies[id]);
 		}
+
 
 		for (var id in game.world.discharges) {
 			this.dischargeRenderer.render(game.world.discharges[id]);
@@ -78,6 +102,9 @@ class Renderer {
 		}
 
 		this.pallet.restore();
+		*/
+		console.log('a');
+		this.pixiRenderer.render(this.stage);
 	}
 
 	renderGrid() {
@@ -91,29 +118,29 @@ class Renderer {
 		let gridy = cy % 50;
 		let lastBlue = false;
 
+		let container = this.gridContainer;
+
+		this.stage.removeChild(container);
+		container.clear();
+
 		let b = game.world.bounds;
 
-		this.pallet.opacity(0.05);
-		for (var x = gridx - cw / 2 - 50; x < cw + 50; x += 50) {
-			for (var y = gridy - ch / 2 - 50; y < ch + 50; y += 50) {
-				var wx = ((-cx + x) / SCALE) | 0;
-				var wy = ((-cy + y) / SCALE) | 0;
+		//this.pallet.opacity(0.05);
+		for (let x = gridx - cw / 2 - 50; x < cw + 50; x += 50) {
+			for (let y = gridy - ch / 2 - 50; y < ch + 50; y += 50) {
+				let wx = ((-cx + x) / SCALE) | 0;
+				let wy = ((-cy + y) / SCALE) | 0;
 				if (wx > b.right || wx < b.left || wy > b.bottom || wy < b.top) {
-					if (!lastBlue) {
-						this.pallet.opacity(0.2);
-						lastBlue = true;
-					}
-					this.pallet.outline('#8af', x, y, 51, 51, 1);
+					container.lineStyle(1, 0x88AAFF, 0.2);
+					container.drawRect(x, y, 50, 50);
 				} else {
-					if (lastBlue) {
-						this.pallet.opacity(0.05);
-						lastBlue = false;
-					}
-					this.pallet.outline('#fff', x, y, 51, 51, 1);
+					container.lineStyle(1, 0xFFFFFF, 0.05);
+					container.drawRect(x, y, 50, 50);
 				}
 			}
 		}
-		this.pallet.opacity(1);
+
+		this.stage.addChild(container);
 	}
 
 	addEffect(data) {

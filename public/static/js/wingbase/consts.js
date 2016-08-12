@@ -7,3 +7,5 @@ const b2BodyDef = Box2D.Dynamics.b2BodyDef;
 const b2Fixture = Box2D.Dynamics.b2Fixture;
 const b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
 const b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
+
+PIXI.utils._saidHello = true;

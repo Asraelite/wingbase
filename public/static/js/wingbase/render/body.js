@@ -1,8 +1,7 @@
 class BodyRenderer {
 	constructor(renderer) {
-		this.pallet = renderer.pallet;
-		this.canvas = this.pallet.canvas;
-		this.context = this.pallet.context;
+		this.renderer = renderer;
+		this.canvas = this.renderer.pixiRenderer;
 	}
 
 	render(body) {
@@ -10,8 +9,8 @@ class BodyRenderer {
 		let x = pos.x * SCALE;
 		let y = pos.y * SCALE;
 
-		let pallet = this.pallet;
-		let context = pallet.context;
+		let canvas = this.canvas;
+		let sprites = this.renderer.sprites;
 
 		let limits = {
 			left: game.world.center.x - pallet.canvas.width / 2  - 100,
@@ -25,12 +24,16 @@ class BodyRenderer {
 			return;
 		}
 
-		pallet.view(x, y, false, pos.r);
-
 		for (let f of body.fixtures) {
+			/*
+			if (!sprites.has(f) {
+				sprites.set(f, PIXI.Sprite.fromImage('img/ships/01/hull.png'));
+			}
+			let sprite = sprites.get(f);
 			if (!f.fixture || !f.hidden) continue;
 			let img = game.assets.images.turrets[f.fixture][f.state];
-			this.pallet.image(img, f.x - 32, f.y - 32, f.angle);
+			//this.pallet.image(img, f.x - 32, f.y - 32, f.angle);
+			*/
 		}
 
 		if (body.bodyType == 'ship') {
@@ -102,17 +105,25 @@ class BodyRenderer {
 	}
 
 	renderShip(ship) {
+		let sprites = this.renderer.sprites;
+
+		if (!sprites.has(ship)) {
+			sprites.set(ship, PIXI.Sprite.fromImage('img/ships/01/hull.png'));
+		}
+
+		/*
 		let img = game.assets.images.ships[ship.hull].hull;
 		let teama = game.assets.images.ships[ship.hull].teama;
 		let teamb = game.assets.images.ships[ship.hull].teamb;
 		let thr0 = game.assets.images.ships[ship.hull].thrust0;
 		let thr8 = game.assets.images.ships[ship.hull].thrust8;
+		*/
 
 		let pos = ship.pos;
 
-		this.pallet.image(ship.team == 'a' ? teama : teamb, 0, 0, 0);
-		this.pallet.image(img, 0, 0, 0);
-		this.pallet.image(ship.thrust.forward ? thr8 : thr0, 0, 0, 0);
+		//this.pallet.image(ship.team == 'a' ? teama : teamb, 0, 0, 0);
+		//this.pallet.image(img, 0, 0, 0);
+		//this.pallet.image(ship.thrust.forward ? thr8 : thr0, 0, 0, 0);
 
 		if (ship.debug) {
 			this.pallet.square('#f00', ship.debug.x * SCALE, ship.debug.y * SCALE, 2);
