@@ -2,7 +2,7 @@
 
 const uuid = require('uuid');
 
-const Mount = require('./turret/mount.js');
+const Hardpoint = require('./hardpoint/hardpoint.js');
 
 const b2Vec2 = require('box2d-html5').b2Vec2;
 
@@ -21,12 +21,12 @@ class Body {
 		this.r = data.r || 0;
 		this.rvel = data.rvel || 0;
 
-		this.mounts = data.mounts || [];
+		this.hardpoints = data.hardpoints || [];
 		this.fixtures = data.fixtures || [];
 		this.health = data.health || 1;
-		this.mounts = this.mounts.map((m, i) => {
+		this.hardpoints = this.hardpoints.map((m, i) => {
 			let fixture = this.fixtures[i];
-			return new Mount(this, m, fixture);
+			return new Hardpoint(this, m, fixture);
 		});
 
 		this.interface = {
@@ -44,7 +44,7 @@ class Body {
 					'angle',
 					'state'
 				],
-				num: this.mounts.length
+				num: this.hardpoints.length
 			}
 		};
 
@@ -52,7 +52,7 @@ class Body {
 	}
 
 	destruct() {
-		this.mounts.forEach(mount => mount.destruct());
+		this.hardpoints.forEach(hardpoint => hardpoint.destruct());
 		this.world.physics.remove(this);
 
 		this.destructType();
@@ -113,7 +113,7 @@ class Body {
 		if(pos.y < bounds.top) this.applyForce(0, 0.03);
 		if(pos.y > bounds.bottom) this.applyForce(-0, -0.03);
 
-		this.mounts.forEach(m => m.tick());
+		this.hardpoints.forEach(m => m.tick());
 
 		this.sleepTime++;
 
@@ -129,7 +129,7 @@ class Body {
 
 		let values = [this.id, pos.x, pos.y, vel.x, vel.y, pos.r, vel.r];
 		values = values.concat(this.packTypeDelta());
-		this.mounts.forEach(m => [].push.apply(values, m.packDelta()));
+		this.hardpoints.forEach(m => [].push.apply(values, m.packDelta()));
 
 		return values;
 	}
@@ -145,7 +145,7 @@ class Body {
 			class: this.class,
 			id: this.id,
 			frame: this.frame,
-			fixtures: this.mounts.map(m => m.packFull()),
+			fixtures: this.hardpoints.map(m => m.packFull()),
 			delta: this.packDelta(),
 			interface: this.interface
 		};

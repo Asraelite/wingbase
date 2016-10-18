@@ -3,7 +3,7 @@
 const Asteroid = require('./body/asteroid.js');
 const Grapple = require('./body/projectile/grapple.js');
 const Missile = require('./body/projectile/missile.js');
-const Laser = require('./body/turret/discharge/laser.js');
+const Laser = require('./particle/laser.js');
 const Ship = require('./body/ship.js');
 
 class Spawner {
@@ -93,7 +93,7 @@ class Spawner {
 			yvel: fixture.body.vel.y + vy
 		};
 		let laser = new Laser(fixture, pos);
-		this.world.addDischarge(laser);
+		this.world.addParticle(laser);
 		return laser;
 	}
 }

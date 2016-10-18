@@ -1,8 +1,8 @@
 'use strict';
 
-const Discharge = require('./discharge.js');
+const Particle = require('./particle.js');
 
-class Laser extends Discharge {
+class Laser extends Particle {
 	constructor(fixture, data) {
 		super(fixture, data);
 	}

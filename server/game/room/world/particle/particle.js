@@ -1,6 +1,6 @@
 'use strict';
 
-class Discharge {
+class Particle {
 	constructor(fixture, data) {
 		this.x = data.x;
 		this.y = data.y;
@@ -17,7 +17,7 @@ class Discharge {
 	}
 
 	destroy() {
-		this.world.removeDischarge(this);
+		this.world.removeParticle(this);
 	}
 
 	contact(body, point) {
@@ -31,7 +31,7 @@ class Discharge {
 	}
 
 	packDelta() {
-		// TODO: Implement some sort of delta interface for discharges that is
+		// TODO: Implement some sort of delta interface for particles that is
 		// derived from the fixture so it's efficient.
 		return [this.id, this.x, this.y];
 	}
@@ -40,7 +40,7 @@ class Discharge {
 		// TODO: Create creation interface using fixture then send this as
 		// an array.
 		return {
-			form: 'discharge',
+			form: 'particle',
 			id: this.id,
 			x: this.x,
 			y: this.y,
@@ -52,28 +52,20 @@ class Discharge {
 	}
 
 	tick() {
-		let start = {
-			x: this.x,
-			y: this.y
-		};
+		let start = { x: this.x, y: this.y };
 
 		this.x += this.xvel;
 		this.y += this.yvel
 
-		let end = {
-			x: this.x,
-			y: this.y
-		};
-
+		let end = { x: this.x, y: this.y };
 		let contact = this.world.physics.raycast(start, end);
 
-		if (contact) {
+		if (contact)
 			this.contact(contact.body, contact.point);
-		}
 
 		if (this.lifetime-- <= 0)
 			this.destroy();
 	}
 }
 
-module.exports = Discharge;
+module.exports = Particle;

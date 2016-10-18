@@ -1,7 +1,7 @@
 'use strict';
 
 const Fixture = require('./fixture.js');
-const Laser = require('./discharge/laser.js');
+const Laser = require('../../particle/laser.js');
 
 class Blaster extends Fixture {
 	constructor(mount, data) {

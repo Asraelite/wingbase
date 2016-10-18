@@ -5,7 +5,7 @@ const Grapple = require('./grapple.js');
 
 const traits = require('../../traits/fixtures.json');
 
-class Mount {
+class Hardpoint {
 	constructor(body, data, fixture) {
 		this.body = body;
 
@@ -84,4 +84,4 @@ class Mount {
 	}
 }
 
-module.exports = Mount;
+module.exports = Hardpoint;
