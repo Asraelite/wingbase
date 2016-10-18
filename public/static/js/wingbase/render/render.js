@@ -2,13 +2,15 @@
 
 class Renderer {
 	constructor() {
-		let pallet = new Pallet();
+		let pallet = new Pallet('#wingbase-canvas');
+		let dummyPallet = new Pallet('#dummy-canvas');
 		let canvas = pallet.canvas;
 		let context = pallet.context;
 
-		this.pallet = pallet;
+		this.dummyPallet = dummyPallet;
 		this.canvas = canvas;
 		this.context = context;
+		this.pallet = pallet;
 
 		this.effects = new Set();
 
@@ -16,6 +18,7 @@ class Renderer {
 		window.addEventListener('resize', _ => pallet.fillScreen(1000, 600));
 
 		this.bodyRenderer = new BodyRenderer(this);
+		this.gridRenderer = new GridRenderer(this);
 		this.dischargeRenderer = new DischargeRenderer(this);
 	}
 
@@ -52,11 +55,11 @@ class Renderer {
 		this.pallet.image(img, bgx, bgy, 0, img.width * 1.5, img.height * 1.5);
 		this.pallet.opacity(1);
 
-		this.renderGrid();
-
 		let vx = -game.world.center.x;
 		let vy = -game.world.center.y;
 		this.pallet.view(vx, vy, false, 0);
+
+		this.gridRenderer.render();
 
 		for (var id in game.world.bodies) {
 			this.bodyRenderer.render(game.world.bodies[id]);
@@ -78,42 +81,6 @@ class Renderer {
 		}
 
 		this.pallet.restore();
-	}
-
-	renderGrid() {
-		let cpos = game.world.center;
-		let cx = -cpos.x;
-		let cy = -cpos.y;
-		let cw = this.canvas.width;
-		let ch = this.canvas.height;
-
-		let gridx = cx % 50;
-		let gridy = cy % 50;
-		let lastBlue = false;
-
-		let b = game.world.bounds;
-
-		this.pallet.opacity(0.05);
-		for (var x = gridx - cw / 2 - 50; x < cw + 50; x += 50) {
-			for (var y = gridy - ch / 2 - 50; y < ch + 50; y += 50) {
-				var wx = ((-cx + x) / SCALE) | 0;
-				var wy = ((-cy + y) / SCALE) | 0;
-				if (wx > b.right || wx < b.left || wy > b.bottom || wy < b.top) {
-					if (!lastBlue) {
-						this.pallet.opacity(0.2);
-						lastBlue = true;
-					}
-					this.pallet.outline('#8af', x, y, 51, 51, 1);
-				} else {
-					if (lastBlue) {
-						this.pallet.opacity(0.05);
-						lastBlue = false;
-					}
-					this.pallet.outline('#fff', x, y, 51, 51, 1);
-				}
-			}
-		}
-		this.pallet.opacity(1);
 	}
 
 	addEffect(data) {

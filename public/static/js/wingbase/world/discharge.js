@@ -30,7 +30,7 @@ class Discharge {
 
 	update(data) {
 		let values = {};
-		console.log(data);
+		//console.log(data);
 		this.interface.order.forEach(v => values[v] = data.shift());
 		this.x = values.x;
 		this.y = values.y;

@@ -11,7 +11,7 @@ class Physics {
 
 		var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 		var debugDraw = new b2DebugDraw();
-		debugDraw.SetSprite(document.getElementById("wingbase_canvas").getContext("2d"));
+		debugDraw.SetSprite(document.getElementById("wingbase-canvas").getContext("2d"));
 		debugDraw.SetDrawScale(SCALE);
 		debugDraw.SetFillAlpha(0.3);
 		debugDraw.SetLineThickness(1.0);

@@ -16,7 +16,7 @@ class World {
 	}
 
 	add(data) {
-		if(data.form != 'body') console.log(data);
+		//if(data.form != 'body') console.log(data);
 		if (data.form == 'body') {
 			this.addBody(data);
 		} else if (data.form == 'discharge') {
