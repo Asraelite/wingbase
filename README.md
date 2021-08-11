@@ -5,7 +5,7 @@ Wingbase is a top-down spaceship game in which two teams of four players each co
 
 The game is built in Javascript using HTML5 Canvas for client rendering, Box2D for physics, and Node.js with Socket.io for the server.
 
-###Installation
+### Installation
 
 Clone the Git repository, install Node.js version 5.6.0 or higher then run `npm install` in the project directory.
 
@@ -13,7 +13,7 @@ Make sure that the command `node` links to this Node.js version and not `nodejs`
 
 If you have an older version of Node.js you can upgrade by running `sudo npm install -g n` and then `sudo n latest`.
 
-###Running
+### Running
 
 Run `node index` or `npm start`.
 
@@ -21,11 +21,11 @@ If you use `npm start` arguments must be preceded by `--` e.g. `npm start -- -p 
 
 Run `node index --help` or `node index -h` for a list of command line arguments.
 
-###Tests
+### Tests
 
 To run tests, use `npm test`. At the moment it doesn't test very much though but it can be useful to see if a player is at least able to connect without you having to go and open a browser tab.
 
-###Controls
+### Controls
 
 WASD to move.
 
