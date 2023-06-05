@@ -43,7 +43,7 @@ class ServerInterface {
 	}
 
 	capLogfile() {
-		fs.appendFile(this.logfile, '-----------\n');
+		fs.appendFileSync(this.logfile, '-----------\n');
 	}
 
 	get timestamp() {

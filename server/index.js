@@ -12,12 +12,10 @@ class WingbaseServer extends ServerInterface {
 	constructor() {
 		super();
 
-		let port = process.env.PORT || 8080;
-
 		commander
 			.version(packageJson.version)
 			.option('-d, --development', 'run in development mode')
-			.option('-p, --port <port>', 'specify port to use', parseInt, port)
+			.option('-p, --port <port>', 'specify port to use', (value) => parseInt(value), process.env.PORT ?? 8080)
 			.parse(process.argv);
 
 		this.args = commander;
