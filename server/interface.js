@@ -27,7 +27,7 @@ class ServerInterface {
 		output = timestamp.gray + output;
 		// Clear and go to start of line.
 		console.log('\x1b[2K\x1b[999D' + output);
-		fs.appendFile(this.logfile, timestamp + msg + '\n');
+		fs.appendFile(this.logfile, timestamp + msg + '\n', () => {});
 	}
 
 	debug(msg) {
@@ -48,10 +48,11 @@ class ServerInterface {
 
 	get timestamp() {
 		let d = new Date();
-		return `<${pad(d.getUTCHours(), 2)}:` +
-			`${pad(d.getUTCMinutes(), 2)}:` +
-			`${pad(d.getUTCSeconds(), 2)}.` +
-			`${pad(('' + d.getUTCMilliseconds()).slice(0, 2), 2, true)}> `;
+		return '<' + d.toISOString() + '> ';
+		//return `<${pad(d.getUTCHours(), 2)}:` +
+		//	`${pad(d.getUTCMinutes(), 2)}:` +
+		//	`${pad(d.getUTCSeconds(), 2)}.` +
+		//	`${pad(('' + d.getUTCMilliseconds()).slice(0, 2), 2, true)}> `;
 	}
 
 	get logfile() {
