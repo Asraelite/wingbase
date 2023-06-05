@@ -35,7 +35,7 @@ class Room {
 		this.setTeam(player, this.teamA.size > this.teamB.size ? 'b' : 'a');
 		this.world.addPlayer(player);
 		this.sendWorld(player);
-		wingbase.log(`${player.name} joined ${this.name}.`);
+		wingbase.log(`[${player.connection.ip}] ${player.name} joined ${this.name}.`);
 		this.message('roomEnter', player.name, 'team' + player.team);
 	}
 

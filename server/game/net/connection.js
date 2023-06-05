@@ -9,6 +9,7 @@ class Connection {
 		this.connections = net.connections;
 		this.io = net.io;
 		this.socket = socket;
+		this.ip = socket.request.connection.remoteAddress;
 
 		this.player = new Player(this);
 		this._room = false;
